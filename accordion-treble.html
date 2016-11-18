@@ -1,8 +1,32 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/local-dom/local-dom.html"  async >
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../local-dom/local-dom.html"  async >
+<link rel="import" href="../animation-behaviors/scale-up-behavior.html">
 <link rel="import" href="./accordion-button.html" async >
-<link rel="import" href="/bower_components/animation-behaviors/scale-up-behavior.html">
+<!--
 
+Shows drop down menu (works on chrome)
+
+### Usage
+The list displayed in the drop down menu can be set as an attribute.
+
+    <drop-menu list-items='["first" ,"second"]'></drop-menu>
+
+For an overlayed drop menu:
+
+    <drop-menu overlay-menu list-items='["first" ,"second"]'></drop-menu>
+
+### Styling
+ Custom property | Description | Default
+----------------|-------------|----------
+`--item-background-color` | List item backround color | `#f1ecef`
+`--item-color` | List item color used for fonts | `#302f31`
+`--close-color` | Icon button hover color | `4775D1`
+`--content-background` | Drop menu's background color | `white`
+`--close-color` | Icon button hover color | `4775D1`
+`--icon-button` | Mixin applied the icon button | `{}`
+
+@demo demo/drop-menu-demo.html
+-->
 <dom-module id="accordion-treble">
     <template>
         <style>

@@ -1,0 +1,31 @@
+{
+  "name": "accordion",
+  "authors": [
+    "acordeonl <admin@acorde.onl>"
+  ],
+  "description": "",
+  "main": ["accordion-bass.html","accordion-treble.html" , "accordion-button.html"],
+  "keywords": [
+    "web-components",
+    "polymer"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "local-dom": "acordeonl/local-dom#^1.0.2",
+    "animation-behaviors": "acordeonl/animation-behaviors#^1.0.1",
+    "iron-image": "PolymerElements/iron-image#^1.2.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.2.5"
+  }
+}
