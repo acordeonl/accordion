@@ -85,6 +85,11 @@ For an overlayed drop menu:
             _swap: function(showingTreble){
                 if(!showingTreble)
                     this.playAnimation('entry');
+            },
+            ready: function () {
+                // Polymer.RenderStatus.afterNextRender(this, function(){
+                    this.playAnimation('entry');
+                // }) ;
             }
         });
     </script>
