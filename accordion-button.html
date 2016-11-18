@@ -1,0 +1,68 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-image/iron-image.html" async>
+<dom-module id="accordion-button">
+    <template>
+        <style>
+            :host {}
+
+            .bass {
+                user-select: none;
+                height: 6.4vh;
+                width: 6.4vh;
+            }
+
+            .treble {
+                user-select: none;
+                margin-top:-1vh;
+                height: 8.2vh;
+                width: 8.2vh;
+            }
+            [box]{
+                height:6.8vh;
+                width:6.8vh;
+                background-color: var(--content-background) ;
+                /*box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+                            0 1px 8px 0 rgba(0, 0, 0, 0.12),
+                            0 3px 3px -2px rgba(0, 0, 0, 0.4);*/
+                /*border: 1px solid #c0c0c0;*/
+                border-radius: 100%;
+            }
+        </style>
+        <!-- local DOM -->
+        <iron-image src={{_computeColor(state)}} sizing='contain'  class$="{{buttonType}}" ></iron-image>
+        <!-- <div box></div> -->
+    </template>
+
+    <script>
+        Polymer({
+            is: "accordion-button",
+            observers: [],
+            behaviors: [],
+            listeners: {},
+            properties: {
+                state: {
+                    type: Number
+                },
+                buttonType: {
+                    type: String
+                }
+            },
+            _computeColor: function(state) {
+                switch (state) {
+                    case 0:
+                        return '/images/buttons/white.png';
+                    case 1:
+                        return '/images/buttons/blue.png';
+                    case 2:
+                        return '/images/buttons/red.png';
+                }
+            },
+            ready: function () {
+                Polymer.RenderStatus.afterNextRender(this, function(){
+                    if(!this.state)
+                        this.state=0 ;
+                }) ;
+            }
+        });
+    </script>
+</dom-module>

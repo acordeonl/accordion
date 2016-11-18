@@ -1,0 +1,67 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/local-dom/local-dom.html" async>
+<link rel="import" href="./accordion-button.html" async>
+<link rel="import" href="/bower_components/animation-behaviors/scale-up-behavior.html">
+
+<dom-module id="accordion-bass">
+    <template>
+        <style>
+            :host {
+            }
+            local-dom{
+                height: 100vh ;
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+                @apply(--layout-justified);
+            }
+            #col {
+                padding: 0.5vw;
+                height: 51vh;
+                @apply(--layout-vertical);
+                @apply(--layout-justified);
+            }
+
+            [mobile] #col {
+                padding: 1.8vw;
+            }
+
+            [tablet] #col{
+                padding: 1.2vw ;
+            }
+        </style>
+        <!-- local DOM -->
+        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" >
+            <div id="col">
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+            </div>
+            <div id="col">
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass" state="1"></accordion-button>
+                <accordion-button button-type="bass" state="1"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button button-type="bass"></accordion-button>
+            </div>
+        <local-dom/>
+    </template>
+
+    <script>
+        Polymer({
+            is: "accordion-bass",
+            observers: ['_swap(showingTreble)'],
+            behaviors: [ScaleUpBehavior],
+            listeners: {},
+            properties: {
+            },
+            _swap: function(showingTreble){
+                if(!showingTreble)
+                    this.playAnimation('entry');
+            }
+        });
+    </script>
+</dom-module>
