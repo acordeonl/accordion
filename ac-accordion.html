@@ -2,7 +2,6 @@
 <link rel="import" href="./accordion-treble.html">
 <link rel="import" href="./accordion-bass.html">
 <link rel="import" href="../local-dom/local-dom.html">
-<link rel="import" href="../midi-manager/midi-manager.html">
 <dom-module id="ac-accordion">
     <template>
         <style>
@@ -17,7 +16,6 @@
                 @apply(--layout-around-justified);
             }
         </style>
-        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff'></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">

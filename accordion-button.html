@@ -65,12 +65,22 @@ For an overlayed drop menu:
             behaviors: [],
             listeners: {},
             properties: {
+                pressed:{
+                    type:Boolean,
+                    observer:'_changeState'
+                },
                 state: {
                     type: Number
                 },
                 buttonType: {
                     type: String
                 }
+            },
+            _changeState: function(){
+                if( this.state=== 0)
+                    this.state=1 ;
+                else if(this.state===1)
+                    this.state=0 ;
             },
             _computeColor: function(state) {
                 switch (state) {

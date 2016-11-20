@@ -2,6 +2,7 @@
 <link rel="import" href="../local-dom/local-dom.html" async>
 <link rel="import" href="./accordion-button.html" async>
 <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
+<link rel="import" href="../midi-manager/midi-manager.html">
 <!--
 
 Shows drop down menu (works on chrome)
@@ -54,6 +55,7 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
+        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff'></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" >
             <div id="col">
                 <accordion-button button-type="bass"></accordion-button>
@@ -81,6 +83,12 @@ For an overlayed drop menu:
             behaviors: [ScaleUpBehavior],
             listeners: {},
             properties: {
+            },
+            _noteOn: function(e){
+                // console.log("note on " + e.detail.midiNote  + " " + e.detail.velocity);
+            },
+            _noteOff: function(e){
+                // console.log("note off " + e.detail.midiNote  + " " + e.detail.velocity);
             },
             _swap: function(showingTreble){
                 if(!showingTreble)
