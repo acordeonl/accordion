@@ -20,7 +20,7 @@
             }
         </style>
         <ac-synthesizer id="synth"></ac-synthesizer>
-        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff' on-velocity-change="_updateVolume"></midi-manager>
+        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
@@ -53,14 +53,14 @@
                     value: true
                 }
             },
-            _updateVolume: function(e){
-                this.$.synth.updateVolume(e.detail.velocity) ;
+            _updateVelocity: function(e){
+                this.$.synth.updateVelocity(e.detail.velocity) ;
             },
             _noteOn: function(e){
-                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+26) ;
+                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+25) ;
             },
             _noteOff: function(e){
-                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+26) ;
+                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+25) ;
             },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
