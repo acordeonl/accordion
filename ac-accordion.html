@@ -4,6 +4,7 @@
 <link rel="import" href="../local-dom/local-dom.html">
 <link rel="import" href="../midi-manager/midi-manager.html">
 <link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
+<script src="./vars.js"></script>
 <dom-module id="ac-accordion">
     <template>
         <style>
@@ -19,7 +20,7 @@
             }
         </style>
         <ac-synthesizer id="synth"></ac-synthesizer>
-        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff'></midi-manager>
+        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff' on-velocity-change="_updateVolume"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
@@ -41,10 +42,6 @@
         </local-dom>
     </template>
     <script>
-        var gAccordion = [ 51, 49, 36, 40, 41, 43, 45, 46, 48, 50, 53, 52,
-    			57, 55, 60, 58, 65, 62, 69, 64, 42, 44, 31, 35, 36, 38, 40, 41, 43,
-    			45, 48, 47, 52, 50, 55, 53, 60, 57, 64, 59, 67, 62, 37, 39, 31, 33,
-    			35, 36, 38, 40, 43, 42, 47, 45, 50, 48, 55, 52, 59, 54, 62, 57 ] ;
         Polymer({
             is: "ac-accordion",
             observers: [],
@@ -56,13 +53,14 @@
                     value: true
                 }
             },
+            _updateVolume: function(e){
+                this.$.synth.updateVolume(e.detail.velocity) ;
+            },
             _noteOn: function(e){
-                console.log("note on " + e.detail.midiNote  + " " + e.detail.velocity);
-                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+25) ;
+                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+26) ;
             },
             _noteOff: function(e){
-                console.log("note off " + e.detail.midiNote  + " " + e.detail.velocity);
-                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+25) ;
+                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+26) ;
             },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
