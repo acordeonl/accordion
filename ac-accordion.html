@@ -19,7 +19,7 @@
                 @apply(--layout-around-justified);
             }
         </style>
-        <ac-synthesizer id="synth"></ac-synthesizer>
+        <ac-synthesizer start-note="29" id="synth"></ac-synthesizer>
         <midi-manager on-note-on='_noteOn' on-note-off='_noteOff' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
@@ -57,10 +57,12 @@
                 this.$.synth.updateVelocity(e.detail.velocity) ;
             },
             _noteOn: function(e){
-                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+25) ;
+                this.$$('ACCORDION-TREBLE').noteOn(e.detail.midiNote-24) ;
+                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+26) ;
             },
             _noteOff: function(e){
-                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+25) ;
+                this.$$('ACCORDION-TREBLE').noteOff(e.detail.midiNote-24) ;
+                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+26) ;
             },
             swap: function () {
                 this.showingTreble = !this.showingTreble;

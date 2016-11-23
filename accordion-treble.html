@@ -48,8 +48,8 @@ For an overlayed drop menu:
             #col2 {
                 height: 92vh;
                 padding: 0.2vw;
-                margin-left: -1.2vh ;
-                margin-right: -1.2vh;
+                margin-left: 0vh ;
+                margin-right: 0vh;
                 @apply(--layout-vertical);
                 @apply(--layout-justified);
             }
@@ -65,41 +65,43 @@ For an overlayed drop menu:
         <!-- local DOM -->
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div id="col1">
-                <accordion-button pressed={{pressed}} button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.21}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.22}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.23}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.24}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.25}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.26}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.27}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.28}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.29}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.30}}"></accordion-button>
             </div>
             <div id="col2">
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble" state="2"></accordion-button>
-                <accordion-button button-type="treble" state="2"></accordion-button>
-                <accordion-button button-type="treble" state="2"></accordion-button>
-                <accordion-button button-type="treble" state="2"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.10}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.11}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.12}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.13}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.14}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.15}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.16}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.17}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.18}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.19}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.20}}"></accordion-button>
             </div>
             <div id="col1">
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
-                <accordion-button button-type="treble"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.0}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.1}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.2}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.3}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.4}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.5}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.6}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.7}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.8}}"></accordion-button>
+                <accordion-button button-type="treble" state="{{state.9}}"></accordion-button>
+
+
             </div>
 
         <local-dom/>
@@ -111,19 +113,32 @@ For an overlayed drop menu:
             behaviors: [ScaleUpBehavior],
             listeners: {},
             properties: {
-                pressed:{
-                    type:Boolean,
-                    value:false
+                state:{
+                    type:Array,
+                    value:[]
                 }
+            },
+            noteOn: function(note){
+                this.state[Math.floor(note/2)] = (note%2)+1 ;
+                this._updateState() ;
+            },
+            noteOff: function(note){
+                this.state[Math.floor(note/2)] = 0 ;
+                this._updateState() ;
             },
             _swap: function(showingTreble) {
                 if (showingTreble)
                     this.playAnimation('entry');
             },
+            _updateState: function(){
+                var arr =  this.state ;
+                this.state = [] ;
+                this.state = arr ;
+            },
             ready: function () {
-                // Polymer.RenderStatus.afterNextRender(this, function(){
-                    this.playAnimation('entry');
-                // }) ;
+                this.playAnimation('entry');
+                for ( var i = 0 ;i < 31 ;i ++ )
+                    this.state.push(0) ;
             }
         });
     </script>
