@@ -30,10 +30,9 @@ For an overlayed drop menu:
 <dom-module id="accordion-bass">
     <template>
         <style>
-            :host {
-            }
-            local-dom{
-                height: 100vh ;
+            :host {}
+            local-dom {
+                height: 100vh;
                 @apply(--layout-horizontal);
                 @apply(--layout-center);
                 @apply(--layout-justified);
@@ -44,53 +43,87 @@ For an overlayed drop menu:
                 @apply(--layout-vertical);
                 @apply(--layout-justified);
             }
-
             [mobile] #col {
                 padding: 1.8vw;
             }
-
-            [tablet] #col{
-                padding: 1.2vw ;
+            [tablet] #col {
+                padding: 1.2vw;
             }
         </style>
         <!-- local DOM -->
-        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" >
+        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div id="col">
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button text="s3" state="{{stateChords.3}}"  button-type="bass"></accordion-button>
+                <accordion-button text="3" button-type="bass" state="{{state.3}}"></accordion-button>
+                <accordion-button text="s4" state="{{stateChords.4}}"  button-type="bass"></accordion-button>
+                <accordion-button text="4" button-type="bass" state="{{state.4}}"></accordion-button>
+                <accordion-button text="s5" state="{{stateChords.5}}"  button-type="bass"></accordion-button>
+                <accordion-button text="5" button-type="bass" state="{{state.5}}"></accordion-button>
             </div>
             <div id="col">
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass" ></accordion-button>
-                <accordion-button button-type="bass" ></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
-                <accordion-button button-type="bass"></accordion-button>
+                <accordion-button text="s0" state="{{stateChords.0}}"  button-type="bass"></accordion-button>
+                <accordion-button text="0" button-type="bass" state="{{state.0}}"></accordion-button>
+                <accordion-button text="s1" state="{{stateChords.1}}"  button-type="bass"></accordion-button>
+                <accordion-button text="1" button-type="bass" state="{{state.1}}" ></accordion-button>
+                <accordion-button text="s2" state="{{stateChords.2}}"  button-type="bass"></accordion-button>
+                <accordion-button text="2" button-type="bass" state="{{state.2}}" ></accordion-button>
             </div>
-        <local-dom/>
-    </template>
-
-    <script>
-        Polymer({
-            is: "accordion-bass",
-            observers: ['_swap(showingTreble)'],
-            behaviors: [ScaleUpBehavior],
-            listeners: {},
-            properties: {
-            },
-            _swap: function(showingTreble){
-                if(!showingTreble)
+            <local-dom/>
+        </template>
+        <script>
+            Polymer({
+                is: "accordion-bass",
+                observers: ['_swap(showingTreble)'],
+                behaviors: [ScaleUpBehavior],
+                listeners: {},
+                properties: {
+                    state: {
+                        type: Array,
+                        value: []
+                    },
+                    stateChords: {
+                        type: Array,
+                        value: []
+                    }
+                },
+                _updateState: function () {
+                    var arr = this.state;
+                    this.state = [];
+                    this.state = arr;
+                },
+                _updateStateChords: function () {
+                    var arr = this.stateChords;
+                    this.stateChords = [];
+                    this.stateChords = arr;
+                },
+                _swap: function (showingTreble) {
+                    if (!showingTreble) {
+                        this.playAnimation('entry');
+                    }
+                },
+                noteOn: function (note) {
+                    this.state[Math.floor(note / 2)] = (note % 2) + 1;
+                    this._updateState();
+                },
+                noteOff: function (note) {
+                    this.state[Math.floor(note / 2)] = 0;
+                    this._updateState();
+                },
+                chordNoteOn: function (note) {
+                    this.stateChords[Math.floor(note / 2)] = (note % 2) + 1;
+                    this._updateStateChords();
+                },
+                chordNoteOff: function (note) {
+                    this.stateChords[Math.floor(note / 2)] = 0;
+                    this._updateStateChords();
+                },
+                ready: function () {
                     this.playAnimation('entry');
-            },
-            ready: function () {
-                // Polymer.RenderStatus.afterNextRender(this, function(){
-                    this.playAnimation('entry');
-                // }) ;
-            }
-        });
-    </script>
-</dom-module>
+                    for (var i = 0; i < 6; i++) {
+                        this.state.push(0);
+                        this.stateChords.push(0);
+                    }
+                }
+            });
+        </script>
+    </dom-module>

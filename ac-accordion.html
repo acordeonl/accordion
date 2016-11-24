@@ -8,18 +8,20 @@
 <dom-module id="ac-accordion">
     <template>
         <style>
-            :host{
+            :host {
                 width: 60vw;
                 height: 100%;
             }
             [wrapper] {
-                height:100%;
-                width:100%;
+                height: 100%;
+                width: 100%;
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
         </style>
-        <ac-synthesizer start-note="29" id="synth"></ac-synthesizer>
+        <ac-synthesizer start-note="29" id="trebleSynthesizer"></ac-synthesizer>
+        <ac-synthesizer start-note="29" id="bassSynthesizer"></ac-synthesizer>
+        <ac-synthesizer start-note="29" id="bassChordsSynthesizer"></ac-synthesizer>
         <midi-manager on-note-on='_noteOn' on-note-off='_noteOff' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
@@ -46,23 +48,55 @@
             is: "ac-accordion",
             observers: [],
             behaviors: [],
-            listeners: {},
+            listeners: {
+                'click': 'test'
+            },
             properties: {
                 showingTreble: {
                     type: Boolean,
                     value: true
+                },
+                bassNotes:{
+                    type:Number,
+                    value:0
                 }
             },
-            _updateVelocity: function(e){
-                this.$.synth.updateVelocity(e.detail.velocity) ;
+            _updateVelocity: function (e) {
+                this.$.trebleSynthesizer.updateVelocity(e.detail.velocity);
             },
-            _noteOn: function(e){
-                this.$$('ACCORDION-TREBLE').noteOn(e.detail.midiNote-24) ;
-                this.$.synth.noteOn (gAccordion[e.detail.midiNote-24]+26) ;
+            _noteOn: function (e) {
+                if (e.detail.channel === 0) {
+                    this.$.trebleSynthesizer.noteOn(gAccordion[e.detail.midiNote - 24] + 26);
+                    this.$$('ACCORDION-TREBLE').noteOn(e.detail.midiNote - 24);
+                } else if (e.detail.channel === 1) {
+                    // this.$.bassSynthesizer.noteOn();
+                    this.$$('ACCORDION-BASS').noteOn(e.detail.midiNote - 48);
+                } else if (e.detail.channel === 2) {
+                    console.log( "note on " + e.detail.midiNote);
+                    // this.$$('ACCORDION-BASS').noteOn(e.detail.midiNote - 24);
+                }
             },
-            _noteOff: function(e){
-                this.$$('ACCORDION-TREBLE').noteOff(e.detail.midiNote-24) ;
-                this.$.synth.noteOff (gAccordion[e.detail.midiNote-24]+26) ;
+            _noteOff: function (e) {
+                if (e.detail.channel === 0) {
+                    this.$$('ACCORDION-TREBLE').noteOff(e.detail.midiNote - 24);
+                    this.$.trebleSynthesizer.noteOff(gAccordion[e.detail.midiNote - 24] + 26);
+                } else if (e.detail.channel === 1) {
+                    // this.$.bassSynthesizer.noteOff();
+                    this.$$('ACCORDION-BASS').noteOff(e.detail.midiNote - 48);
+                } else if (e.detail.channel === 2) {
+                    console.log( "note off " + e.detail.midiNote);
+                    // this._updateBassNotes (e.detail.midiNote) ;
+
+                    // if ( this.bassNotes === num) {
+                        this.$$('ACCORDION-BASS').chordNoteOff(0);
+                        // this.$.bassChordsSynthesizer.noteOff();
+
+                    // }
+                    // this.$$('ACCORDION-BASS').noteOff(e.detail.midiNote - 24);
+                }
+            },
+            test: function(){
+                this.$$('ACCORDION-BASS').chordNoteOn(11);
             },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
