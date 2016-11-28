@@ -47,15 +47,15 @@ For an overlayed drop menu:
                 @apply(--layout-vertical);
                 @apply(--layout-center);
                 background-color: var(--content-background) ;
-                box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
-                            0 1px 8px 0 rgba(0, 0, 0, 0.12),
-                            0 3px 3px -2px rgba(0, 0, 0, 0.4);
+                @apply(--shadow-elevation-3dp);
+
+
                 border-radius: 100%;
             }
         </style>
         <!-- local DOM -->
         <div box  class$="{{buttonType}}" style$= "background-color:{{_computeColor(state)}} ;">
-        {{text}}</div>
+        </div>
     </template>
 
     <script>
