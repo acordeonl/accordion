@@ -29,35 +29,29 @@ For an overlayed drop menu:
     <template>
         <style>
             :host {}
-
             .bass {
                 user-select: none;
                 height: 5.4vh;
                 width: 5.4vh;
             }
-
             .treble {
                 user-select: none;
-                margin-top:-1vh;
+                margin-top: -1vh;
                 height: 6.8vh;
                 width: 6.8vh;
             }
-            [box]{
+            [box] {
                 @apply(--layout-center-justified);
                 @apply(--layout-vertical);
                 @apply(--layout-center);
-                background-color: var(--content-background) ;
+                background-color: var(--content-background);
                 @apply(--shadow-elevation-3dp);
-
-
                 border-radius: 100%;
             }
         </style>
         <!-- local DOM -->
-        <div box  class$="{{buttonType}}" style$= "background-color:{{_computeColor(state)}} ;">
-        </div>
+        <div box class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;"></div>
     </template>
-
     <script>
         Polymer({
             is: "accordion-button",
@@ -65,42 +59,89 @@ For an overlayed drop menu:
             behaviors: [],
             listeners: {},
             properties: {
-                text:{
-                    type:String,
-                    value:""
-                },
-                pressed:{
-                    type:Boolean,
-                    observer:'_changeState'
+                text: {
+                    type: String,
+                    value: ""
                 },
                 state: {
                     type: Number
                 },
+                previousState: {
+                    type: Number
+                },
+                previousColor: {
+                    type: String
+                },
                 buttonType: {
                     type: String
+                },
+                position: {
+                    type: Number
+                },
+                source: {
+                    type: Object
+                },
+                sourceGain: {
+                    type: Object
                 }
             },
-            _changeState: function(){
-                if( this.state=== 0)
-                    this.state=1 ;
-                else if(this.state===1)
-                    this.state=0 ;
+            _changeState: function () {
+                if (this.state === 0)
+                    this.state = 1;
+                else if (this.state === 1) {
+                    this.state = 0;
+                }
             },
-            _computeColor: function(state) {
+            _computeColor: function (state) {
                 switch (state) {
                     case 0:
-                        return 'white' ;
+                        if (this.source !== undefined) {
+                            this.sourceGain.gain.value = 0;
+                            this.source.stop(context.currentTime+1);
+                        }
+                        this.previousState = state;
+                        return 'white';
                     case 1:
-                        return '#4775D1' ;
+                        if (state !== this.previousState) {
+                            if (this.source !== undefined) {
+                                this.sourceGain.gain.value = 0;
+                                this.source.stop(context.currentTime+1);
+                            }
+                            this.source = context.createBufferSource();
+                            this.sourceGain = context.createGain();
+                            this.source.buffer = buffers[gAccordion[this.position * 2] + pitch];
+                            this.source.connect(this.sourceGain);
+                            this.source.loop = true;
+                            this.sourceGain.connect(compressor);
+                            this.source.start(0);
+                            this.previousState = state;
+                        }
+                        return '#4775D1';
                     case 2:
+                        if (state !== this.previousState) {
+                            if (this.source !== undefined) {
+                                this.sourceGain.gain.value = 0;
+                                this.source.stop(context.currentTime+1);
+                            }
+                            this.source = context.createBufferSource();
+                            this.sourceGain = context.createGain();
+                            this.source.buffer = buffers[gAccordion[this.position * 2 + 1] + pitch];
+                            this.source.connect(this.sourceGain);
+                            this.source.loop = true;
+                            this.sourceGain.connect(compressor);
+                            this.source.start(0);
+                            this.previousState = state;
+                        }
                         return '#CC6666';
                 }
             },
             ready: function () {
-                Polymer.RenderStatus.afterNextRender(this, function(){
-                    if(!this.state)
-                        this.state=0 ;
-                }) ;
+                Polymer.RenderStatus.afterNextRender(this, function () {
+                    if (!this.state) {
+                        this.state = 0;
+                    }
+
+                });
             }
         });
     </script>
