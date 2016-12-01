@@ -26,8 +26,8 @@ compressor.reduction.value = -20;
 compressor.attack.value = 0;
 compressor.release.value = 0.25;
 
-biquadFilter.type = "lowpass";
-biquadFilter.frequency.value = 7000;
+biquadFilter.type = "highpass";
+biquadFilter.frequency.value = 0;
 compressor.connect(trebleVolume);
 trebleVolume.connect(dry);
 trebleVolume.connect(convolver);
