@@ -61,9 +61,7 @@
                 }
             },
             _updateVelocity: function (e) {
-                // this.$.trebleSynthesizer.updateVelocity(e.detail.velocity);
-                // this.$.bassSynthesizer.updateVelocity(e.detail.velocity);
-                // this.$.bassChordsSynthesizer.updateVelocity(e.detail.velocity);
+                trebleVolume.gain.value = (e.detail.velocity / 127)  ;
             },
             _allNotesOff: function () {
                 for (var i = 0; i < 12; i++) {

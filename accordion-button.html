@@ -69,14 +69,14 @@ For an overlayed drop menu:
                 previousState: {
                     type: Number
                 },
-                previousColor: {
-                    type: String
-                },
                 buttonType: {
                     type: String
                 },
-                position: {
+                closeIndex: {
                     type: Number
+                },
+                openIndex:{
+                    type:Number
                 },
                 source: {
                     type: Object
@@ -85,53 +85,40 @@ For an overlayed drop menu:
                     type: Object
                 }
             },
-            _changeState: function () {
-                if (this.state === 0)
-                    this.state = 1;
-                else if (this.state === 1) {
-                    this.state = 0;
+            _playNote: function(state , note){
+                if (state !== this.previousState) {
+                    this._stopSource() ;
+                    this.source = context.createBufferSource();
+                    this.sourceGain = context.createGain();
+                    if ( this.buttonType === 'treble')
+                        this.source.buffer = buffers[note+ pitch];
+                    else
+                        this.source.buffer = buffers[note];
+                    this.source.connect(this.sourceGain);
+                    this.source.loop = true;
+                    this.sourceGain.connect(compressor);
+                    this.source.start(0);
+                }
+            },
+            _stopSource: function(){
+                if (this.source !== undefined) {
+                    this.sourceGain.gain.value = 0;
+                    this.source.stop(context.currentTime+0.01);
                 }
             },
             _computeColor: function (state) {
                 switch (state) {
                     case 0:
-                        if (this.source !== undefined) {
-                            this.sourceGain.gain.value = 0;
-                            this.source.stop(context.currentTime+1);
-                        }
+                        this._stopSource() ;
                         this.previousState = state;
                         return 'white';
                     case 1:
-                        if (state !== this.previousState) {
-                            if (this.source !== undefined) {
-                                this.sourceGain.gain.value = 0;
-                                this.source.stop(context.currentTime+1);
-                            }
-                            this.source = context.createBufferSource();
-                            this.sourceGain = context.createGain();
-                            this.source.buffer = buffers[gAccordion[this.position * 2] + pitch];
-                            this.source.connect(this.sourceGain);
-                            this.source.loop = true;
-                            this.sourceGain.connect(compressor);
-                            this.source.start(0);
-                            this.previousState = state;
-                        }
+                        this._playNote(state , this.closeIndex) ;
+                        this.previousState = state;
                         return '#4775D1';
                     case 2:
-                        if (state !== this.previousState) {
-                            if (this.source !== undefined) {
-                                this.sourceGain.gain.value = 0;
-                                this.source.stop(context.currentTime+1);
-                            }
-                            this.source = context.createBufferSource();
-                            this.sourceGain = context.createGain();
-                            this.source.buffer = buffers[gAccordion[this.position * 2 + 1] + pitch];
-                            this.source.connect(this.sourceGain);
-                            this.source.loop = true;
-                            this.sourceGain.connect(compressor);
-                            this.source.start(0);
-                            this.previousState = state;
-                        }
+                        this._playNote(state , this.openIndex) ;
+                        this.previousState = state;
                         return '#CC6666';
                 }
             },
@@ -140,7 +127,6 @@ For an overlayed drop menu:
                     if (!this.state) {
                         this.state = 0;
                     }
-
                 });
             }
         });

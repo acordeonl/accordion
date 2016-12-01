@@ -14,10 +14,9 @@ var notesOnWaiting = [];
 var notesOffWaiting = [];
 var noteOnArr = [];
 var pitch = 24;
-var testiando = " coleto man ";
 dry.gain.value = 0.5;
 wet.gain.value = 1;
-trebleVolume.gain.value = 0.5;
+trebleVolume.gain.value = 0.0;
 
 
 compressor.threshold.value = -50;
@@ -75,18 +74,15 @@ function processNotes(buffer) {
 function processConcatenatedFile(data) {
     var bb = new DataView(data);
     var offset = 0;
-    var pos = 0;
     while (offset < bb.byteLength) {
         var length = bb.getUint32(offset, true);
         offset += 4;
         var sound = this.extractBuffer(data, offset, length);
         offset += length;
         context.decodeAudioData(sound.buffer, function(res) {
-            buffers.push(res) ;
-        }.bind(pos));
-        pos++;
+            buffers.push(res);
+        });
     }
-    console.log(buffers);
 }
 
 function extractBuffer(src, offset, length) {
@@ -110,16 +106,27 @@ function allNotesOffChords() {
 }
 
 //accordion vars
-var gAccordion = [22, 20, 7, 11, 12, 14, 16, 17, 19, 21, 24, 23, 28, 26, 31, 29, 36, 33, 40, 35, 13, 15, 2, 6, 7, 9, 11, 12, 14, 16, 19, 18, 23, 21, 26, 24, 31, 28, 35, 30, 38, 33, 8, 10, 2, 4, 6, 7, 9, 11, 14, 13, 18, 16, 21, 19, 26, 23, 30, 25, 33, 28];
+
+//note position in buffers array
+// var gAccordion = [22, 20, 7, 11, 12, 14, 16, 17, 19, 21, 24, 23, 28, 26, 31, 29, 36, 33, 40, 35, 13, 15, 2, 6, 7, 9, 11, 12, 14, 16, 19, 18, 23, 21, 26, 24, 31, 28, 35, 30, 38, 33, 8, 10, 2, 4, 6, 7, 9, 11, 14, 13, 18, 16, 21, 19, 26, 23, 30, 25, 33, 28];
 //
 // var res = "";
 // for (var i = 0; i < gAccordion.length; i++) {
 //     res += (gAccordion[i] - 29) + ", ";
 // }
 // console.log(res);
-var gAccordionBass = [55, 50, 48, 55, 53, 48, 52, 57, 57, 50,
-    58, 58
-];
+// var gAccordionBass = [55, 50, 48, 55, 53, 48, 52, 57, 57, 50,
+    // 58, 58
+// ];
+// var gAccordionBass = [116, 111, 109, 116, 114, 109, 113, 118, 118, 111, 119, 119];
+
+
+// var res = "";
+// for (var i = 0; i < gAccordionBass.length; i++) {
+//     res += (gAccordionBass[i] - 48 + 69) + ", ";
+// }
+// console.log(res);
+
 var marked = [];
 var noteCnt = 0;
 var bassNotesPlayed = [];
