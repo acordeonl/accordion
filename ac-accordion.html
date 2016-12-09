@@ -137,6 +137,7 @@
                 if (e.detail.channel === 0) {
                     // this.$.trebleSynthesizer.noteOn(gAccordion[e.detail.midiNote - 24]-29+24);
                     this.$$('ACCORDION-TREBLE').noteOn(e.detail.midiNote - 24);
+                    // console.log(e.detail.midiN`ote);
                 } else if (e.detail.channel === 1) {
                     this.$$('ACCORDION-BASS').noteOn(e.detail.midiNote - 48);
                     // this.$.trebleSynthesizer.noteOn(gAccordionBass[e.detail.midiNote - 48]-48+69);
