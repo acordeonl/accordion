@@ -62,7 +62,7 @@ biquadFilter.connect(context.destination);
 
 
 var notesRequest = new XMLHttpRequest();
-notesRequest.open('GET', "/data/hq_treble.mp3", true);
+notesRequest.open('GET', "/data/hq_fast_treble.mp3", true);
 notesRequest.responseType = 'arraybuffer';
 notesRequest.onload = function() {
     processConcatenatedFile(notesRequest.response);

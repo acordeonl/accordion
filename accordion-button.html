@@ -89,10 +89,15 @@ For an overlayed drop menu:
                 if (state !== this.previousState) {
                     this._stopSource() ;
                     this.source = context.createBufferSource();
+                    // if ( this.buttonType === 'treble')
+                    //     this.source.buffer = buffers[note+ pitch];
+                    // else
+                    //     this.source.buffer = buffers[note];
                     this.sourceGain = context.createGain();
                     this.source.buffer = buffers[note+ pitch];
                     this.source.connect(this.sourceGain);
                     this.source.loop = true;
+                    // pilas con el pitch del bass 
                     this.source.loopStart = buffers[note+pitch].duration-bufferLoopLengths[note+pitch] ;
                     this.source.loopEnd = buffers[note+pitch].duration ;
                     this.sourceGain.connect(compressor);
