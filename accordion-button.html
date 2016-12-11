@@ -75,8 +75,8 @@ For an overlayed drop menu:
                 closeIndex: {
                     type: Number
                 },
-                openIndex:{
-                    type:Number
+                openIndex: {
+                    type: Number
                 },
                 source: {
                     type: Object
@@ -85,43 +85,44 @@ For an overlayed drop menu:
                     type: Object
                 }
             },
-            _playNote: function(state , note){
+            _playNote: function (state, note) {
                 if (state !== this.previousState) {
-                    this._stopSource() ;
+                    this._stopSource();
                     this.source = context.createBufferSource();
-                    // if ( this.buttonType === 'treble')
-                    //     this.source.buffer = buffers[note+ pitch];
-                    // else
-                    //     this.source.buffer = buffers[note];
+                    if (this.buttonType === 'treble') {
+                        this.source.buffer = buffers[note + pitch];
+                        this.source.loopStart = buffers[note + pitch].duration - bufferLoopLengths[note + pitch];
+                        this.source.loopEnd = buffers[note + pitch].duration;
+                    } else {
+                        this.source.buffer = buffers[note];
+                        this.source.loopStart = buffers[note].duration - bufferLoopLengths[note];
+                        this.source.loopEnd = buffers[note].duration;
+                    }
                     this.sourceGain = context.createGain();
-                    this.source.buffer = buffers[note+ pitch];
                     this.source.connect(this.sourceGain);
                     this.source.loop = true;
-                    // pilas con el pitch del bass 
-                    this.source.loopStart = buffers[note+pitch].duration-bufferLoopLengths[note+pitch] ;
-                    this.source.loopEnd = buffers[note+pitch].duration ;
                     this.sourceGain.connect(compressor);
                     this.source.start(0);
                 }
             },
-            _stopSource: function(){
+            _stopSource: function () {
                 if (this.source !== undefined) {
                     this.sourceGain.gain.value = 0;
-                    this.source.stop(context.currentTime+0.01);
+                    this.source.stop(context.currentTime + 0.01);
                 }
             },
             _computeColor: function (state) {
                 switch (state) {
                     case 0:
-                        this._stopSource() ;
+                        this._stopSource();
                         this.previousState = state;
                         return 'white';
                     case 1:
-                        this._playNote(state , this.closeIndex) ;
+                        this._playNote(state, this.closeIndex);
                         this.previousState = state;
                         return '#4775D1';
                     case 2:
-                        this._playNote(state , this.openIndex) ;
+                        this._playNote(state, this.openIndex);
                         this.previousState = state;
                         return '#CC6666';
                 }
