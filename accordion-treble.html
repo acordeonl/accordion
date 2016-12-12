@@ -96,344 +96,344 @@ For an overlayed drop menu:
                 <accordion-button close-index="36" open-index="33" button-type="treble" state="{{state8}}"></accordion-button>
                 <accordion-button close-index="40" open-index="35" button-type="treble" state="{{state9}}"></accordion-button>
             </div>
-            <local-dom/>
-        </template>
-        <script>
-            Polymer({
-                is: "accordion-treble",
-                observers: ['_swap(showingTreble)'],
-                behaviors: [ScaleUpBehavior],
-                listeners: {},
-                properties: {
-                    state0: {
-                        type: Number,
-                        value: 0
-                    },
-                    state1: {
-                        type: Number,
-                        value: 0
-                    },
-                    state2: {
-                        type: Number,
-                        value: 0
-                    },
-                    state3: {
-                        type: Number,
-                        value: 0
-                    },
-                    state4: {
-                        type: Number,
-                        value: 0
-                    },
-                    state5: {
-                        type: Number,
-                        value: 0
-                    },
-                    state6: {
-                        type: Number,
-                        value: 0
-                    },
-                    state7: {
-                        type: Number,
-                        value: 0
-                    },
-                    state8: {
-                        type: Number,
-                        value: 0
-                    },
-                    state9: {
-                        type: Number,
-                        value: 0
-                    },
-                    state10: {
-                        type: Number,
-                        value: 0
-                    },
-                    state11: {
-                        type: Number,
-                        value: 0
-                    },
-                    state12: {
-                        type: Number,
-                        value: 0
-                    },
-                    state13: {
-                        type: Number,
-                        value: 0
-                    },
-                    state14: {
-                        type: Number,
-                        value: 0
-                    },
-                    state15: {
-                        type: Number,
-                        value: 0
-                    },
-                    state16: {
-                        type: Number,
-                        value: 0
-                    },
-                    state17: {
-                        type: Number,
-                        value: 0
-                    },
-                    state18: {
-                        type: Number,
-                        value: 0
-                    },
-                    state19: {
-                        type: Number,
-                        value: 0
-                    },
-                    state20: {
-                        type: Number,
-                        value: 0
-                    },
-                    state21: {
-                        type: Number,
-                        value: 0
-                    },
-                    state22: {
-                        type: Number,
-                        value: 0
-                    },
-                    state23: {
-                        type: Number,
-                        value: 0
-                    },
-                    state24: {
-                        type: Number,
-                        value: 0
-                    },
-                    state25: {
-                        type: Number,
-                        value: 0
-                    },
-                    state26: {
-                        type: Number,
-                        value: 0
-                    },
-                    state27: {
-                        type: Number,
-                        value: 0
-                    },
-                    state28: {
-                        type: Number,
-                        value: 0
-                    },
-                    state29: {
-                        type: Number,
-                        value: 0
-                    },
-                    state30: {
-                        type: Number,
-                        value: 0
-                    }
+        </local-dom>
+    </template>
+    <script>
+        Polymer({
+            is: "accordion-treble",
+            observers: ['_swap(showingTreble)'],
+            behaviors: [ScaleUpBehavior],
+            listeners: {},
+            properties: {
+                state0: {
+                    type: Number,
+                    value: 0
                 },
-                noteOn: function (note) {
-                    var which = Math.floor(note / 2);
-                    switch (which) {
-                        case 0:
-                            this.state0 = (note % 2) + 1;
-                            return;
-                        case 1:
-                            this.state1 = (note % 2) + 1;
-                            return;
-                        case 2:
-                            this.state2 = (note % 2) + 1;
-                            return;
-                        case 3:
-                            this.state3 = (note % 2) + 1;
-                            return;
-                        case 4:
-                            this.state4 = (note % 2) + 1;
-                            return;
-                        case 5:
-                            this.state5 = (note % 2) + 1;
-                            return;
-                        case 6:
-                            this.state6 = (note % 2) + 1;
-                            return;
-                        case 7:
-                            this.state7 = (note % 2) + 1;
-                            return;
-                        case 8:
-                            this.state8 = (note % 2) + 1;
-                            return;
-                        case 9:
-                            this.state9 = (note % 2) + 1;
-                            return;
-                        case 10:
-                            this.state10 = (note % 2) + 1;
-                            return;
-                        case 11:
-                            this.state11 = (note % 2) + 1;
-                            return;
-                        case 12:
-                            this.state12 = (note % 2) + 1;
-                            return;
-                        case 13:
-                            this.state13 = (note % 2) + 1;
-                            return;
-                        case 14:
-                            this.state14 = (note % 2) + 1;
-                            return;
-                        case 15:
-                            this.state15 = (note % 2) + 1;
-                            return;
-                        case 16:
-                            this.state16 = (note % 2) + 1;
-                            return;
-                        case 17:
-                            this.state17 = (note % 2) + 1;
-                            return;
-                        case 18:
-                            this.state18 = (note % 2) + 1;
-                            return;
-                        case 19:
-                            this.state19 = (note % 2) + 1;
-                            return;
-                        case 20:
-                            this.state20 = (note % 2) + 1;
-                            return;
-                        case 21:
-                            this.state21 = (note % 2) + 1;
-                            return;
-                        case 22:
-                            this.state22 = (note % 2) + 1;
-                            return;
-                        case 23:
-                            this.state23 = (note % 2) + 1;
-                            return;
-                        case 24:
-                            this.state24 = (note % 2) + 1;
-                            return;
-                        case 25:
-                            this.state25 = (note % 2) + 1;
-                            return;
-                        case 26:
-                            this.state26 = (note % 2) + 1;
-                            return;
-                        case 27:
-                            this.state27 = (note % 2) + 1;
-                            return;
-                        case 28:
-                            this.state28 = (note % 2) + 1;
-                            return;
-                        case 29:
-                            this.state29 = (note % 2) + 1;
-                            return;
-                        case 30:
-                            this.state30 = (note % 2) + 1;
-                            return;
-                    }
+                state1: {
+                    type: Number,
+                    value: 0
                 },
-                noteOff: function (note) {
-                    var which = Math.floor(note / 2);
-                    switch (which) {
-                        case 0:
-                            this.state0 = 0;
-                            return;
-                        case 1:
-                            this.state1 = 0;
-                            return;
-                        case 2:
-                            this.state2 = 0;
-                            return;
-                        case 3:
-                            this.state3 = 0;
-                            return;
-                        case 4:
-                            this.state4 = 0;
-                            return;
-                        case 5:
-                            this.state5 = 0;
-                            return;
-                        case 6:
-                            this.state6 = 0;
-                            return;
-                        case 7:
-                            this.state7 = 0;
-                            return;
-                        case 8:
-                            this.state8 = 0;
-                            return;
-                        case 9:
-                            this.state9 = 0;
-                            return;
-                        case 10:
-                            this.state10 = 0;
-                            return;
-                        case 11:
-                            this.state11 = 0;
-                            return;
-                        case 12:
-                            this.state12 = 0;
-                            return;
-                        case 13:
-                            this.state13 = 0;
-                            return;
-                        case 14:
-                            this.state14 = 0;
-                            return;
-                        case 15:
-                            this.state15 = 0;
-                            return;
-                        case 16:
-                            this.state16 = 0;
-                            return;
-                        case 17:
-                            this.state17 = 0;
-                            return;
-                        case 18:
-                            this.state18 = 0;
-                            return;
-                        case 19:
-                            this.state19 = 0;
-                            return;
-                        case 20:
-                            this.state20 = 0;
-                            return;
-                        case 21:
-                            this.state21 = 0;
-                            return;
-                        case 22:
-                            this.state22 = 0;
-                            return;
-                        case 23:
-                            this.state23 = 0;
-                            return;
-                        case 24:
-                            this.state24 = 0;
-                            return;
-                        case 25:
-                            this.state25 = 0;
-                            return;
-                        case 26:
-                            this.state26 = 0;
-                            return;
-                        case 27:
-                            this.state27 = 0;
-                            return;
-                        case 28:
-                            this.state28 = 0;
-                            return;
-                        case 29:
-                            this.state29 = 0;
-                            return;
-                        case 30:
-                            this.state30 = 0;
-                            return;
-                    }
+                state2: {
+                    type: Number,
+                    value: 0
                 },
-                _swap: function (showingTreble) {
-                    if (showingTreble) {
-                        this.playAnimation('entry');
-                    }
+                state3: {
+                    type: Number,
+                    value: 0
                 },
-                ready: function () {
+                state4: {
+                    type: Number,
+                    value: 0
+                },
+                state5: {
+                    type: Number,
+                    value: 0
+                },
+                state6: {
+                    type: Number,
+                    value: 0
+                },
+                state7: {
+                    type: Number,
+                    value: 0
+                },
+                state8: {
+                    type: Number,
+                    value: 0
+                },
+                state9: {
+                    type: Number,
+                    value: 0
+                },
+                state10: {
+                    type: Number,
+                    value: 0
+                },
+                state11: {
+                    type: Number,
+                    value: 0
+                },
+                state12: {
+                    type: Number,
+                    value: 0
+                },
+                state13: {
+                    type: Number,
+                    value: 0
+                },
+                state14: {
+                    type: Number,
+                    value: 0
+                },
+                state15: {
+                    type: Number,
+                    value: 0
+                },
+                state16: {
+                    type: Number,
+                    value: 0
+                },
+                state17: {
+                    type: Number,
+                    value: 0
+                },
+                state18: {
+                    type: Number,
+                    value: 0
+                },
+                state19: {
+                    type: Number,
+                    value: 0
+                },
+                state20: {
+                    type: Number,
+                    value: 0
+                },
+                state21: {
+                    type: Number,
+                    value: 0
+                },
+                state22: {
+                    type: Number,
+                    value: 0
+                },
+                state23: {
+                    type: Number,
+                    value: 0
+                },
+                state24: {
+                    type: Number,
+                    value: 0
+                },
+                state25: {
+                    type: Number,
+                    value: 0
+                },
+                state26: {
+                    type: Number,
+                    value: 0
+                },
+                state27: {
+                    type: Number,
+                    value: 0
+                },
+                state28: {
+                    type: Number,
+                    value: 0
+                },
+                state29: {
+                    type: Number,
+                    value: 0
+                },
+                state30: {
+                    type: Number,
+                    value: 0
+                }
+            },
+            noteOn: function (note) {
+                var which = Math.floor(note / 2);
+                switch (which) {
+                    case 0:
+                        this.state0 = (note % 2) + 1;
+                        return;
+                    case 1:
+                        this.state1 = (note % 2) + 1;
+                        return;
+                    case 2:
+                        this.state2 = (note % 2) + 1;
+                        return;
+                    case 3:
+                        this.state3 = (note % 2) + 1;
+                        return;
+                    case 4:
+                        this.state4 = (note % 2) + 1;
+                        return;
+                    case 5:
+                        this.state5 = (note % 2) + 1;
+                        return;
+                    case 6:
+                        this.state6 = (note % 2) + 1;
+                        return;
+                    case 7:
+                        this.state7 = (note % 2) + 1;
+                        return;
+                    case 8:
+                        this.state8 = (note % 2) + 1;
+                        return;
+                    case 9:
+                        this.state9 = (note % 2) + 1;
+                        return;
+                    case 10:
+                        this.state10 = (note % 2) + 1;
+                        return;
+                    case 11:
+                        this.state11 = (note % 2) + 1;
+                        return;
+                    case 12:
+                        this.state12 = (note % 2) + 1;
+                        return;
+                    case 13:
+                        this.state13 = (note % 2) + 1;
+                        return;
+                    case 14:
+                        this.state14 = (note % 2) + 1;
+                        return;
+                    case 15:
+                        this.state15 = (note % 2) + 1;
+                        return;
+                    case 16:
+                        this.state16 = (note % 2) + 1;
+                        return;
+                    case 17:
+                        this.state17 = (note % 2) + 1;
+                        return;
+                    case 18:
+                        this.state18 = (note % 2) + 1;
+                        return;
+                    case 19:
+                        this.state19 = (note % 2) + 1;
+                        return;
+                    case 20:
+                        this.state20 = (note % 2) + 1;
+                        return;
+                    case 21:
+                        this.state21 = (note % 2) + 1;
+                        return;
+                    case 22:
+                        this.state22 = (note % 2) + 1;
+                        return;
+                    case 23:
+                        this.state23 = (note % 2) + 1;
+                        return;
+                    case 24:
+                        this.state24 = (note % 2) + 1;
+                        return;
+                    case 25:
+                        this.state25 = (note % 2) + 1;
+                        return;
+                    case 26:
+                        this.state26 = (note % 2) + 1;
+                        return;
+                    case 27:
+                        this.state27 = (note % 2) + 1;
+                        return;
+                    case 28:
+                        this.state28 = (note % 2) + 1;
+                        return;
+                    case 29:
+                        this.state29 = (note % 2) + 1;
+                        return;
+                    case 30:
+                        this.state30 = (note % 2) + 1;
+                        return;
+                }
+            },
+            noteOff: function (note) {
+                var which = Math.floor(note / 2);
+                switch (which) {
+                    case 0:
+                        this.state0 = 0;
+                        return;
+                    case 1:
+                        this.state1 = 0;
+                        return;
+                    case 2:
+                        this.state2 = 0;
+                        return;
+                    case 3:
+                        this.state3 = 0;
+                        return;
+                    case 4:
+                        this.state4 = 0;
+                        return;
+                    case 5:
+                        this.state5 = 0;
+                        return;
+                    case 6:
+                        this.state6 = 0;
+                        return;
+                    case 7:
+                        this.state7 = 0;
+                        return;
+                    case 8:
+                        this.state8 = 0;
+                        return;
+                    case 9:
+                        this.state9 = 0;
+                        return;
+                    case 10:
+                        this.state10 = 0;
+                        return;
+                    case 11:
+                        this.state11 = 0;
+                        return;
+                    case 12:
+                        this.state12 = 0;
+                        return;
+                    case 13:
+                        this.state13 = 0;
+                        return;
+                    case 14:
+                        this.state14 = 0;
+                        return;
+                    case 15:
+                        this.state15 = 0;
+                        return;
+                    case 16:
+                        this.state16 = 0;
+                        return;
+                    case 17:
+                        this.state17 = 0;
+                        return;
+                    case 18:
+                        this.state18 = 0;
+                        return;
+                    case 19:
+                        this.state19 = 0;
+                        return;
+                    case 20:
+                        this.state20 = 0;
+                        return;
+                    case 21:
+                        this.state21 = 0;
+                        return;
+                    case 22:
+                        this.state22 = 0;
+                        return;
+                    case 23:
+                        this.state23 = 0;
+                        return;
+                    case 24:
+                        this.state24 = 0;
+                        return;
+                    case 25:
+                        this.state25 = 0;
+                        return;
+                    case 26:
+                        this.state26 = 0;
+                        return;
+                    case 27:
+                        this.state27 = 0;
+                        return;
+                    case 28:
+                        this.state28 = 0;
+                        return;
+                    case 29:
+                        this.state29 = 0;
+                        return;
+                    case 30:
+                        this.state30 = 0;
+                        return;
+                }
+            },
+            _swap: function (showingTreble) {
+                if (showingTreble) {
                     this.playAnimation('entry');
                 }
-            });
-        </script>
-    </dom-module>
+            },
+            ready: function () {
+                this.playAnimation('entry');
+            }
+        });
+    </script>
+</dom-module>
