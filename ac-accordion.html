@@ -26,15 +26,15 @@
                     <accordion-bass></accordion-bass>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
-                    <template is="dom-if" if="[[showingTreble]]">
+                    <!-- <template is="dom-if" if="[[showingTreble]]"> -->
                         <accordion-treble showing-treble=[[showingTreble]] mobile></accordion-treble>
-                    </template>
-                    <template is="dom-if" if="[[!showingTreble]]">
+                    <!-- </template> -->
+                    <!-- <template is="dom-if" if="[[!showingTreble]]"> -->
+                        <!-- <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass> -->
+                    <!-- </template> -->
+                    <!-- <template is="dom-if" if="[[mobileLandscape]]"> -->
                         <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
-                    </template>
-                    <template is="dom-if" if="[[mobileLandscape]]">
-                        <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
-                    </template>
+                    <!-- </template> -->
                 </template>
             </div>
         </local-dom>
