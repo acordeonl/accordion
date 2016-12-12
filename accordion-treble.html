@@ -37,16 +37,16 @@ For an overlayed drop menu:
                 @apply(--layout-center);
                 @apply(--layout-justified);
             }
-            #col1 {
+            .col1 {
                 height: 82vh;
                 @apply(--layout-vertical);
                 @apply(--layout-justified);
             }
-            #col2 {
+            .col2 {
                 height: 92vh;
                 padding: 0vw;
-                margin-left: -0.3vh;
-                margin-right: -0.3vh;
+                /*margin-left: -0.3vh;
+                margin-right: -0.3vh;*/
                 @apply(--layout-vertical);
                 @apply(--layout-justified);
             }
@@ -59,7 +59,7 @@ For an overlayed drop menu:
         </style>
         <!-- local DOM -->
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
-            <div id="col1">
+            <div class="col1">
                 <accordion-button close-index="8" open-index="10" button-type="treble" state="{{state21}}"></accordion-button>
                 <accordion-button close-index="2" open-index="4" button-type="treble" state="{{state22}}"></accordion-button>
                 <accordion-button close-index="6" open-index="7" button-type="treble" state="{{state23}}"></accordion-button>
@@ -71,7 +71,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="30" open-index="25" button-type="treble" state="{{state29}}"></accordion-button>
                 <accordion-button close-index="33" open-index="28" button-type="treble" state="{{state30}}"></accordion-button>
             </div>
-            <div id="col2">
+            <div class="col2">
                 <accordion-button close-index="13" open-index="15" button-type="treble" state="{{state10}}"></accordion-button>
                 <accordion-button close-index="2" open-index="6" button-type="treble" state="{{state11}}"></accordion-button>
                 <accordion-button close-index="7" open-index="9" button-type="treble" state="{{state12}}"></accordion-button>
@@ -84,7 +84,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="35" open-index="30" button-type="treble" state="{{state19}}"></accordion-button>
                 <accordion-button close-index="38" open-index="33" button-type="treble" state="{{state20}}"></accordion-button>
             </div>
-            <div id="col1">
+            <div class="col1">
                 <accordion-button close-index="22" open-index="20" button-type="treble" state="{{state0}}"></accordion-button>
                 <accordion-button close-index="7" open-index="11" button-type="treble" state="{{state1}}"></accordion-button>
                 <accordion-button close-index="12" open-index="14" button-type="treble" state="{{state2}}"></accordion-button>
