@@ -10,36 +10,21 @@ var convolver = context.createConvolver();
 var dry = context.createGain();
 var wet = context.createGain();
 var compressor = context.createDynamicsCompressor();
-var compressorEnd = context.createDynamicsCompressor();
 var trebleVolume = context.createGain();
-var biquadFilter = context.createBiquadFilter();
 var audioGains = [];
 var notesOnWaiting = [];
 var notesOffWaiting = [];
 var noteOnArr = [];
-dry.gain.value = 3;
+dry.gain.value = 0.8;
 wet.gain.value = 0.7 * dry.gain.value;
 trebleVolume.gain.value = 1.0;
 
-
-compressor.threshold.value = -50;
-compressor.knee.value = 40;
-compressor.ratio.value = 12;
-compressor.reduction.value = -20;
-compressor.attack.value = 0;
-compressor.release.value = 0.25;
-
-biquadFilter.type = "highpass";
-biquadFilter.frequency.value = 0;
 compressor.connect(trebleVolume);
 trebleVolume.connect(dry);
 trebleVolume.connect(convolver);
 convolver.connect(wet);
-dry.connect(compressorEnd);
-wet.connect(compressorEnd);
-compressorEnd.connect(biquadFilter);
-biquadFilter.connect(context.destination);
-
+dry.connect(context.destination);
+wet.connect(context.destination);
 
 
 // var loopLengths = [];

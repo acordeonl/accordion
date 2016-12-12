@@ -30,13 +30,14 @@ For an overlayed drop menu:
         <style>
             :host {}
             .bass {
+                margin-top: -0.6vh;
                 user-select: none;
                 height: 5.4vh;
                 width: 5.4vh;
             }
             .treble {
                 user-select: none;
-                margin-top: -1vh;
+                margin-top: -0.6vh;
                 height: 6.8vh;
                 width: 6.8vh;
             }
@@ -45,12 +46,35 @@ For an overlayed drop menu:
                 @apply(--layout-vertical);
                 @apply(--layout-center);
                 background-color: var(--content-background);
-                @apply(--shadow-elevation-3dp);
+                /*@apply(--shadow-elevation-3dp);*/
+                /*border: 4px solid var(--paper-icon-button-background) ;*/
+
                 border-radius: 100%;
+            }
+            [shadow] {
+                @apply(--layout-center-justified);
+                @apply(--layout-vertical);
+                @apply(--layout-center);
+                background-color: #e4e4e4;
+                border-radius: 100%;
+            }
+            .treble[shadow]{
+                height:8vh;
+                width:8vh;
+                /*@apply(--shadow-elevation-3dp);*/
+                /*border: 5px solid var(--paper-icon-button-background) ; */
+
+            }
+            .bass[shadow] {
+                height:6.5vh;
+                width:6.5vh;
             }
         </style>
         <!-- local DOM -->
-        <div box class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;"></div>
+        <div shadow class$="{{buttonType}}">
+            <div box class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;">
+            </div>
+        </div>
     </template>
     <script>
         Polymer({
