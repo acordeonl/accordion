@@ -121,14 +121,13 @@ For an overlayed drop menu:
                     this.source.connect(this.sourceGain);
                     this.source.loop = true;
                     this.sourceGain.connect(compressor);
-                    this.sourceGain.gain.exponentialRampToValueAtTime(1.0, context.currentTime+0.01);
-                    this.source.start(context.currentTime);
+                    this.source.start(0);
                 }
             },
             _stopSource: function () {
                 if (this.source !== undefined) {
-                    this.sourceGain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.1);
-                    this.source.stop(context.currentTime +0.1);
+                    this.sourceGain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.03);
+                    this.source.stop(context.currentTime + 0.03);
                 }
             },
             _computeColor: function (state) {

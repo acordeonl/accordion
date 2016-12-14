@@ -48,7 +48,7 @@ wet.connect(context.destination);
 
 
 var notesRequest = new XMLHttpRequest();
-notesRequest.open('GET', "/data/hq_accordion.mp3", true);
+notesRequest.open('GET', "/data/accordion2.mp3", true);
 notesRequest.responseType = 'arraybuffer';
 notesRequest.onload = function() {
     processConcatenatedFile(notesRequest.response);
