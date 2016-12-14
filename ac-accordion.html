@@ -45,7 +45,7 @@
             observers: [],
             behaviors: [],
             listeners: {
-                'click': 'test'
+                'click':'test'
             },
             properties: {
                 showingTreble: {
@@ -60,14 +60,15 @@
                     type: Number
                 }
             },
-            _updateVelocity: function (e) {
-                trebleVolume.gain.value = (e.detail.velocity / 127)  ;
+            test: function(){
+                this.$$('ACCORDION-TREBLE').noteOn(7);
             },
-            _allNotesOff: function () {
+            _updateVelocity: function (e) {
+                trebleVolume.gain.value = (e.detail.velocity / 127);
+            },
+            _allChordNotesOff: function () {
                 var st = this.bassNotes;
-                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59
-                // this.$.trebleSynthesizer.allNotesOffChords();
-                //s0 closed
+                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
                 if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14))) {
                     this.$$('ACCORDION-BASS').chordNoteOff(0);
                     // this.$.trebleSynthesizer.noteOn(69+12+35);
@@ -130,9 +131,7 @@
             },
             _updateChords: function () {
                 var st = this.bassNotes;
-                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59
-                // this.$.trebleSynthesizer.allNotesOffChords();
-                //s0 closed
+                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
                 if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14))) {
                     this.$$('ACCORDION-BASS').chordNoteOn(0);
                     // this.$.trebleSynthesizer.noteOn(69+12+35);
@@ -199,13 +198,13 @@
                 } else if (e.detail.channel === 1) {
                     this.$$('ACCORDION-BASS').noteOn(e.detail.midiNote - 48);
                 } else if (e.detail.channel === 2) {
-                    var cnt = (this._bitCount(this.bassNotes)%3) ;
-                    if ( cnt === 0) {
-                        this._allNotesOff();
+                    var cnt = (this._bitCount(this.bassNotes) % 3);
+                    if (cnt === 0) {
+                        this._allChordNotesOff();
                     }
                     var note = e.detail.midiNote - 41;
                     this.bassNotes = this.bassNotes | (1 << note);
-                    cnt = (this._bitCount(this.bassNotes)%3) ;
+                    cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
                         this._updateChords();
                     }
@@ -217,40 +216,26 @@
                 } else if (e.detail.channel === 1) {
                     this.$$('ACCORDION-BASS').noteOff(e.detail.midiNote - 48);
                 } else if (e.detail.channel === 2) {
-                    var cnt = (this._bitCount(this.bassNotes)%3) ;
+                    var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
-                        this._allNotesOff();
+                        this._allChordNotesOff();
                     }
                     var note = e.detail.midiNote - 41;
                     var tmp = 524287 ^ (1 << note);
                     this.bassNotes = this.bassNotes & tmp;
-                    cnt = (this._bitCount(this.bassNotes)%3) ;
+                    cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
                         this._updateChords();
                     }
                 }
             },
-            _bitCount: function(num){
-                var cnt = 0 ;
-                for(var i = 0 ; i < 31 ;i ++ ) {
-                    if(num&(1<<i))
-                        cnt ++ ;
-                }
-                return cnt ;
-            },
-            test: function () {
-                this.$$('ACCORDION-BASS').chordNoteOn(0);
-                // this.$.trebleSynthesizer.noteOn(69+12+35);
-                // this.$$('ACCORDION-BASS').chordNoteOn(11);
-                // bassNotesPlayed.sort(sortNumber);
-                // console.log("len " + bassNotesPlayed.length);
-                // for (var i = 0; i < bassNotesPlayed.length; i++) {
-                //     console.log(bassNotesPlayed[i]);
-                //     newName[bassNotesPlayed[i]] = i;
-                // }
-                // console.log("coleto");
-                // this.$.bassSynthesizer.updateVelocity(15) ;
-                // this.$.bassChordsSynthesizer.updateVelocity(15) ;
+            _bitCount: function (num) {
+                var cnt = 0;
+                for (var i = 0; i < 31; i++) {
+                    if (num & (1 << i))
+                        cnt++;
+                    }
+                return cnt;
             },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
