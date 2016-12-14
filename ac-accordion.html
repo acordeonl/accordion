@@ -61,7 +61,7 @@
                 }
             },
             _updateVelocity: function (e) {
-                trebleVolume.gain.value = (e.detail.velocity / 127)  ;
+                // trebleVolume.gain.value = (e.detail.velocity / 127)  ;
             },
             _allNotesOff: function () {
                 var st = this.bassNotes;
@@ -239,7 +239,7 @@
                 return cnt ;
             },
             test: function () {
-                this.$$('ACCORDION-BASS').chordNoteOn(0);
+                // this.$$('ACCORDION-BASS').chordNoteOn(0);
                 // this.$.trebleSynthesizer.noteOn(69+12+35);
                 // this.$$('ACCORDION-BASS').chordNoteOn(11);
                 // bassNotesPlayed.sort(sortNumber);
