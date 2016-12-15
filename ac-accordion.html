@@ -198,6 +198,7 @@
                 } else if (e.detail.channel === 1) {
                     this.$$('ACCORDION-BASS').noteOn(e.detail.midiNote - 48);
                 } else if (e.detail.channel === 2) {
+                    console.log(e.detail.midiNote);
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
                         this._allChordNotesOff();

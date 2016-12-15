@@ -30,6 +30,7 @@ notesRequest.onload = function() {
     bb = new DataView(data);
     processConcatenatedFile(notesRequest.response);
 };
+
 var convolverRequest = new XMLHttpRequest();
 convolverRequest.open('GET', "/data/16_IR_Pool_Size_00.wav", true);
 convolverRequest.responseType = 'arraybuffer';
@@ -41,11 +42,11 @@ convolverRequest.onload = function() {
 };
 convolverRequest.send();
 
-
 var bb ;
 var data ;
 var offset =  0 ;
 var time = 2 ;
+
 function processConcatenatedFile() {
     if (offset >= bb.byteLength) {
         return ;
@@ -54,16 +55,10 @@ function processConcatenatedFile() {
     offset += 4;
     var sound = this.extractBuffer(data, offset, length);
     offset += length;
-    buffers.push(context.decodeAudioData(sound.buffer, function(res) {
+    context.decodeAudioData(sound.buffer, function(res) {
         buffers.push(res) ;
-        var source = context.createBufferSource();
-        source.buffer = res ;
-        source.connect (context.destination) ;
-        source.start (context.currentTime+time) ;
-        source.stop(context.currentTime+time+1) ;
-        time+=1.5 ;
         processConcatenatedFile() ;
-    }) ) ;
+    }) ;
 
 }
 
