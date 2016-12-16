@@ -14,6 +14,22 @@
             behaviors:[],
             listeners: {},
             properties: {
+                treblePos:{
+                    type:Number,
+                    value:0
+                },
+                bassNPos:{
+                    type:Number,
+                    value:0
+                },
+                bassCPos:{
+                    type:Number,
+                    value:0
+                },
+                trebleStartNote:{
+                    type:Number,
+                    value:24
+                },
                 treble_data:{
                     type:Object
                 },
@@ -60,7 +76,8 @@
                 var sound = this._extractBuffer(this.treble_data, this.treble_offset, length);
                 this.treble_offset += length;
                 context.decodeAudioData(sound.buffer, function(res) {
-                    treble_buffers.push(res) ;
+                    treble_buffers[this.treblePos] = res ;
+                    this.treblePos ++ ;
                     this._processTrebleConcatenatedFile() ;
                 }.bind(this)) ;
             },
@@ -73,7 +90,8 @@
                 var sound = this._extractBuffer(this.bassN_data, this.bassN_offset, length);
                 this.bassN_offset += length;
                 context.decodeAudioData(sound.buffer, function(res) {
-                    bassN_buffers.push(res) ;
+                    bassN_buffers[this.bassNPos] = res ;
+                    this.bassNPos ++ ;
                     this._processBassNConcatenatedFile() ;
                 }.bind(this)) ;
             },
@@ -86,11 +104,13 @@
                 var sound = this._extractBuffer(this.bassC_data, this.bassC_offset, length);
                 this.bassC_offset += length;
                 context.decodeAudioData(sound.buffer, function(res) {
-                    bassC_buffers.push(res) ;
+                    bassC_buffers[this.bassCPos] = res ;
+                    this.bassCPos ++ ;
                     this._processBassCConcatenatedFile() ;
                 }.bind(this)) ;
             },
             requestTrebleNotes: function(url){
+                this.treblePos= this.trebleStartNote ;
                 var notesRequest = new XMLHttpRequest();
                 notesRequest.open('GET', url, true);
                 notesRequest.responseType = 'arraybuffer';
@@ -102,6 +122,7 @@
                 notesRequest.send();
             },
             requestBassNNotes: function(url){
+                this.bassNPos = 0 ;
                 var notesRequest = new XMLHttpRequest();
                 notesRequest.open('GET', url, true);
                 notesRequest.responseType = 'arraybuffer';
@@ -113,6 +134,7 @@
                 notesRequest.send();
             },
             requestBassCNotes: function(url){
+                this.bassCPos = 0 ;
                 var notesRequest = new XMLHttpRequest();
                 notesRequest.open('GET', url, true);
                 notesRequest.responseType = 'arraybuffer';
