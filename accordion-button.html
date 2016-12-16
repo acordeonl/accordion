@@ -109,9 +109,9 @@ For an overlayed drop menu:
                     this._stopSource();
                     this.source = context.createBufferSource();
                     if (this.buttonType === 'treble') {
-                        this.source.buffer = buffers[note + pitch];
-                        this.source.loopStart = buffers[note + pitch].duration - bufferLoopLengths[note + pitch];
-                        this.source.loopEnd = buffers[note + pitch].duration;
+                        this.source.buffer = treble_buffers[note + pitch];
+                        this.source.loopStart = treble_buffers[note + pitch].duration - bufferLoopLengths[note + pitch];
+                        this.source.loopEnd = treble_buffers[note + pitch].duration;
                     } else {
                         this.source.buffer = buffers[note];
                         this.source.loopStart = buffers[note].duration - bufferLoopLengths[note];
