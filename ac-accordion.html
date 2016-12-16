@@ -5,6 +5,7 @@
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
     <link rel="import" href="./notes-loader.html">
+    <link rel="import" href="../paper-spinner/paper-spinner-lite.html">
     <script src="./audio_vars.js"></script>
     <script src="./synth_vars.js"></script>
 </imports>
@@ -21,25 +22,40 @@
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
+            [spinner] {
+                height: 80%;
+                width: 100%;
+                margin-top: 3vh;
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+                @apply(--layout-center);
+            }
         </style>
-        <notes-loader></notes-loader>
+        <notes-loader on-done="_showButtons"></notes-loader>
         <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
-                <template is="dom-if" if="[[laptop]]">
-                    <accordion-treble></accordion-treble>
-                    <accordion-bass></accordion-bass>
+                <template is="dom-if" if="[[notesLoaded]]">
+                    <template is="dom-if" if="[[laptop]]">
+                        <accordion-treble></accordion-treble>
+                        <accordion-bass></accordion-bass>
+                    </template>
+                    <template is="dom-if" if="[[!laptop]]">
+                        <template is="dom-if" if="[[showingTreble]]">
+                            <accordion-treble showing-treble=[[showingTreble]] mobile></accordion-treble>
+                        </template>
+                        <template is="dom-if" if="[[!showingTreble]]">
+                            <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
+                        </template>
+                        <template is="dom-if" if="[[mobileLandscape]]">
+                            <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
+                        </template>
+                    </template>
                 </template>
-                <template is="dom-if" if="[[!laptop]]">
-                    <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble showing-treble=[[showingTreble]] mobile></accordion-treble>
-                    </template>
-                    <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
-                    </template>
-                    <template is="dom-if" if="[[mobileLandscape]]">
-                        <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
-                    </template>
+                <template is="dom-if" if="[[!notesLoaded]]">
+                    <div spinner>
+                        <paper-spinner-lite active></paper-spinner-lite>
+                    </div>
                 </template>
             </div>
         </local-dom>
@@ -58,96 +74,128 @@
                 bassNotes: {
                     type: Number,
                     value: 0
+                },
+                notesLoaded: {
+                    type: Boolean,
+                    value: false
                 }
+            },
+            _showButtons: function () {
+                var d= new Date ( ) ;
+                loadTime = d.getTime ( ) - loadTime ;
+                // loadTime = parseInt((duration/1000)%60) ;
+                console.log(loadTime/1000); 
+                this.notesLoaded = true;
             },
             _updateVelocity: function (e) {
                 trebleVolume.gain.value = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
-                var button ;
-                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59
-                //s0 closed
+                var button;
+                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 s0 closed
                 if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
-                    button= 0;
+                    button = 0;
+
                 //s0 opened
                 if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
-                    button= 1;
+                    button = 1;
+
                 //s1 closed
                 if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
-                    button= 2;
+                    button = 2;
+
                 //s1 opened
                 if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
-                    button= 3;
+                    button = 3;
+
                 //s2 closed
                 if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
-                    button= 4;
+                    button = 4;
+
                 //s2 opened
                 if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
-                    button= 5;
+                    button = 5;
+
                 //s3 closed
                 if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
-                    button= 6;
+                    button = 6;
+
                 //s3 opened
                 if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
-                    button= 7;
+                    button = 7;
+
                 //s4 closed
                 if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
-                    button= 8;
+                    button = 8;
+
                 //s4 opened
                 if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
-                    button= 9;
+                    button = 9;
+
                 //s5 closed
                 if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
-                    button= 10;
+                    button = 10;
+
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
-                    button= 11;
+                    button = 11;
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
             },
             _updateChordsButtons: function () {
                 var st = this.bassNotes;
-                var button ;
+                var button;
                 //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
                 if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
                     button = 0;
+
                 //s0 opened
                 if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
                     button = 1;
+
                 //s1 closed
                 if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
                     button = 2;
+
                 //s1 opened
                 if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
                     button = 3;
+
                 //s2 closed
                 if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
                     button = 4;
+
                 //s2 opened
                 if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
                     button = 5;
+
                 //s3 closed
                 if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
                     button = 6;
+
                 //s3 opened
                 if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
                     button = 7;
+
                 //s4 closed
                 if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
                     button = 8;
+
                 //s4 opened
                 if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
                     button = 9;
+
                 //s5 closed
                 if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
                     button = 10;
+
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
                 this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
             _buttonPress: function (e) {
-                var button ;
+                var button;
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
                     this.$$('ACCORDION-TREBLE').buttonPress(button);
@@ -168,12 +216,12 @@
                 }
             },
             _buttonRelease: function (e) {
-                var button ;
+                var button;
                 if (e.detail.channel === 0) {
-                    button = e.detail.midiNote - 24 ;
+                    button = e.detail.midiNote - 24;
                     this.$$('ACCORDION-TREBLE').buttonRelease(button);
                 } else if (e.detail.channel === 1) {
-                    button = e.detail.midiNote - 48 ;
+                    button = e.detail.midiNote - 48;
                     this.$$('ACCORDION-BASS').buttonRelease(button);
                 } else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
