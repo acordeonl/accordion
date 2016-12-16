@@ -8,7 +8,6 @@
     <script src="./audio_vars.js"></script>
     <script src="./synth_vars.js"></script>
 </imports>
-
 <dom-module id="ac-accordion">
     <template>
         <style>
@@ -24,7 +23,7 @@
             }
         </style>
         <notes-loader></notes-loader>
-        <midi-manager on-note-on='_noteOn' on-note-off='_noteOff' on-velocity-change="_updateVelocity"></midi-manager>
+        <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
@@ -50,8 +49,7 @@
             is: "ac-accordion",
             observers: [],
             behaviors: [],
-            listeners: {
-            },
+            listeners: {},
             properties: {
                 showingTreble: {
                     type: Boolean,
@@ -65,166 +63,129 @@
             _updateVelocity: function (e) {
                 trebleVolume.gain.value = (e.detail.velocity / 127);
             },
-            _allChordNotesOff: function () {
+            _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
-                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
-                if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14))) {
-                    this.$$('ACCORDION-BASS').chordNoteOff(0);
-                    // this.$.trebleSynthesizer.noteOn(69+12+35);
-                }
+                var button ;
+                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59
+                //s0 closed
+                if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
+                    button= 0;
                 //s0 opened
-                if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14))) {
-                    this.$$('ACCORDION-BASS').chordNoteOff(1);
-                    // this.$.trebleSynthesizer.noteOn(69+12+26);
-                }
+                if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
+                    button= 1;
                 //s1 closed
-                if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+15);
-                    this.$$('ACCORDION-BASS').chordNoteOff(2);
-                }
+                if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
+                    button= 2;
                 //s1 opened
-                if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+35);
-                    this.$$('ACCORDION-BASS').chordNoteOff(3);
-                }
+                if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
+                    button= 3;
                 //s2 closed
-                if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+22);
-                    this.$$('ACCORDION-BASS').chordNoteOff(4);
-                }
+                if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
+                    button= 4;
                 //s2 opened
-                if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+15);
-                    this.$$('ACCORDION-BASS').chordNoteOff(5);
-                }
+                if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
+                    button= 5;
                 //s3 closed
-                if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+41);
-                    this.$$('ACCORDION-BASS').chordNoteOff(6);
-                }
+                if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
+                    button= 6;
                 //s3 opened
-                if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+3);
-                    this.$$('ACCORDION-BASS').chordNoteOff(7);
-                }
+                if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
+                    button= 7;
                 //s4 closed
-                if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+5);
-                    this.$$('ACCORDION-BASS').chordNoteOff(8);
-                }
+                if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
+                    button= 8;
                 //s4 opened
-                if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+24);
-                    this.$$('ACCORDION-BASS').chordNoteOff(9);
-                }
+                if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
+                    button= 9;
                 //s5 closed
-                if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+9);
-                    this.$$('ACCORDION-BASS').chordNoteOff(10);
-                }
+                if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
+                    button= 10;
                 //s5 opened
-                if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+9);
-                    this.$$('ACCORDION-BASS').chordNoteOff(11);
-                }
+                if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
+                    button= 11;
+                this.$$('ACCORDION-BASS').chordButtonRelease(button);
             },
-            _updateChords: function () {
+            _updateChordsButtons: function () {
                 var st = this.bassNotes;
+                var button ;
                 //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
-                if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14))) {
-                    this.$$('ACCORDION-BASS').chordNoteOn(0);
-                    // this.$.trebleSynthesizer.noteOn(69+12+35);
-                }
+                if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
+                    button = 0;
                 //s0 opened
-                if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14))) {
-                    this.$$('ACCORDION-BASS').chordNoteOn(1);
-                    // this.$.trebleSynthesizer.noteOn(69+12+26);
-                }
+                if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
+                    button = 1;
                 //s1 closed
-                if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+15);
-                    this.$$('ACCORDION-BASS').chordNoteOn(2);
-                }
+                if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
+                    button = 2;
                 //s1 opened
-                if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+35);
-                    this.$$('ACCORDION-BASS').chordNoteOn(3);
-                }
+                if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
+                    button = 3;
                 //s2 closed
-                if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+22);
-                    this.$$('ACCORDION-BASS').chordNoteOn(4);
-                }
+                if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
+                    button = 4;
                 //s2 opened
-                if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+15);
-                    this.$$('ACCORDION-BASS').chordNoteOn(5);
-                }
+                if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
+                    button = 5;
                 //s3 closed
-                if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+41);
-                    this.$$('ACCORDION-BASS').chordNoteOn(6);
-                }
+                if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
+                    button = 6;
                 //s3 opened
-                if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+3);
-                    this.$$('ACCORDION-BASS').chordNoteOn(7);
-                }
+                if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
+                    button = 7;
                 //s4 closed
-                if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+5);
-                    this.$$('ACCORDION-BASS').chordNoteOn(8);
-                }
+                if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
+                    button = 8;
                 //s4 opened
-                if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+24);
-                    this.$$('ACCORDION-BASS').chordNoteOn(9);
-                }
+                if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
+                    button = 9;
                 //s5 closed
-                if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+9);
-                    this.$$('ACCORDION-BASS').chordNoteOn(10);
-                }
+                if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
+                    button = 10;
                 //s5 opened
-                if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7))) {
-                    // this.$.trebleSynthesizer.noteOn(69+12+9);
-                    this.$$('ACCORDION-BASS').chordNoteOn(11);
-                }
+                if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
+                    button = 11;
+                this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
-            _noteOn: function (e) {
+            _buttonPress: function (e) {
+                var button ;
                 if (e.detail.channel === 0) {
-                    this.$$('ACCORDION-TREBLE').noteOn(e.detail.midiNote - 24);
+                    button = e.detail.midiNote - 24;
+                    this.$$('ACCORDION-TREBLE').buttonPress(button);
                 } else if (e.detail.channel === 1) {
-                    this.$$('ACCORDION-BASS').noteOn(e.detail.midiNote - 48);
+                    button = e.detail.midiNote - 48;
+                    this.$$('ACCORDION-BASS').buttonPress(button);
                 } else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
-                        this._allChordNotesOff();
+                        this._releaseAllChordButtons();
                     }
-                    var note = e.detail.midiNote - 41;
-                    this.bassNotes = this.bassNotes | (1 << note);
+                    var bNote = e.detail.midiNote - 41;
+                    this.bassNotes = this.bassNotes | (1 << bNote);
                     cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
-                        this._updateChords();
+                        this._updateChordsButtons();
                     }
                 }
             },
-            _noteOff: function (e) {
+            _buttonRelease: function (e) {
+                var button ;
                 if (e.detail.channel === 0) {
-                    this.$$('ACCORDION-TREBLE').noteOff(e.detail.midiNote - 24);
+                    button = e.detail.midiNote - 24 ;
+                    this.$$('ACCORDION-TREBLE').buttonRelease(button);
                 } else if (e.detail.channel === 1) {
-                    this.$$('ACCORDION-BASS').noteOff(e.detail.midiNote - 48);
+                    button = e.detail.midiNote - 48 ;
+                    this.$$('ACCORDION-BASS').buttonRelease(button);
                 } else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
-                        this._allChordNotesOff();
+                        this._releaseAllChordButtons();
                     }
-                    var note = e.detail.midiNote - 41;
-                    var tmp = 524287 ^ (1 << note);
+                    var bNote = e.detail.midiNote - 41;
+                    var tmp = 524287 ^ (1 << bNote);
                     this.bassNotes = this.bassNotes & tmp;
                     cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
-                        this._updateChords();
+                        this._updateChordsButtons();
                     }
                 }
             },

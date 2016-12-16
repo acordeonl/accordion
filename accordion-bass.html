@@ -131,31 +131,31 @@ For an overlayed drop menu:
                     this.playAnimation('entry');
                 }
             },
-            noteOn: function (note) {
-                var which = Math.floor(note / 2);
+            buttonPress: function (button) {
+                var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
-                        this.state0 = (note % 2) + 1;
+                        this.state0 = (button % 2) + 1;
                         return;
                     case 1:
-                        this.state1 = (note % 2) + 1;
+                        this.state1 = (button % 2) + 1;
                         return;
                     case 2:
-                        this.state2 = (note % 2) + 1;
+                        this.state2 = (button % 2) + 1;
                         return;
                     case 3:
-                        this.state3 = (note % 2) + 1;
+                        this.state3 = (button % 2) + 1;
                         return;
                     case 4:
-                        this.state4 = (note % 2) + 1;
+                        this.state4 = (button % 2) + 1;
                         return;
                     case 5:
-                        this.state5 = (note % 2) + 1;
+                        this.state5 = (button % 2) + 1;
                         return;
                 }
             },
-            noteOff: function (note) {
-                var which = Math.floor(note / 2);
+            buttonRelease: function (button) {
+                var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
                         this.state0 = 0;
@@ -177,31 +177,31 @@ For an overlayed drop menu:
                         return;
                 }
             },
-            chordNoteOn: function (note) {
-                var which = Math.floor(note / 2);
+            chordButtonPress: function (button) {
+                var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
-                        this.stateChords0 = (note % 2) + 1;
+                        this.stateChords0 = (button % 2) + 1;
                         return;
                     case 1:
-                        this.stateChords1 = (note % 2) + 1;
+                        this.stateChords1 = (button % 2) + 1;
                         return;
                     case 2:
-                        this.stateChords2 = (note % 2) + 1;
+                        this.stateChords2 = (button % 2) + 1;
                         return;
                     case 3:
-                        this.stateChords3 = (note % 2) + 1;
+                        this.stateChords3 = (button % 2) + 1;
                         return;
                     case 4:
-                        this.stateChords4 = (note % 2) + 1;
+                        this.stateChords4 = (button % 2) + 1;
                         return;
                     case 5:
-                        this.stateChords5 = (note % 2) + 1;
+                        this.stateChords5 = (button % 2) + 1;
                         return;
                 }
             },
-            chordNoteOff: function (note) {
-                var which = Math.floor(note / 2);
+            chordButtonRelease: function (button) {
+                var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
                         this.stateChords0 = 0;
