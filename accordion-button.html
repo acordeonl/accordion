@@ -29,7 +29,13 @@ For an overlayed drop menu:
     <template>
         <style>
             :host {}
-            .bass {
+            .bass_chord {
+                margin-top: -0.6vh;
+                user-select: none;
+                height: 5.4vh;
+                width: 5.4vh;
+            }
+            .bass_note {
                 margin-top: -0.6vh;
                 user-select: none;
                 height: 5.4vh;
@@ -57,12 +63,12 @@ For an overlayed drop menu:
                 border-radius: 100%;
             }
             .treble[shadow]{
-                height:8vh;
-                width:8vh;
+                height:7.3vh;
+                width:7.3vh;
             }
-            .bass[shadow] {
-                height:6.5vh;
-                width:6.5vh;
+            .bass_chord[shadow] , .bass_note[shadow] {
+                height:5.8vh;
+                width:5.8vh;
             }
         </style>
         <!-- local DOM -->
@@ -104,18 +110,27 @@ For an overlayed drop menu:
                     type: Object
                 }
             },
-            _playNote: function (state, note) {
-                if (state !== this.previousState) {
+            _playNote: function () {
+                var index ;
+                index = this.openIndex ;
+                if ( this.state === 1 )
+                    index = this.closeIndex ;
+                if (this.state !== this.previousState) {
                     this._stopSource();
                     this.source = context.createBufferSource();
                     if (this.buttonType === 'treble') {
-                        this.source.buffer = treble_buffers[note + pitch];
-                        this.source.loopStart = treble_buffers[note + pitch].duration - bufferLoopLengths[note + pitch];
-                        this.source.loopEnd = treble_buffers[note + pitch].duration;
-                    } else {
-                        this.source.buffer = buffers[note];
-                        this.source.loopStart = buffers[note].duration - bufferLoopLengths[note];
-                        this.source.loopEnd = buffers[note].duration;
+                        this.source.buffer = treble_buffers[index];
+                        this.source.loopStart = treble_buffers[index].duration - treble_bufferLoopLengths[index];
+                        this.source.loopEnd = treble_buffers[index].duration;
+                    } else if( this.buttonType === 'bass_note'){
+                        this.source.buffer = bassN_buffers[index];
+                        this.source.loopStart = bassN_buffers[index].duration - bassN_bufferLoopLengths[index];
+                        this.source.loopEnd = bassN_buffers[index].duration;
+                    }
+                    else if (this.buttonType === 'bass_chord' ) {
+                        this.source.buffer = bassC_buffers[index];
+                        this.source.loopStart = bassC_buffers[index].duration - bassC_bufferLoopLengths[index];
+                        this.source.loopEnd = bassC_buffers[index].duration;
                     }
                     this.sourceGain = context.createGain();
                     this.source.connect(this.sourceGain);
@@ -137,11 +152,11 @@ For an overlayed drop menu:
                         this.previousState = state;
                         return 'white';
                     case 1:
-                        this._playNote(state, this.closeIndex);
+                        this._playNote();
                         this.previousState = state;
                         return '#4775D1';
                     case 2:
-                        this._playNote(state, this.openIndex);
+                        this._playNote();
                         this.previousState = state;
                         return '#CC6666';
                 }
