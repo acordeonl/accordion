@@ -26,10 +26,6 @@
                     type:Number,
                     value:0
                 },
-                trebleStartNote:{
-                    type:Number,
-                    value:24
-                },
                 treble_data:{
                     type:Object
                 },
@@ -110,7 +106,7 @@
                 }.bind(this)) ;
             },
             requestTrebleNotes: function(url){
-                this.treblePos= this.trebleStartNote ;
+                this.treblePos= treble_startNote ;
                 var notesRequest = new XMLHttpRequest();
                 notesRequest.open('GET', url, true);
                 notesRequest.responseType = 'arraybuffer';
