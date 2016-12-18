@@ -5,7 +5,7 @@ var wet = context.createGain();
 var compressor = context.createDynamicsCompressor();
 var trebleVolume = context.createGain();
 dry.gain.value = 0.8;
-wet.gain.value = 0.7 * dry.gain.value;
+wet.gain.value = 0.6 * dry.gain.value;
 trebleVolume.gain.value = 1.0;
 
 compressor.connect(trebleVolume);
