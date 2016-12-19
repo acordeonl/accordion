@@ -35,7 +35,7 @@
         <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
-                <template is="dom-if" if="[[notesLoaded]]">
+                <!-- <template is="dom-if" if="[[notesLoaded]]"> -->
                     <template is="dom-if" if="[[laptop]]">
                         <accordion-treble></accordion-treble>
                         <accordion-bass></accordion-bass>
@@ -51,12 +51,12 @@
                             <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
                         </template>
                     </template>
-                </template>
-                <template is="dom-if" if="[[!notesLoaded]]">
+                <!-- </template> -->
+                <!-- <template is="dom-if" if="[[!notesLoaded]]">
                     <div spinner>
                         <paper-spinner-lite active></paper-spinner-lite>
                     </div>
-                </template>
+                </template> -->
             </div>
         </local-dom>
     </template>
@@ -84,7 +84,7 @@
                 var d= new Date ( ) ;
                 loadTime = d.getTime ( ) - loadTime ;
                 // loadTime = parseInt((duration/1000)%60) ;
-                console.log(loadTime/1000); 
+                console.log(loadTime/1000);
                 this.notesLoaded = true;
             },
             _updateVelocity: function (e) {
