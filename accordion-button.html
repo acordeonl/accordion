@@ -256,7 +256,7 @@ For an overlayed drop menu:
                     var bb = new DataView(data);
                     var loopDuration = bb.getFloat64(0, true);
                     var length = bb.getUint32(8, true);
-                    var sound = this._extractBuffer(data, 12J, length);
+                    var sound = this._extractBuffer(data, 12, length);
                     console.log("len " + length);
                     console.log("loop duration "+ loopDuration);
 
