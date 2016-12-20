@@ -110,12 +110,6 @@ For an overlayed drop menu:
                 buttonType: {
                     type: String
                 },
-                closeIndex: {
-                    type: Number
-                },
-                openIndex: {
-                    type: Number
-                },
                 source: {
                     type: Object
                 },
@@ -125,8 +119,20 @@ For an overlayed drop menu:
                 closeBuffer:{
                     type:Object
                 },
+                closeIndex: {
+                    type: Number
+                },
+                closeLoopDuration:{
+                    type:Number
+                },
                 openBuffer:{
                     type:Object
+                },
+                openIndex: {
+                    type: Number
+                },
+                openLoopDuration:{
+                    type:Number
                 }
             },
             _buttonPress: function(){
@@ -139,28 +145,17 @@ For an overlayed drop menu:
                 if (this.state !== this.previousState) {
                     this._stopSource();
                     this.source = context.createBufferSource();
-                    var index ;
+                    var loopDuration ;
                     if ( this.state === 1 ) {
-                        index = this.closeIndex ;
+                        loopDuration = this.closeLoopDuration ;
                         this.source.buffer = this.closeBuffer ;
                     }
                     else if ( this.state ===2 ){
-                        index = this.openIndex ;
+                        loopDuration = this.openLoopDuration ;
                         this.source.buffer = this.openBuffer ;
                     }
-
-                    if (this.buttonType === 'treble') {
-                        this.source.loopStart = this.source.buffer.duration - treble_bufferLoopLengths[index];
-                        this.source.loopEnd = this.source.buffer.duration;
-                    }
-                    else if( this.buttonType === 'bass_note'){
-                        this.source.loopStart =this.source.buffer.duration - bassN_bufferLoopLengths[index];
-                        this.source.loopEnd = this.source.buffer.duration;
-                    }
-                    else if (this.buttonType === 'bass_chord' ) {
-                        this.source.loopStart = this.source.buffer.duration - bassC_bufferLoopLengths[index];
-                        this.source.loopEnd = this.source.buffer.duration;
-                    }
+                    this.source.loopStart = this.source.buffer.duration - loopDuration;
+                    this.source.loopEnd = this.source.buffer.duration;
                     this.sourceGain = context.createGain();
                     this.source.connect(this.sourceGain);
                     this.source.loop = true;
@@ -203,34 +198,29 @@ For an overlayed drop menu:
                 return dstU8;
             },
             _loadNotes: function(){
-                var closeIndexRequest = new XMLHttpRequest();
                 var close_url , open_url ;
                 if ( this.buttonType === "treble"){
-                    close_url = "/data/accordion_synth/treble/complete/cole_" + this.closeIndex + "c.mp3" ;
-                    open_url = "/data/accordion_synth/treble/complete/cole_" + this.openIndex + "c.mp3" ;
+                    close_url = "/data/accordion_synth/treble2/"+ this.closeIndex + "c.mp3" ;
+                    open_url = "/data/accordion_synth/treble2/" + this.openIndex + "c.mp3" ;
                 }
                 if ( this.buttonType === "bass_note"){
-                    return  ;
-                    // close_url = "/data/accordion_synth/bass_notes/" + this.closeIndex + "_b_c.mp3" ;
-                    // open_url = "/data/accordion_synth/bass_notes/" + this.openIndex + "_b_c.mp3" ;
-
+                    close_url = "/data/accordion_synth/bass_notes/" + this.closeIndex + "c.mp3" ;
+                    open_url = "/data/accordion_synth/bass_notes/" + this.openIndex + "c.mp3" ;
                 }
                 if ( this.buttonType === "bass_chord"){
-                    return ;
-                    // close_url = "/data/accordion_synth/bass_chords/" + this.closeIndex + "cc.mp3" ;
-                    // open_url = "/data/accordion_synth/bass_chords/" + this.openIndex + "cc.mp3" ;
+                    close_url = "/data/accordion_synth/bass_chords/" + this.closeIndex + "c.mp3" ;
+                    open_url = "/data/accordion_synth/bass_chords/" + this.openIndex + "c.mp3" ;
                 }
 
+                var closeIndexRequest = new XMLHttpRequest();
                 closeIndexRequest.open('GET', close_url, true);
                 closeIndexRequest.responseType = 'arraybuffer';
                 closeIndexRequest.onload = function() {
                     var data = closeIndexRequest.response ;
                     var bb = new DataView(data);
-                    var loopDuration = bb.getFloat64(0, true);
-                    var length = bb.getUint32(8, true);
-                    var sound = this._extractBuffer(data, 12, length);
-                    console.log("len " + length);
-                    console.log("loop duration " + loopDuration);
+                    this.closeLoopDuration = bb.getFloat32(0, true);
+                    var length = bb.getUint32(4, true);
+                    var sound = this._extractBuffer(data, 8, length);
                     context.decodeAudioData(sound.buffer, function(buffer) {
                         this.closeBuffer = buffer;
                         loadCnt++ ;
@@ -254,12 +244,9 @@ For an overlayed drop menu:
                 openIndexRequest.onload = function() {
                     var data = openIndexRequest.response ;
                     var bb = new DataView(data);
-                    var loopDuration = bb.getFloat64(0, true);
-                    var length = bb.getUint32(8, true);
-                    var sound = this._extractBuffer(data, 12, length);
-                    console.log("len " + length);
-                    console.log("loop duration "+ loopDuration);
-
+                    this.openLoopDuration = bb.getFloat32(0, true);
+                    var length = bb.getUint32(4, true);
+                    var sound = this._extractBuffer(data, 8, length);
                     context.decodeAudioData(sound.buffer, function(buffer) {
                         this.openBuffer = buffer;
                         loadCnt++ ;

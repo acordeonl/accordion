@@ -14,3 +14,6 @@ trebleVolume.connect(convolver);
 convolver.connect(wet);
 dry.connect(context.destination);
 wet.connect(context.destination);
+
+var loadTime = -1;
+var loadCnt = 0;
