@@ -89,14 +89,8 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
-                trebleURL: {
-                    type: String
-                },
-                bassNotesURL: {
-                    type: String
-                },
-                bassChordsURL: {
-                    type: String
+                instrumentUrl:{
+                    type:String
                 },
                 loadCnt: {
                     type: Number,
@@ -231,22 +225,14 @@ For an overlayed drop menu:
             },
             _loadNotes: function () {
                 this.loadCnt = 0;
-                this._requestBuffer("/data/accordion_synth/" + this.buttonType + "/" + this.closeIndex + "c.mp3", "close");
-                this._requestBuffer("/data/accordion_synth/" + this.buttonType + "/" + this.openIndex + "c.mp3", "open");
+                this._requestBuffer(this.instrumentUrl + this.buttonType + "/" + this.closeIndex + "c.mp3", "close");
+                this._requestBuffer(this.instrumentUrl + this.buttonType + "/" + this.openIndex + "c.mp3", "open");
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
-                    if (!this.state) {
+                    if (!this.state)
                         this.state = 0;
-                    }
-                    this.trebleURL = "/data/accordion_synth/treble/";
-                    this.bassNotesURL = "/data/accordion_synth/bass_notes/";
-                    this.bassChordsURL = "/data/accordion_synth/bass_chords/";
-                    if (loadTime === -1) {
-                        var d = new Date();
-                        loadTime = d.getTime();
-                        loadCnt = 0;
-                    }
+                    this.instrumentUrl= "/data/accordion_synth/" ;
                     this._loadNotes();
                 });
             }
