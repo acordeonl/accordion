@@ -231,8 +231,8 @@ For an overlayed drop menu:
             _loadNotes: function () {
                 this.loadCnt = 0;
                 this.done = false ;
-                this._requestBuffer(this.instrumentUrl + this.buttonType + "/" + this.closeIndex + "c.mp3", "close");
-                this._requestBuffer(this.instrumentUrl + this.buttonType + "/" + this.openIndex + "c.mp3", "open");
+                this._requestBuffer(this.instrumentUrl + "/" + this.closeIndex + "c.mp3", "close");
+                this._requestBuffer(this.instrumentUrl + "/" + this.openIndex + "c.mp3", "open");
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
