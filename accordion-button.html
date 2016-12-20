@@ -47,12 +47,12 @@ For an overlayed drop menu:
                 height: 6.8vh;
                 width: 6.8vh;
             }
-            [box] {
-                /*@apply(--layout-center-justified);
-                @apply(--layout-vertical);
-                @apply(--layout-center);*/
+            [circle] {
                 background-color: var(--content-background);
                 border-radius: 100%;
+            }
+            [circle]:hover{
+                cursor: pointer;
             }
             [shadow] {
                 @apply(--layout-center-justified);
@@ -74,7 +74,7 @@ For an overlayed drop menu:
         <!-- local DOM -->
         <template is="dom-if" if="[[done]]" >
             <div shadow class$="{{buttonType}}">
-                <div box class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;">
+                <div circle class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;">
                 </div>
             </div>
         </template>
@@ -84,7 +84,10 @@ For an overlayed drop menu:
             is: "accordion-button",
             observers: [],
             behaviors: [],
-            listeners: {},
+            listeners: {
+                'mousedown':'_buttonPress',
+                'mouseup':'_buttonRelease'
+            },
             properties: {
                 loadCnt:{
                     type:Number,
@@ -126,6 +129,12 @@ For an overlayed drop menu:
                     type:Object
                 }
             },
+            _buttonPress: function(){
+                this.state = 1 ;
+            },
+            _buttonRelease: function(){
+                this.state = 0 ;
+            },
             _playNote: function () {
                 if (this.state !== this.previousState) {
                     this._stopSource();
@@ -143,7 +152,8 @@ For an overlayed drop menu:
                     if (this.buttonType === 'treble') {
                         this.source.loopStart = this.source.buffer.duration - treble_bufferLoopLengths[index];
                         this.source.loopEnd = this.source.buffer.duration;
-                    } else if( this.buttonType === 'bass_note'){
+                    }
+                    else if( this.buttonType === 'bass_note'){
                         this.source.loopStart =this.source.buffer.duration - bassN_bufferLoopLengths[index];
                         this.source.loopEnd = this.source.buffer.duration;
                     }
@@ -186,27 +196,42 @@ For an overlayed drop menu:
                         return '#CC6666';
                 }
             },
+            _extractBuffer:function(src, offset, length) {
+                var dstU8 = new Uint8Array(length);
+                var srcU8 = new Uint8Array(src, offset, length);
+                dstU8.set(srcU8);
+                return dstU8;
+            },
             _loadNotes: function(){
                 var closeIndexRequest = new XMLHttpRequest();
                 var close_url , open_url ;
                 if ( this.buttonType === "treble"){
-                    close_url = "/data/accordion_synth/treble/" + this.closeIndex + "c.mp3" ;
-                    open_url = "/data/accordion_synth/treble/" + this.openIndex + "c.mp3" ;
+                    close_url = "/data/accordion_synth/treble/complete/cole_" + this.closeIndex + "c.mp3" ;
+                    open_url = "/data/accordion_synth/treble/complete/cole_" + this.openIndex + "c.mp3" ;
                 }
                 if ( this.buttonType === "bass_note"){
-                    close_url = "/data/accordion_synth/bass_notes/" + this.closeIndex + "_b_c.mp3" ;
-                    open_url = "/data/accordion_synth/bass_notes/" + this.openIndex + "_b_c.mp3" ;
+                    return  ;
+                    // close_url = "/data/accordion_synth/bass_notes/" + this.closeIndex + "_b_c.mp3" ;
+                    // open_url = "/data/accordion_synth/bass_notes/" + this.openIndex + "_b_c.mp3" ;
 
                 }
                 if ( this.buttonType === "bass_chord"){
-                    close_url = "/data/accordion_synth/bass_chords/" + this.closeIndex + "cc.mp3" ;
-                    open_url = "/data/accordion_synth/bass_chords/" + this.openIndex + "cc.mp3" ;
+                    return ;
+                    // close_url = "/data/accordion_synth/bass_chords/" + this.closeIndex + "cc.mp3" ;
+                    // open_url = "/data/accordion_synth/bass_chords/" + this.openIndex + "cc.mp3" ;
                 }
 
                 closeIndexRequest.open('GET', close_url, true);
                 closeIndexRequest.responseType = 'arraybuffer';
                 closeIndexRequest.onload = function() {
-                    context.decodeAudioData(closeIndexRequest.response, function(buffer) {
+                    var data = closeIndexRequest.response ;
+                    var bb = new DataView(data);
+                    var loopDuration = bb.getFloat64(0, true);
+                    var length = bb.getUint32(8, true);
+                    var sound = this._extractBuffer(data, 12, length);
+                    console.log("len " + length);
+                    console.log("loop duration " + loopDuration);
+                    context.decodeAudioData(sound.buffer, function(buffer) {
                         this.closeBuffer = buffer;
                         loadCnt++ ;
                         if ( loadCnt === 86 ) {
@@ -227,7 +252,15 @@ For an overlayed drop menu:
                 openIndexRequest.open('GET', open_url, true);
                 openIndexRequest.responseType = 'arraybuffer';
                 openIndexRequest.onload = function() {
-                    context.decodeAudioData(openIndexRequest.response, function(buffer) {
+                    var data = openIndexRequest.response ;
+                    var bb = new DataView(data);
+                    var loopDuration = bb.getFloat64(0, true);
+                    var length = bb.getUint32(8, true);
+                    var sound = this._extractBuffer(data, 12J, length);
+                    console.log("len " + length);
+                    console.log("loop duration "+ loopDuration);
+
+                    context.decodeAudioData(sound.buffer, function(buffer) {
                         this.openBuffer = buffer;
                         loadCnt++ ;
                         if ( loadCnt === 86 ) {
