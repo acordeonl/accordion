@@ -4,7 +4,6 @@
     <link rel="import" href="./accordion-bass.html">
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
-    <link rel="import" href="./notes-loader.html">
     <script src="./audio_vars.js"></script>
 </imports>
 <dom-module id="ac-accordion">
@@ -21,7 +20,6 @@
                 @apply(--layout-around-justified);
             }
         </style>
-        <notes-loader on-done="_showButtons"></notes-loader>
         <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
@@ -228,8 +226,24 @@
                     }
                 return cnt;
             },
+            requestConvolver: function(url){
+                var convolverRequest = new XMLHttpRequest();
+                convolverRequest.open('GET', url, true);
+                convolverRequest.responseType = 'arraybuffer';
+                convolverRequest.onload = function() {
+                    context.decodeAudioData(convolverRequest.response, function(buffer) {
+                        convolver.buffer = buffer;
+                    });
+                };
+                convolverRequest.send();
+            },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
+            },
+            ready: function () {
+                Polymer.RenderStatus.afterNextRender(this, function(){
+                    this.requestConvolver("/data/16_IR_Pool_Size_00.wav") ;
+                }) ;
             }
         });
     </script>
