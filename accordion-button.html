@@ -230,6 +230,7 @@ For an overlayed drop menu:
             },
             _loadNotes: function () {
                 this.loadCnt = 0;
+                this.done = false ;
                 this._requestBuffer(this.instrumentUrl + this.buttonType + "/" + this.closeIndex + "c.mp3", "close");
                 this._requestBuffer(this.instrumentUrl + this.buttonType + "/" + this.openIndex + "c.mp3", "open");
             },
@@ -237,7 +238,6 @@ For an overlayed drop menu:
                 Polymer.RenderStatus.afterNextRender(this, function () {
                     if (!this.state)
                         this.state = 0;
-                    this.instrumentUrl= "/data/accordion_synth/" ;
                 });
             }
         });
