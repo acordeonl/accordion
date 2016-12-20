@@ -82,7 +82,9 @@ For an overlayed drop menu:
     <script>
         Polymer({
             is: "accordion-button",
-            observers: [],
+            observers: [
+                '_loadNotes(instrumentUrl,buttonType,closeIndex,openIndex)'
+            ],
             behaviors: [],
             listeners: {
                 'mousedown': '_buttonPress',
@@ -90,8 +92,7 @@ For an overlayed drop menu:
             },
             properties: {
                 instrumentUrl:{
-                    type:String,
-                    observer:"_loadNotes"
+                    type:String
                 },
                 loadCnt: {
                     type: Number,
@@ -199,6 +200,9 @@ For an overlayed drop menu:
                 request.open('GET', url, true);
                 request.responseType = 'arraybuffer';
                 request.onload = function () {
+                    if (request.status === 404) {
+                       return;
+                    }
                     var data = request.response;
                     var bb = new DataView(data);
                     if (which === "close")
