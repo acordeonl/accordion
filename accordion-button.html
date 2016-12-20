@@ -51,7 +51,7 @@ For an overlayed drop menu:
                 background-color: var(--content-background);
                 border-radius: 100%;
             }
-            [circle]:hover{
+            [circle]:hover {
                 cursor: pointer;
             }
             [shadow] {
@@ -62,20 +62,20 @@ For an overlayed drop menu:
                 /*background-color: #f1ecef ;*/
                 border-radius: 100%;
             }
-            .treble[shadow]{
-                height:7.3vh;
-                width:7.3vh;
+            .treble[shadow] {
+                height: 7.3vh;
+                width: 7.3vh;
             }
-            .bass_chord[shadow] , .bass_note[shadow] {
-                height:5.8vh;
-                width:5.8vh;
+            .bass_chord[shadow],
+            .bass_note[shadow] {
+                height: 5.8vh;
+                width: 5.8vh;
             }
         </style>
         <!-- local DOM -->
-        <template is="dom-if" if="[[done]]" >
+        <template is="dom-if" if="[[done]]">
             <div shadow class$="{{buttonType}}">
-                <div circle class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;">
-                </div>
+                <div circle class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;"></div>
             </div>
         </template>
     </template>
@@ -85,17 +85,26 @@ For an overlayed drop menu:
             observers: [],
             behaviors: [],
             listeners: {
-                'mousedown':'_buttonPress',
-                'mouseup':'_buttonRelease'
+                'mousedown': '_buttonPress',
+                'mouseup': '_buttonRelease'
             },
             properties: {
-                loadCnt:{
-                    type:Number,
-                    value:0
+                trebleURL: {
+                    type: String
                 },
-                done:{
-                    type:Boolean,
-                    value:false
+                bassNotesURL: {
+                    type: String
+                },
+                bassChordsURL: {
+                    type: String
+                },
+                loadCnt: {
+                    type: Number,
+                    value: 0
+                },
+                done: {
+                    type: Boolean,
+                    value: false
                 },
                 text: {
                     type: String,
@@ -116,43 +125,42 @@ For an overlayed drop menu:
                 sourceGain: {
                     type: Object
                 },
-                closeBuffer:{
-                    type:Object
+                closeBuffer: {
+                    type: Object
                 },
                 closeIndex: {
                     type: Number
                 },
-                closeLoopDuration:{
-                    type:Number
+                closeLoopDuration: {
+                    type: Number
                 },
-                openBuffer:{
-                    type:Object
+                openBuffer: {
+                    type: Object
                 },
                 openIndex: {
                     type: Number
                 },
-                openLoopDuration:{
-                    type:Number
+                openLoopDuration: {
+                    type: Number
                 }
             },
-            _buttonPress: function(){
-                this.state = 1 ;
+            _buttonPress: function () {
+                this.state = 1;
             },
-            _buttonRelease: function(){
-                this.state = 0 ;
+            _buttonRelease: function () {
+                this.state = 0;
             },
             _playNote: function () {
                 if (this.state !== this.previousState) {
                     this._stopSource();
                     this.source = context.createBufferSource();
-                    var loopDuration ;
-                    if ( this.state === 1 ) {
-                        loopDuration = this.closeLoopDuration ;
-                        this.source.buffer = this.closeBuffer ;
-                    }
-                    else if ( this.state ===2 ){
-                        loopDuration = this.openLoopDuration ;
-                        this.source.buffer = this.openBuffer ;
+                    var loopDuration;
+                    if (this.state === 1) {
+                        loopDuration = this.closeLoopDuration;
+                        this.source.buffer = this.closeBuffer;
+                    } else if (this.state === 2) {
+                        loopDuration = this.openLoopDuration;
+                        this.source.buffer = this.openBuffer;
                     }
                     this.source.loopStart = this.source.buffer.duration - loopDuration;
                     this.source.loopEnd = this.source.buffer.duration;
@@ -178,103 +186,68 @@ For an overlayed drop menu:
                         }
                         return 'white';
                     case 1:
-                        if( this.done ) {
+                        if (this.done) {
                             this._playNote();
                             this.previousState = state;
                         }
                         return '#4775D1';
                     case 2:
-                        if ( this.done) {
+                        if (this.done) {
                             this._playNote();
                             this.previousState = state;
                         }
                         return '#CC6666';
                 }
             },
-            _extractBuffer:function(src, offset, length) {
-                var dstU8 = new Uint8Array(length);
-                var srcU8 = new Uint8Array(src, offset, length);
-                dstU8.set(srcU8);
-                return dstU8;
+            _requestBuffer: function (url, which) {
+                var request = new XMLHttpRequest();
+                request.open('GET', url, true);
+                request.responseType = 'arraybuffer';
+                request.onload = function () {
+                    var data = request.response;
+                    var bb = new DataView(data);
+                    if (which === "close")
+                        this.closeLoopDuration = bb.getFloat32(0, true);
+                    else
+                        this.openLoopDuration = bb.getFloat32(0, true);
+                    var length = bb.getUint32(4, true);
+                    var dstU8 = new Uint8Array(length);
+                    var srcU8 = new Uint8Array(data, 8, length);
+                    dstU8.set(srcU8);
+                    var sound = dstU8;
+                    context.decodeAudioData(sound.buffer, function (buffer) {
+                        if (which === "close")
+                            this.closeBuffer = buffer;
+                        else {
+                            this.openBuffer = buffer;
+                        }
+                        this.loadCnt++;
+                        if (this.loadCnt === 2)
+                            this.done = true;
+                        }
+                    .bind(this));
+                }.bind(this);
+                request.send();
             },
-            _loadNotes: function(){
-                var close_url , open_url ;
-                if ( this.buttonType === "treble"){
-                    close_url = "/data/accordion_synth/treble2/"+ this.closeIndex + "c.mp3" ;
-                    open_url = "/data/accordion_synth/treble2/" + this.openIndex + "c.mp3" ;
-                }
-                if ( this.buttonType === "bass_note"){
-                    close_url = "/data/accordion_synth/bass_notes/" + this.closeIndex + "c.mp3" ;
-                    open_url = "/data/accordion_synth/bass_notes/" + this.openIndex + "c.mp3" ;
-                }
-                if ( this.buttonType === "bass_chord"){
-                    close_url = "/data/accordion_synth/bass_chords/" + this.closeIndex + "c.mp3" ;
-                    open_url = "/data/accordion_synth/bass_chords/" + this.openIndex + "c.mp3" ;
-                }
-
-                var closeIndexRequest = new XMLHttpRequest();
-                closeIndexRequest.open('GET', close_url, true);
-                closeIndexRequest.responseType = 'arraybuffer';
-                closeIndexRequest.onload = function() {
-                    var data = closeIndexRequest.response ;
-                    var bb = new DataView(data);
-                    this.closeLoopDuration = bb.getFloat32(0, true);
-                    var length = bb.getUint32(4, true);
-                    var sound = this._extractBuffer(data, 8, length);
-                    context.decodeAudioData(sound.buffer, function(buffer) {
-                        this.closeBuffer = buffer;
-                        loadCnt++ ;
-                        if ( loadCnt === 86 ) {
-                            var d = new Date ( ) ;
-                            loadTime = d.getTime()-loadTime;
-                            loadTime /=1000 ;
-                            console.log( loadTime );
-                        }
-                        this.loadCnt ++ ;
-                        if( this.loadCnt ===2 ) {
-                            this.done = true ;
-                        }
-                    }.bind(this));
-                }.bind(this);
-                closeIndexRequest.send();
-
-                var openIndexRequest = new XMLHttpRequest();
-                openIndexRequest.open('GET', open_url, true);
-                openIndexRequest.responseType = 'arraybuffer';
-                openIndexRequest.onload = function() {
-                    var data = openIndexRequest.response ;
-                    var bb = new DataView(data);
-                    this.openLoopDuration = bb.getFloat32(0, true);
-                    var length = bb.getUint32(4, true);
-                    var sound = this._extractBuffer(data, 8, length);
-                    context.decodeAudioData(sound.buffer, function(buffer) {
-                        this.openBuffer = buffer;
-                        loadCnt++ ;
-                        if ( loadCnt === 86 ) {
-                            var d = new Date ( ) ;
-                            loadTime = d.getTime()-loadTime;
-                            loadTime /=1000 ;
-                            console.log( loadTime );
-                        }
-                        this.loadCnt ++ ;
-                        if( this.loadCnt ===2 ) {
-                            this.done = true ;
-                        }
-                    }.bind(this));
-                }.bind(this);
-                openIndexRequest.send();
+            _loadNotes: function () {
+                this.loadCnt = 0;
+                this._requestBuffer("/data/accordion_synth/" + this.buttonType + "/" + this.closeIndex + "c.mp3", "close");
+                this._requestBuffer("/data/accordion_synth/" + this.buttonType + "/" + this.openIndex + "c.mp3", "open");
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
                     if (!this.state) {
                         this.state = 0;
                     }
-                    if ( loadTime === -1 ) {
-                        var d = new Date ( ) ;
-                        loadTime = d.getTime() ;
-                        loadCnt = 0 ;
+                    this.trebleURL = "/data/accordion_synth/treble/";
+                    this.bassNotesURL = "/data/accordion_synth/bass_notes/";
+                    this.bassChordsURL = "/data/accordion_synth/bass_chords/";
+                    if (loadTime === -1) {
+                        var d = new Date();
+                        loadTime = d.getTime();
+                        loadCnt = 0;
                     }
-                    this._loadNotes() ;
+                    this._loadNotes();
                 });
             }
         });
