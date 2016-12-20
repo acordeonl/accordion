@@ -90,7 +90,8 @@ For an overlayed drop menu:
             },
             properties: {
                 instrumentUrl:{
-                    type:String
+                    type:String,
+                    observer:"_loadNotes"
                 },
                 loadCnt: {
                     type: Number,
@@ -233,7 +234,6 @@ For an overlayed drop menu:
                     if (!this.state)
                         this.state = 0;
                     this.instrumentUrl= "/data/accordion_synth/" ;
-                    this._loadNotes();
                 });
             }
         });

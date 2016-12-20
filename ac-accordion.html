@@ -5,7 +5,6 @@
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
     <link rel="import" href="./notes-loader.html">
-    <link rel="import" href="../paper-spinner/paper-spinner-lite.html">
     <script src="./audio_vars.js"></script>
 </imports>
 <dom-module id="ac-accordion">
@@ -21,41 +20,26 @@
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
-            [spinner] {
-                height: 80%;
-                width: 100%;
-                margin-top: 3vh;
-                @apply(--layout-horizontal);
-                @apply(--layout-center-justified);
-                @apply(--layout-center);
-            }
         </style>
         <notes-loader on-done="_showButtons"></notes-loader>
         <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
-                <!-- <template is="dom-if" if="[[notesLoaded]]"> -->
-                    <template is="dom-if" if="[[laptop]]">
-                        <accordion-treble></accordion-treble>
-                        <accordion-bass></accordion-bass>
+                <template is="dom-if" if="[[laptop]]">
+                    <accordion-treble></accordion-treble>
+                    <accordion-bass></accordion-bass>
+                </template>
+                <template is="dom-if" if="[[!laptop]]">
+                    <template is="dom-if" if="[[showingTreble]]">
+                        <accordion-treble showing-treble=[[showingTreble]] mobile></accordion-treble>
                     </template>
-                    <template is="dom-if" if="[[!laptop]]">
-                        <template is="dom-if" if="[[showingTreble]]">
-                            <accordion-treble showing-treble=[[showingTreble]] mobile></accordion-treble>
-                        </template>
-                        <template is="dom-if" if="[[!showingTreble]]">
-                            <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
-                        </template>
-                        <template is="dom-if" if="[[mobileLandscape]]">
-                            <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
-                        </template>
+                    <template is="dom-if" if="[[!showingTreble]]">
+                        <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
                     </template>
-                <!-- </template> -->
-                <!-- <template is="dom-if" if="[[!notesLoaded]]">
-                    <div spinner>
-                        <paper-spinner-lite active></paper-spinner-lite>
-                    </div>
-                </template> -->
+                    <template is="dom-if" if="[[mobileLandscape]]">
+                        <accordion-bass showing-treble=[[showingTreble]] mobile></accordion-bass>
+                    </template>
+                </template>
             </div>
         </local-dom>
     </template>
