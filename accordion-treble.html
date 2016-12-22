@@ -104,7 +104,7 @@ For an overlayed drop menu:
             observers: ['_swap(showingTreble)'],
             behaviors: [ScaleUpBehavior],
             listeners: {
-                'click': 'changePitch'
+                'click': '_test'
             },
             properties: {
                 closeIndex: {
@@ -439,12 +439,19 @@ For an overlayed drop menu:
                         return;
                 }
             },
+            _test: function(){
+                this.changePitch(12) ;
+            },
             changePitch: function (pitch) {
+                if ( pitch === 0 ) {
+                    this._updateIndexes() ;
+                    return ;
+                }
                 for ( var i = 0 ; i < 31 ;i ++  ) {
                     this.closeIndex[i]++ ;
                     this.openIndex[i] ++ ;
                 }
-                this._updateIndexes() ; 
+                this.changePitch(pitch-1) ;
             },
             _updateIndexes: function(){
                 var array = this.closeIndex ;
