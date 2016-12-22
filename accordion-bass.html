@@ -1,7 +1,10 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../local-dom/local-dom.html" async>
-<link rel="import" href="./accordion-button.html" async>
-<link rel="import" href="../animation-behaviors/scale-up-behavior.html">
+<imports >
+    <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="../local-dom/local-dom.html" async>
+    <link rel="import" href="./accordion-button.html" async>
+    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
+    <script src="./synth_vars.js" > </script>
+</imports>
 <!--
 
 Shows drop down menu (works on chrome)
@@ -53,20 +56,20 @@ For an overlayed drop menu:
         <!-- local DOM -->
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div id="col">
-                <accordion-button close-index="41" open-index="3" text="s3" state="[[stateChords3]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="52" open-index="57" text="3" button-type="bass_note" state="[[state3]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="5" open-index="24" text="s4" state="[[stateChords4]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="57" open-index="50" text="4" button-type="bass_note" state="[[state4]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="9" open-index="9" text="s5" state="[[stateChords5]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="58" open-index="58" text="5" button-type="bass_note" state="[[state5]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button  close-index="{{chordsCloseIndex.0}}" open-index="{{chordsOpenIndex.0}}" text="s3" state="[[stateChords3]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" text="3" button-type="bass_note" state="[[state3]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="{{chordsCloseIndex.1}}" open-index="{{chordsOpenIndex.1}}" text="s4" state="[[stateChords4]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" text="4" button-type="bass_note" state="[[state4]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="{{chordsCloseIndex.2}}" open-index="{{chordsOpenIndex.2}}" text="s5" state="[[stateChords5]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" text="5" button-type="bass_note" state="[[state5]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
             </div>
             <div id="col">
-                <accordion-button close-index="35" open-index="26" text="s0" state="[[stateChords0]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="55" open-index="50" text="0" button-type="bass_note" state="[[state0]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="15" open-index="35" text="s1" state="[[stateChords1]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="48" open-index="55" text="1" button-type="bass_note" state="[[state1]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="22" open-index="15" text="s2" state="[[stateChords2]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="53" open-index="48" text="2" button-type="bass_note" state="[[state2]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="{{chordsCloseIndex.3}}" open-index="{{chordsOpenIndex.3}}" text="s0" state="[[stateChords0]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" text="0" button-type="bass_note" state="[[state0]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="{{chordsCloseIndex.4}}" open-index="{{chordsOpenIndex.4}}" text="s1" state="[[stateChords1]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" text="1" button-type="bass_note" state="[[state1]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="{{chordsCloseIndex.5}}" open-index="{{chordsOpenIndex.5}}" text="s2" state="[[stateChords2]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" text="2" button-type="bass_note" state="[[state2]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
             </div>
         </local-dom>
     </template>
@@ -75,8 +78,26 @@ For an overlayed drop menu:
             is: "accordion-bass",
             observers: ['_swap(showingTreble)'],
             behaviors: [ScaleUpBehavior],
-            listeners: {},
+            listeners: {
+                'click':'_test'
+            },
             properties: {
+                chordsCloseIndex:{
+                    type:Array,
+                    value:[]
+                },
+                chordsOpenIndex:{
+                    type:Array,
+                    value:[]
+                },
+                closeIndex:{
+                    type:Array,
+                    value:[]
+                },
+                openIndex:{
+                    type:Array,
+                    value:[]
+                },
                 instrumentUrl:{
                     type:String
                 },
@@ -131,6 +152,20 @@ For an overlayed drop menu:
                     type: Number,
                     value: 0
                 }
+            },
+            _test: function(){
+                this.changePitch(20) ;
+            },
+            changePitch: function(pitch){
+                if (pitch ===0) {
+                    this._updateIndexes() ;
+                    return ;
+                }
+                for ( var i = 0 ;i < 42 ; i ++ ){
+                    this.chordsCloseIndex[i] = bassChordsNextNote[this.chordsCloseIndex[i]]  ;
+                    this.chordsOpenIndex[i] = bassChordsNextNote[this.chordsOpenIndex[i]] ;
+                }
+                this.changePitch(pitch-1) ;
             },
             _swap: function (showingTreble) {
                 if (!showingTreble) {
@@ -229,14 +264,56 @@ For an overlayed drop menu:
                         return;
                 }
             },
+            _updateIndexes: function(){
+                var array = this.closeIndex ;
+                this.closeIndex = [] ;
+                this.closeIndex = array ;
+
+                var array2 = this.openIndex ;
+                this.openIndex = [] ;
+                this.openIndex = array2 ;
+
+                var array3 = this.chordsCloseIndex ;
+                this.chordsCloseIndex = [] ;
+                this.chordsCloseIndex = array3 ;
+
+                var array4 = this.chordsOpenIndex ;
+                this.chordsOpenIndex = [] ;
+                this.chordsOpenIndex = array4 ;
+            },
             ready: function () {
                 this.instrumentUrl ="/data/accordion_synth/bass_notes" ;
                 this.instrumentChordsUrl ="/data/accordion_synth/bass_chords" ;
-                // this.async(function(){
-                //     this.instrumentUrl ="/data/accordion_synth2/" ;
-                //     console.log("coleto");
-                // },5000) ;
-                // this.playAnimation('entry');
+
+                this.closeIndex[0]= 52 ;
+                this.closeIndex[1]= 57 ;
+                this.closeIndex[2]= 58 ;
+                this.closeIndex[3]= 55 ;
+                this.closeIndex[4]= 48 ;
+                this.closeIndex[5]= 53 ;
+
+                this.openIndex[0]= 57 ;
+                this.openIndex[1]= 50 ;
+                this.openIndex[2]= 58 ;
+                this.openIndex[3]= 50 ;
+                this.openIndex[4]= 55 ;
+                this.openIndex[5]= 48 ;
+
+                this.chordsCloseIndex[0] = 41 ;
+                this.chordsCloseIndex[1] = 5 ;
+                this.chordsCloseIndex[2] = 9 ;
+                this.chordsCloseIndex[3] = 35 ;
+                this.chordsCloseIndex[4] = 15;
+                this.chordsCloseIndex[5] = 22 ;
+
+                this.chordsOpenIndex[0] = 3;
+                this.chordsOpenIndex[1] = 24 ;
+                this.chordsOpenIndex[2] = 9 ;
+                this.chordsOpenIndex[3] = 26 ;
+                this.chordsOpenIndex[4] = 35 ;
+                this.chordsOpenIndex[5] = 15 ;
+
+                this._updateIndexes() ;
             }
         });
     </script>
