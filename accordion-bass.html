@@ -56,20 +56,20 @@ For an overlayed drop menu:
         <!-- local DOM -->
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div id="col">
-                <accordion-button  close-index="{{chordsCloseIndex.0}}" open-index="{{chordsOpenIndex.0}}" text="s3" state="[[stateChords3]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" text="3" button-type="bass_note" state="[[state3]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="{{chordsCloseIndex.1}}" open-index="{{chordsOpenIndex.1}}" text="s4" state="[[stateChords4]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" text="4" button-type="bass_note" state="[[state4]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="{{chordsCloseIndex.2}}" open-index="{{chordsOpenIndex.2}}" text="s5" state="[[stateChords5]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" text="5" button-type="bass_note" state="[[state5]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button  close-index="[[chordsCloseIndex.0]]" open-index="[[chordsOpenIndex.0]]" text="s3" state="[[stateChords3]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="[[closeIndex.0]]" open-index="[[openIndex.0]]" text="3" button-type="bass_note" state="[[state3]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="[[chordsCloseIndex.1]]" open-index="[[chordsOpenIndex.1]]" text="s4" state="[[stateChords4]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="[[closeIndex.1]]" open-index="[[openIndex.1]]" text="4" button-type="bass_note" state="[[state4]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="[[chordsCloseIndex.2]]" open-index="[[chordsOpenIndex.2]]" text="s5" state="[[stateChords5]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="[[closeIndex.2]]" open-index="[[openIndex.2]]" text="5" button-type="bass_note" state="[[state5]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
             </div>
             <div id="col">
-                <accordion-button close-index="{{chordsCloseIndex.3}}" open-index="{{chordsOpenIndex.3}}" text="s0" state="[[stateChords0]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" text="0" button-type="bass_note" state="[[state0]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="{{chordsCloseIndex.4}}" open-index="{{chordsOpenIndex.4}}" text="s1" state="[[stateChords1]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" text="1" button-type="bass_note" state="[[state1]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
-                <accordion-button close-index="{{chordsCloseIndex.5}}" open-index="{{chordsOpenIndex.5}}" text="s2" state="[[stateChords2]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
-                <accordion-button close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" text="2" button-type="bass_note" state="[[state2]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="[[chordsCloseIndex.3]]" open-index="[[chordsOpenIndex.3]]" text="s0" state="[[stateChords0]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="[[closeIndex.3]]" open-index="[[openIndex.3]]" text="0" button-type="bass_note" state="[[state0]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="[[chordsCloseIndex.4]]" open-index="[[chordsOpenIndex.4]]" text="s1" state="[[stateChords1]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="[[closeIndex.4]]" open-index="[[openIndex.4]]" text="1" button-type="bass_note" state="[[state1]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
+                <accordion-button close-index="[[chordsCloseIndex.5]]" open-index="[[chordsOpenIndex.5]]" text="s2" state="[[stateChords2]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" ></accordion-button>
+                <accordion-button close-index="[[closeIndex.5]]" open-index="[[openIndex.5]]" text="2" button-type="bass_note" state="[[state2]]" instrument-url="[[instrumentUrl]]" ></accordion-button>
             </div>
         </local-dom>
     </template>
@@ -82,6 +82,10 @@ For an overlayed drop menu:
                 'click':'_test'
             },
             properties: {
+                changingPitch:{
+                    type:Boolean,
+                    value:false
+                },
                 chordsCloseIndex:{
                     type:Array,
                     value:[]
@@ -154,18 +158,61 @@ For an overlayed drop menu:
                 }
             },
             _test: function(){
-                this.changePitch(3) ;
+                if( !this.changingPitch){
+                    this.changingPitch = true ;
+                    console.log("entro");
+                    this.changeChordsPitch(4) ;
+                    this.changeBassNotesPitch(4) ;
+                }
+                this.changingPitch = false ;
             },
-            changePitch: function(pitch){
+            _checkBassNotes: function(note){
+                if( note > 59)
+                    return note-60+48 ;
+                else if ( note < 48)
+                    return 59-47+note ;
+                return note ;
+            },
+            changeBassNotesPitch: function(pitch){
+                var subs = false;
+                if (pitch < 0 ){
+                    subs = true ;
+                    pitch *= -1 ;
+                }
+                for ( var i = 0 ; i < 6 ;i ++  ) {
+                    if (!subs) {
+                        this.closeIndex[i]+=(pitch%12) ;
+                        this.openIndex[i]+=(pitch%12) ;
+                    }
+                    else {
+                        this.closeIndex[i]-=(pitch%12) ;
+                        this.openIndex[i]-=(pitch%12) ;
+                    }
+                    this.closeIndex[i]=this._checkBassNotes(this.closeIndex[i]) ;
+                    this.openIndex[i]=this._checkBassNotes(this.openIndex[i]) ;
+                }
+                this._updateBassNotesIndexes() ;
+            },
+            changeChordsPitch: function(pitch){
                 if (pitch ===0) {
-                    this._updateIndexes() ;
+                    this._updateChordIndexes() ;
                     return ;
                 }
                 for ( var i = 0 ;i < 42 ; i ++ ){
-                    this.chordsCloseIndex[i] = bassChordsNextNote[this.chordsCloseIndex[i]]  ;
-                    this.chordsOpenIndex[i] = bassChordsNextNote[this.chordsOpenIndex[i]] ;
+                    if( pitch > 0 ){
+                        this.chordsCloseIndex[i] = bassChordsNextNote[this.chordsCloseIndex[i]]  ;
+                        this.chordsOpenIndex[i] = bassChordsNextNote[this.chordsOpenIndex[i]] ;
+                    }
+                    else {
+                        this.chordsCloseIndex[i] = bassChordspreviousNote[this.chordsCloseIndex[i]]  ;
+                        this.chordsOpenIndex[i] = bassChordspreviousNote[this.chordsOpenIndex[i]] ;
+                    }
                 }
-                this.changePitch(pitch-1) ;
+                if ( pitch>0 )
+                    this.changeChordsPitch(pitch-1) ;
+                else
+                this.changeChordsPitch(pitch+1) ;
+
             },
             _swap: function (showingTreble) {
                 if (!showingTreble) {
@@ -264,7 +311,7 @@ For an overlayed drop menu:
                         return;
                 }
             },
-            _updateIndexes: function(){
+            _updateBassNotesIndexes: function(){
                 var array = this.closeIndex ;
                 this.closeIndex = [] ;
                 this.closeIndex = array ;
@@ -272,7 +319,8 @@ For an overlayed drop menu:
                 var array2 = this.openIndex ;
                 this.openIndex = [] ;
                 this.openIndex = array2 ;
-
+            },
+            _updateChordIndexes: function(){
                 var array3 = this.chordsCloseIndex ;
                 this.chordsCloseIndex = [] ;
                 this.chordsCloseIndex = array3 ;
@@ -313,7 +361,8 @@ For an overlayed drop menu:
                 this.chordsOpenIndex[4] = 35 ;
                 this.chordsOpenIndex[5] = 15 ;
 
-                this._updateIndexes() ;
+                this._updateChordIndexes() ;
+                this._updateBassNotesIndexes() ;
             }
         });
     </script>

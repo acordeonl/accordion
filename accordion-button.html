@@ -83,7 +83,8 @@ For an overlayed drop menu:
         Polymer({
             is: "accordion-button",
             observers: [
-                '_loadNotes(instrumentUrl,buttonType,closeIndex,openIndex)'
+                '_loadCloseNote(instrumentUrl, closeIndex)' ,
+                '_loadOpenNote(instrumentUrl,openIndex)'
             ],
             behaviors: [],
             listeners: {
@@ -91,6 +92,14 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
+                _loadedCloseNote:{
+                    type:Boolean,
+                    value:false
+                },
+                _loadedOpenNote:{
+                    type:Boolean,
+                    value:false
+                },
                 instrumentUrl:{
                     type:String
                 },
@@ -215,24 +224,30 @@ For an overlayed drop menu:
                     dstU8.set(srcU8);
                     var sound = dstU8;
                     context.decodeAudioData(sound.buffer, function (buffer) {
-                        if (which === "close")
+                        if (which === "close") {
                             this.closeBuffer = buffer;
+                            this._loadedCloseNote = true ;
+                        }
                         else {
                             this.openBuffer = buffer;
+                            this._loadedOpenNote = true ;
                         }
-                        this.loadCnt++;
-                        if (this.loadCnt === 2)
+                        if (this._loadedOpenNote && this._loadedCloseNote)
                             this.done = true;
                         }
                     .bind(this));
                 }.bind(this);
                 request.send();
             },
-            _loadNotes: function () {
-                this.loadCnt = 0;
-                this.done = false ;
-                this._requestBuffer(this.instrumentUrl + "/" + this.closeIndex + "c.mp3", "close");
-                this._requestBuffer(this.instrumentUrl + "/" + this.openIndex + "c.mp3", "open");
+            _loadCloseNote: function (instrumentUrl,closeIndex) {
+                this._loadedCloseNote = false ;
+                this.done =false;
+                this._requestBuffer(instrumentUrl + "/" + closeIndex + "c.mp3", "close");
+            },
+            _loadOpenNote: function(instrumentUrl,openIndex){
+                this._loadedOpenNote = false ;
+                this.done = false;
+                this._requestBuffer(instrumentUrl + "/" + openIndex + "c.mp3", "open");
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
