@@ -104,7 +104,6 @@ For an overlayed drop menu:
             observers: ['_swap(showingTreble)'],
             behaviors: [ScaleUpBehavior],
             listeners: {
-                'click': '_test'
             },
             properties: {
                 changingPitch:{
@@ -443,13 +442,6 @@ For an overlayed drop menu:
                         return;
                 }
             },
-            _test: function(){
-                if( !this.changingPitch){
-                    this.changingPitch = true ;
-                    this.changePitch(4) ;
-                }
-                this.changingPitch = false ;
-            },
             changePitch: function (pitch) {
                 for ( var i = 0 ; i < 31 ;i ++  ) {
                     this.closeIndex[i]=this.closeIndex[i]+pitch ;
@@ -538,7 +530,6 @@ For an overlayed drop menu:
                 this.openIndex[30] = 88;
                 this._updateIndexes () ;
                 // this.async(function(){
-                //     console.log(" coleto");
                 //     this.instrumentUrl =
                 //      "/data/accordion_synth/treble";
                 //      this._updateIndexes() ;

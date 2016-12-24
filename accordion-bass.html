@@ -79,7 +79,6 @@ For an overlayed drop menu:
             observers: ['_swap(showingTreble)'],
             behaviors: [ScaleUpBehavior],
             listeners: {
-                'click':'_test'
             },
             properties: {
                 changingPitch:{
@@ -157,14 +156,9 @@ For an overlayed drop menu:
                     value: 0
                 }
             },
-            _test: function(){
-                if( !this.changingPitch){
-                    this.changingPitch = true ;
-                    console.log("entro");
-                    this.changeChordsPitch(4) ;
-                    this.changeBassNotesPitch(4) ;
-                }
-                this.changingPitch = false ;
+            changePitch: function(pitch){
+                this._changeChordsPitch(pitch) ;
+                this._changeBassNotesPitch(pitch) ;
             },
             _checkBassNotes: function(note){
                 if( note > 59)
@@ -173,7 +167,7 @@ For an overlayed drop menu:
                     return 59-47+note ;
                 return note ;
             },
-            changeBassNotesPitch: function(pitch){
+            _changeBassNotesPitch: function(pitch){
                 var subs = false;
                 if (pitch < 0 ){
                     subs = true ;
@@ -193,7 +187,7 @@ For an overlayed drop menu:
                 }
                 this._updateBassNotesIndexes() ;
             },
-            changeChordsPitch: function(pitch){
+            _changeChordsPitch: function(pitch){
                 if (pitch ===0) {
                     this._updateChordIndexes() ;
                     return ;
@@ -209,9 +203,9 @@ For an overlayed drop menu:
                     }
                 }
                 if ( pitch>0 )
-                    this.changeChordsPitch(pitch-1) ;
+                    this._changeChordsPitch(pitch-1) ;
                 else
-                this.changeChordsPitch(pitch+1) ;
+                this._changeChordsPitch(pitch+1) ;
 
             },
             _swap: function (showingTreble) {

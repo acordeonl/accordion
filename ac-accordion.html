@@ -61,6 +61,10 @@
                     value: false
                 }
             },
+            changePitch: function(diff){
+                this.$$("ACCORDION-TREBLE").changePitch(diff) ;
+                this.$$("ACCORDION-BASS").changePitch(diff) ;
+            },
             _showButtons: function () {
                 var d= new Date ( ) ;
                 loadTime = d.getTime ( ) - loadTime ;
