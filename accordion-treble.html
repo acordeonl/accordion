@@ -106,6 +106,10 @@ For an overlayed drop menu:
             listeners: {
             },
             properties: {
+                tone:{
+                    type:Number,
+                    value:0
+                },
                 changingPitch:{
                     type:Boolean,
                     value:false
@@ -528,7 +532,8 @@ For an overlayed drop menu:
                 this.openIndex[28] = 82;
                 this.openIndex[29] = 86;
                 this.openIndex[30] = 88;
-                this._updateIndexes () ;
+                this.changePitch(this.tone) ;
+                // this._updateIndexes () ;
                 // this.async(function(){
                 //     this.instrumentUrl =
                 //      "/data/accordion_synth/treble";
