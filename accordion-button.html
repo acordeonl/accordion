@@ -205,12 +205,30 @@ For an overlayed drop menu:
                 }
             },
             _requestBuffer: function (url, which) {
+                if ( savedBuffers[url] !== undefined){
+                    if (which === "close") {
+                        this.closeBuffer = savedBuffers[url];
+                        this._loadedCloseNote = true ;
+                    }
+                    else {
+                        this.openBuffer = savedBuffers[url];
+                        this._loadedOpenNote = true ;
+                    }
+                    if (this._loadedOpenNote && this._loadedCloseNote){
+                        this.done = true;
+                    }
+                    return ;
+                }
                 var request = new XMLHttpRequest();
                 request.open('GET', url, true);
                 request.responseType = 'arraybuffer';
                 request.onload = function () {
                     if (request.status === 404) {
-                       return;
+                        if ( !errorLoading ) {
+                            this.fire("toast",{msg:'La tonalidad no pudo ser cargada'}) ;
+                            errorLoading =true ;
+                        }
+                        return;
                     }
                     var data = request.response;
                     var bb = new DataView(data);
@@ -224,6 +242,7 @@ For an overlayed drop menu:
                     dstU8.set(srcU8);
                     var sound = dstU8;
                     context.decodeAudioData(sound.buffer, function (buffer) {
+                        savedBuffers[url] = buffer ;
                         if (which === "close") {
                             this.closeBuffer = buffer;
                             this._loadedCloseNote = true ;
@@ -232,9 +251,10 @@ For an overlayed drop menu:
                             this.openBuffer = buffer;
                             this._loadedOpenNote = true ;
                         }
-                        if (this._loadedOpenNote && this._loadedCloseNote)
+                        if (this._loadedOpenNote && this._loadedCloseNote){
                             this.done = true;
                         }
+                    }
                     .bind(this));
                 }.bind(this);
                 request.send();
