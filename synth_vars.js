@@ -3,7 +3,6 @@ var bassChordspreviousNote = [] ;
 
 var savedBuffers = [] ;
 var errorLoading = false ;
-var instrumentVelocity = 1; 
 
 bassChordsNextNote[0] = 4 ;
 bassChordspreviousNote[0] = 35 ;
