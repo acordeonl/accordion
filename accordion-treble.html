@@ -33,13 +33,12 @@ For an overlayed drop menu:
             :host {}
             local-dom {
                 height: 100vh;
-                @apply(--layout-horizontal);
                 @apply(--layout-center);
                 @apply(--layout-justified);
             }
             .col1 {
                 height: 82vh;
-                @apply(--layout-vertical);
+                /*@apply(--layout-vertical);*/
                 @apply(--layout-justified);
             }
             .col2 {
@@ -47,7 +46,7 @@ For an overlayed drop menu:
                 padding: 0;
                 /*margin-left: -0.3vh;
                 margin-right: -0.3vh;*/
-                @apply(--layout-vertical);
+                /*@apply(--layout-vertical);*/
                 @apply(--layout-justified);
             }
             [mobile] #col2 {
@@ -56,10 +55,22 @@ For an overlayed drop menu:
             [tablet] #col2 {
                 padding: 0.6vw;
             }
+            .vertical{
+                @apply(--layout-vertical);
+            }
+            .reversedVertical{
+                @apply(--layout-vertical-reverse);
+            }
+            .reversedHorizontal{
+                @apply(--layout-horizontal-reverse);
+            }
+            .horizontal{
+                @apply(--layout-horizontal);
+            }
         </style>
         <!-- local DOM -->
-        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
-            <div class="col1">
+        <local-dom  class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
+            <div class$="{{_computeColRotation(rotation,col1)}}">
                 <accordion-button close-index="[[closeIndex.0]]" open-index="[[openIndex.0]]" button-type="treble" state="[[state21]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="[[closeIndex.1]]" open-index="[[openIndex.1]]" button-type="treble" state="[[state22]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="[[closeIndex.2]]" open-index="[[openIndex.2]]" button-type="treble" state="[[state23]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -71,7 +82,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="[[closeIndex.8]]" open-index="[[openIndex.8]]" button-type="treble" state="[[state29]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="[[closeIndex.9]]" open-index="[[openIndex.9]]" button-type="treble" state="[[state30]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
-            <div class="col2">
+            <div class$="{{_computeColRotation(rotation,col2)}}">
                 <accordion-button close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble" state="[[state10]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble" state="[[state11]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble" state="[[state12]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -84,7 +95,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble" state="[[state19]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" state="[[state20]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
-            <div class="col1">
+            <div class$="{{_computeColRotation(rotation,col1)}}">
                 <accordion-button close-index="{{closeIndex.21}}" open-index="{{openIndex.21}}" button-type="treble" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.22}}" open-index="{{openIndex.22}}" button-type="treble" state="[[state1]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.23}}" open-index="{{openIndex.23}}" button-type="treble" state="[[state2]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -106,6 +117,18 @@ For an overlayed drop menu:
             listeners: {
             },
             properties: {
+                col1:{
+                    type:String,
+                    value:"col1"
+                },
+                col2:{
+                    type:String,
+                    value:"col2"
+                },
+                rotation:{
+                    type:Boolean,
+                    value:false
+                },
                 showingNotes:{
                     type:Boolean,
                     value:false
@@ -256,6 +279,18 @@ For an overlayed drop menu:
             },
             toggleNotes: function(){
                 this.showingNotes = !this.showingNotes ;
+            },
+            _computeRotation: function(rotation , col ){
+                console.log(col);
+                if( rotation )
+                    return col + " reversedHorizontal" ;
+                return col + " horizontal" ;
+            },
+            _computeColRotation: function(rotation , col){
+                if( rotation )
+                    return col + " reversedVertical" ;
+                console.log(col  + " vertical");
+                return col + " vertical" ;
             },
             buttonPress: function (button) {
                 var which = Math.floor(button / 2);

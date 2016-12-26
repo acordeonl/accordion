@@ -36,9 +36,9 @@
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
-                    <div accordion class$={{_computeRotation(rotation)}}>
-                        <accordion-treble tone = "{{tone}}"></accordion-treble>
-                        <accordion-bass tone = "{{tone}}"></accordion-bass>
+                    <div accordion class$="{{_computeRotation(rotation)}}">
+                        <accordion-treble rotation=[[rotation]] tone = "{{tone}}"></accordion-treble>
+                        <accordion-bass rotation=[[rotation]] tone = "{{tone}}"></accordion-bass>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
@@ -80,9 +80,6 @@
                     value: false
                 }
             },
-            rotate: function(){
-                this.rotation = !this.rotation ;
-            },
             _computeRotation: function(rotation){
                 if( rotation )
                     return "reversed" ;
@@ -91,6 +88,9 @@
             changePitch: function(diff){
                 this.$$("ACCORDION-TREBLE").changePitch(diff) ;
                 this.$$("ACCORDION-BASS").changePitch(diff) ;
+            },
+            rotate: function(){
+                this.rotation = !this.rotation ;
             },
             toggleNotes: function(){
                 this.$$("ACCORDION-TREBLE").toggleNotes() ;
