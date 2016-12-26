@@ -256,12 +256,6 @@ For an overlayed drop menu:
             },
             toggleNotes: function(){
                 this.showingNotes = !this.showingNotes ;
-                if ( this.showingNotes){
-                    this.fire ("toast" ,{msg:"Se mostraràn las notas al tocar el instrumento"}) ;
-                }
-                else {
-                    this.fire ("toast" ,{msg:"Se ocultaràn las notas al tocar el instrumento"}) ;
-                }
             },
             buttonPress: function (button) {
                 var which = Math.floor(button / 2);

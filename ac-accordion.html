@@ -19,22 +19,33 @@
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
+            [accordion]{
+                @apply(--layout-justified);
+                @apply(--layout-center);
+                height:100%;
+                width:65%;
+            }
+            .reversed{
+                @apply(--layout-horizontal-reverse);
+            }
+            .horizontal{
+                @apply(--layout-horizontal);
+            }
         </style>
         <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
-                    <accordion-treble tone = "{{tone}}"></accordion-treble>
-                    <accordion-bass tone = "{{tone}}"></accordion-bass>
+                    <div accordion class$={{_computeRotation(rotation)}}>
+                        <accordion-treble tone = "{{tone}}"></accordion-treble>
+                        <accordion-bass tone = "{{tone}}"></accordion-bass>
+                    </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
                         <accordion-treble tone = "{{tone}}" showing-treble=[[showingTreble]] mobile></accordion-treble>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass tone = "{{tone}}" showing-treble=[[showingTreble]] mobile></accordion-bass>
-                    </template>
-                    <template is="dom-if" if="[[mobileLandscape]]">
                         <accordion-bass tone = "{{tone}}" showing-treble=[[showingTreble]] mobile></accordion-bass>
                     </template>
                 </template>
@@ -48,6 +59,10 @@
             behaviors: [],
             listeners: {},
             properties: {
+                rotation:{
+                    type:Boolean,
+                    value:true
+                },
                 tone:{
                     type:Number,
                     value:0
@@ -64,6 +79,14 @@
                     type: Boolean,
                     value: false
                 }
+            },
+            rotate: function(){
+                this.rotation = !this.rotation ;
+            },
+            _computeRotation: function(rotation){
+                if( rotation )
+                    return "reversed" ;
+                return "horizontal" ;
             },
             changePitch: function(diff){
                 this.$$("ACCORDION-TREBLE").changePitch(diff) ;
