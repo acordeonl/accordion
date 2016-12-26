@@ -2,6 +2,7 @@ var bassChordsNextNote = [] ;
 var bassChordspreviousNote = [] ;
 
 var savedBuffers = [] ;
+var loopDurations = [] ;
 var errorLoading = false ;
 
 bassChordsNextNote[0] = 4 ;

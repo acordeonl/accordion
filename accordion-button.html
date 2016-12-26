@@ -259,9 +259,11 @@ For an overlayed drop menu:
                 if (savedBuffers[url] !== undefined) {
                     if (which === "close") {
                         this.closeBuffer = savedBuffers[url];
+                        this.closeLoopDuration = loopDurations[url] ;
                         this._loadedCloseNote = true;
                     } else {
                         this.openBuffer = savedBuffers[url];
+                        this.openLoopDuration = loopDurations[url] ;
                         this._loadedOpenNote = true;
                     }
                     if (this._loadedOpenNote && this._loadedCloseNote) {
@@ -294,9 +296,11 @@ For an overlayed drop menu:
                     context.decodeAudioData(sound.buffer, function (buffer) {
                         savedBuffers[url] = buffer;
                         if (which === "close") {
+                            loopDurations[url] = this.closeLoopDuration ;
                             this.closeBuffer = buffer;
                             this._loadedCloseNote = true;
                         } else {
+                            loopDurations[url] = this.openLoopDuration ;
                             this.openBuffer = buffer;
                             this._loadedOpenNote = true;
                         }
