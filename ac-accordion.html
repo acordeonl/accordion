@@ -69,6 +69,10 @@
                 this.$$("ACCORDION-TREBLE").changePitch(diff) ;
                 this.$$("ACCORDION-BASS").changePitch(diff) ;
             },
+            toggleNotes: function(){
+                this.$$("ACCORDION-TREBLE").toggleNotes() ;
+                this.$$("ACCORDION-BASS").toggleNotes() ;
+            },
             _showButtons: function () {
                 var d= new Date ( ) ;
                 loadTime = d.getTime ( ) - loadTime ;

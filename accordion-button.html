@@ -35,6 +35,16 @@ For an overlayed drop menu:
                 height: 5.4vh;
                 width: 5.4vh;
             }
+            [text]{
+                height:100%;
+                width:100%;
+                color: white;
+                font-weight: bold;
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+                @apply(--layout-center);
+                @apply(--layout-vertical);
+            }
             .bass_note {
                 margin-top: -0.6vh;
                 user-select: none;
@@ -75,7 +85,13 @@ For an overlayed drop menu:
         <!-- local DOM -->
         <template is="dom-if" if="[[done]]">
             <div shadow class$="{{buttonType}}">
-                <div circle class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;"></div>
+                <div circle class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;">
+                    <template is="dom-if" if="[[showingNotes]]" >
+                        <div text >
+                            [[note]]
+                        </div>
+                    </template>
+                </div>
             </div>
         </template>
     </template>
@@ -83,8 +99,7 @@ For an overlayed drop menu:
         Polymer({
             is: "accordion-button",
             observers: [
-                '_loadCloseNote(instrumentUrl, closeIndex)' ,
-                '_loadOpenNote(instrumentUrl,openIndex)'
+                '_loadCloseNote(instrumentUrl, closeIndex)', '_loadOpenNote(instrumentUrl,openIndex)'
             ],
             behaviors: [],
             listeners: {
@@ -92,16 +107,28 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
-                _loadedCloseNote:{
+                showingNotes:{
                     type:Boolean,
                     value:false
                 },
-                _loadedOpenNote:{
-                    type:Boolean,
-                    value:false
+                textColor:{
+                    type:String,
+                    value:""
                 },
-                instrumentUrl:{
-                    type:String
+                note:{
+                    type:String,
+                    value:""
+                },
+                _loadedCloseNote: {
+                    type: Boolean,
+                    value: false
+                },
+                _loadedOpenNote: {
+                    type: Boolean,
+                    value: false
+                },
+                instrumentUrl: {
+                    type: String
                 },
                 loadCnt: {
                     type: Number,
@@ -176,6 +203,13 @@ For an overlayed drop menu:
                     this.source.start(0);
                 }
             },
+            _noteNumberToName: function(note){
+                var notes = ['C','C#','D','Eb','E','F','F#','G', 'Ab', 'A', 'Bb','B']  ;
+        		var octave = Math.floor(note/12) ;
+        		var name = notes[note%12] ;
+        		name+=octave ;
+        		return name ;
+            },
             _stopSource: function () {
                 if (this.source !== undefined) {
                     this.sourceGain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.03);
@@ -189,44 +223,47 @@ For an overlayed drop menu:
                             this._stopSource();
                             this.previousState = state;
                         }
+                        this.note = "" ;
                         return 'white';
                     case 1:
                         if (this.done) {
                             this._playNote();
                             this.previousState = state;
                         }
+                        this.note = this._noteNumberToName(this.closeIndex) ;
                         return '#4775D1';
                     case 2:
                         if (this.done) {
                             this._playNote();
                             this.previousState = state;
                         }
+                        this.note = this._noteNumberToName(this.openIndex);
+
                         return '#CC6666';
                 }
             },
             _requestBuffer: function (url, which) {
-                if ( savedBuffers[url] !== undefined){
+                if (savedBuffers[url] !== undefined) {
                     if (which === "close") {
                         this.closeBuffer = savedBuffers[url];
-                        this._loadedCloseNote = true ;
-                    }
-                    else {
+                        this._loadedCloseNote = true;
+                    } else {
                         this.openBuffer = savedBuffers[url];
-                        this._loadedOpenNote = true ;
+                        this._loadedOpenNote = true;
                     }
-                    if (this._loadedOpenNote && this._loadedCloseNote){
+                    if (this._loadedOpenNote && this._loadedCloseNote) {
                         this.done = true;
                     }
-                    return ;
+                    return;
                 }
                 var request = new XMLHttpRequest();
                 request.open('GET', url, true);
                 request.responseType = 'arraybuffer';
                 request.onload = function () {
                     if (request.status === 404) {
-                        if ( !errorLoading ) {
-                            this.fire("toast",{msg:'La tonalidad no pudo ser cargada'}) ;
-                            errorLoading =true ;
+                        if (!errorLoading) {
+                            this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
+                            errorLoading = true;
                         }
                         return;
                     }
@@ -242,30 +279,28 @@ For an overlayed drop menu:
                     dstU8.set(srcU8);
                     var sound = dstU8;
                     context.decodeAudioData(sound.buffer, function (buffer) {
-                        savedBuffers[url] = buffer ;
+                        savedBuffers[url] = buffer;
                         if (which === "close") {
                             this.closeBuffer = buffer;
-                            this._loadedCloseNote = true ;
-                        }
-                        else {
+                            this._loadedCloseNote = true;
+                        } else {
                             this.openBuffer = buffer;
-                            this._loadedOpenNote = true ;
+                            this._loadedOpenNote = true;
                         }
-                        if (this._loadedOpenNote && this._loadedCloseNote){
+                        if (this._loadedOpenNote && this._loadedCloseNote) {
                             this.done = true;
                         }
-                    }
-                    .bind(this));
+                    }.bind(this));
                 }.bind(this);
                 request.send();
             },
-            _loadCloseNote: function (instrumentUrl,closeIndex) {
-                this._loadedCloseNote = false ;
-                this.done =false;
+            _loadCloseNote: function (instrumentUrl, closeIndex) {
+                this._loadedCloseNote = false;
+                this.done = false;
                 this._requestBuffer(instrumentUrl + "/" + closeIndex + "c.mp3", "close");
             },
-            _loadOpenNote: function(instrumentUrl,openIndex){
-                this._loadedOpenNote = false ;
+            _loadOpenNote: function (instrumentUrl, openIndex) {
+                this._loadedOpenNote = false;
                 this.done = false;
                 this._requestBuffer(instrumentUrl + "/" + openIndex + "c.mp3", "open");
             },
@@ -273,7 +308,8 @@ For an overlayed drop menu:
                 Polymer.RenderStatus.afterNextRender(this, function () {
                     if (!this.state)
                         this.state = 0;
-                });
+                    }
+                );
             }
         });
     </script>
