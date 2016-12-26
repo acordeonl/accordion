@@ -107,6 +107,9 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
+                buttonVolume:{
+                    type:Number
+                },
                 showingNotes:{
                     type:Boolean,
                     value:false
@@ -197,6 +200,8 @@ For an overlayed drop menu:
                     this.source.loopStart = this.source.buffer.duration - loopDuration;
                     this.source.loopEnd = this.source.buffer.duration;
                     this.sourceGain = context.createGain();
+                    console.log(this.buttonVolume/100);
+                    this.sourceGain.gain.value = instrumnentVelocity*this.buttonVolume/100 ;
                     this.source.connect(this.sourceGain);
                     this.source.loop = true;
                     this.sourceGain.connect(compressor);

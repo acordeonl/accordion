@@ -37,16 +37,16 @@
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
                     <div accordion class$="{{_computeRotation(rotation)}}">
-                        <accordion-treble rotation=[[rotation]] tone = "{{tone}}"></accordion-treble>
-                        <accordion-bass rotation=[[rotation]] tone = "{{tone}}"></accordion-bass>
+                        <accordion-treble volume="[[trebleVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-treble>
+                        <accordion-bass volume="[[bassVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-bass>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-treble>
+                        <accordion-treble volume="[[trebleVolume]]" tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-treble>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-bass>
+                        <accordion-bass volume="[[bassVolume]]" tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-bass>
                     </template>
                 </template>
             </div>
@@ -59,6 +59,14 @@
             behaviors: [],
             listeners: {},
             properties: {
+                trebleVolume:{
+                    type:Number,
+                    value:100
+                },
+                bassVolume:{
+                    type:Number,
+                    value:60
+                },
                 rotation:{
                     type:Boolean,
                     value:false
@@ -85,6 +93,10 @@
                     return "reversed" ;
                 return "horizontal" ;
             },
+            changeVolume: function(e){
+                this.trebleVolume = e.detail.trebleVolume ;
+                this.bassVolume = e.detail.bassVolume;
+            },
             changePitch: function(diff){
                 this.$$("ACCORDION-TREBLE").changePitch(diff) ;
                 this.$$("ACCORDION-BASS").changePitch(diff) ;
@@ -104,7 +116,7 @@
                 this.notesLoaded = true;
             },
             _updateVelocity: function (e) {
-                trebleVolume.gain.value = (e.detail.velocity / 127);
+                instumentVelocity = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
