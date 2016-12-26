@@ -295,11 +295,13 @@ For an overlayed drop menu:
                 request.send();
             },
             _loadCloseNote: function (instrumentUrl, closeIndex) {
+                this.state = 0 ;
                 this._loadedCloseNote = false;
                 this.done = false;
                 this._requestBuffer(instrumentUrl + "/" + closeIndex + "c.mp3", "close");
             },
             _loadOpenNote: function (instrumentUrl, openIndex) {
+                this.state = 0 ;
                 this._loadedOpenNote = false;
                 this.done = false;
                 this._requestBuffer(instrumentUrl + "/" + openIndex + "c.mp3", "open");

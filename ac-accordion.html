@@ -43,10 +43,10 @@
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble tone = "{{tone}}" showing-treble=[[showingTreble]] mobile></accordion-treble>
+                        <accordion-treble tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-treble>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass tone = "{{tone}}" showing-treble=[[showingTreble]] mobile></accordion-bass>
+                        <accordion-bass tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-bass>
                     </template>
                 </template>
             </div>
@@ -61,7 +61,7 @@
             properties: {
                 rotation:{
                     type:Boolean,
-                    value:true
+                    value:false
                 },
                 tone:{
                     type:Number,

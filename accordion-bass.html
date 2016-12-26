@@ -36,14 +36,12 @@ For an overlayed drop menu:
             :host {}
             local-dom {
                 height: 100vh;
-                @apply(--layout-horizontal);
                 @apply(--layout-center);
                 @apply(--layout-justified);
             }
-            #col {
+            .col {
                 padding: 1.3vw;
                 height: 51vh;
-                @apply(--layout-vertical);
                 @apply(--layout-justified);
             }
             [mobile] #col {
@@ -52,10 +50,22 @@ For an overlayed drop menu:
             [tablet] #col {
                 padding: 1.2vw;
             }
+            .vertical{
+                @apply(--layout-vertical);
+            }
+            .reversedVertical{
+                @apply(--layout-vertical-reverse);
+            }
+            .reversedHorizontal{
+                @apply(--layout-horizontal-reverse);
+            }
+            .horizontal{
+                @apply(--layout-horizontal);
+            }
         </style>
         <!-- local DOM -->
-        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
-            <div id="col">
+        <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}" >
+            <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button  close-index="[[chordsCloseIndex.0]]" open-index="[[chordsOpenIndex.0]]" text="s3" state="[[stateChords3]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
                 <accordion-button close-index="[[closeIndex.0]]" open-index="[[openIndex.0]]" text="3" button-type="bass_note" state="[[state3]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
                 <accordion-button close-index="[[chordsCloseIndex.1]]" open-index="[[chordsOpenIndex.1]]" text="s4" state="[[stateChords4]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
@@ -63,7 +73,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="[[chordsCloseIndex.2]]" open-index="[[chordsOpenIndex.2]]" text="s5" state="[[stateChords5]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
                 <accordion-button close-index="[[closeIndex.2]]" open-index="[[openIndex.2]]" text="5" button-type="bass_note" state="[[state5]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
             </div>
-            <div id="col">
+            <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button close-index="[[chordsCloseIndex.3]]" open-index="[[chordsOpenIndex.3]]" text="s0" state="[[stateChords0]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
                 <accordion-button close-index="[[closeIndex.3]]" open-index="[[openIndex.3]]" text="0" button-type="bass_note" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
                 <accordion-button close-index="[[chordsCloseIndex.4]]" open-index="[[chordsOpenIndex.4]]" text="s1" state="[[stateChords1]]" button-type="bass_chord" instrument-url="[[instrumentChordsUrl]]" showing-notes="[[showingNotes]]" ></accordion-button>
@@ -81,6 +91,10 @@ For an overlayed drop menu:
             listeners: {
             },
             properties: {
+                rotation:{
+                    type:Boolean,
+                    value:false
+                },
                 showingNotes:{
                     type:Boolean,
                     value:false
@@ -170,6 +184,16 @@ For an overlayed drop menu:
             changePitch: function(pitch){
                 this._changeChordsPitch(pitch) ;
                 this._changeBassNotesPitch(pitch) ;
+            },
+            _computeRotation: function(rotation){
+                if( rotation )
+                    return "reversedHorizontal" ;
+                return "horizontal" ;
+            },
+            _computeColRotation: function(rotation){
+                if( rotation )
+                    return "reversedVertical" ;
+                return "vertical" ;
             },
             _checkBassNotes: function(note){
                 if( note > 59)

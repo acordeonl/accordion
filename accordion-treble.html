@@ -70,7 +70,7 @@ For an overlayed drop menu:
         </style>
         <!-- local DOM -->
         <local-dom  class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
-            <div class$="{{_computeColRotation(rotation,col1)}}">
+            <div class$="col1 {{_computeColRotation(rotation)}}">
                 <accordion-button close-index="[[closeIndex.0]]" open-index="[[openIndex.0]]" button-type="treble" state="[[state21]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="[[closeIndex.1]]" open-index="[[openIndex.1]]" button-type="treble" state="[[state22]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="[[closeIndex.2]]" open-index="[[openIndex.2]]" button-type="treble" state="[[state23]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -82,7 +82,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="[[closeIndex.8]]" open-index="[[openIndex.8]]" button-type="treble" state="[[state29]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="[[closeIndex.9]]" open-index="[[openIndex.9]]" button-type="treble" state="[[state30]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
-            <div class$="{{_computeColRotation(rotation,col2)}}">
+            <div class$="col2 {{_computeColRotation(rotation)}}">
                 <accordion-button close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble" state="[[state10]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble" state="[[state11]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble" state="[[state12]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -95,7 +95,7 @@ For an overlayed drop menu:
                 <accordion-button close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble" state="[[state19]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" state="[[state20]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
-            <div class$="{{_computeColRotation(rotation,col1)}}">
+            <div class$="col1 {{_computeColRotation(rotation)}}">
                 <accordion-button close-index="{{closeIndex.21}}" open-index="{{openIndex.21}}" button-type="treble" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.22}}" open-index="{{openIndex.22}}" button-type="treble" state="[[state1]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button close-index="{{closeIndex.23}}" open-index="{{openIndex.23}}" button-type="treble" state="[[state2]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -280,20 +280,19 @@ For an overlayed drop menu:
             toggleNotes: function(){
                 this.showingNotes = !this.showingNotes ;
             },
-            _computeRotation: function(rotation , col ){
-                console.log(col);
+            _computeRotation: function(rotation){
                 if( rotation )
-                    return col + " reversedHorizontal" ;
-                return col + " horizontal" ;
+                    return "reversedHorizontal" ;
+                return "horizontal" ;
             },
-            _computeColRotation: function(rotation , col){
+            _computeColRotation: function(rotation){
                 if( rotation )
-                    return col + " reversedVertical" ;
-                console.log(col  + " vertical");
-                return col + " vertical" ;
+                    return "reversedVertical" ;
+                return "vertical" ;
             },
             buttonPress: function (button) {
                 var which = Math.floor(button / 2);
+                console.log(which);
                 switch (which) {
                     case 0:
                         this.state0 = (button % 2) + 1;
@@ -575,14 +574,6 @@ For an overlayed drop menu:
                 this.openIndex[29] = 86;
                 this.openIndex[30] = 88;
                 this.changePitch(this.tone) ;
-                // this._updateIndexes () ;
-                // this.async(function(){
-                //     this.instrumentUrl =
-                //      "/data/accordion_synth/treble";
-                //      this._updateIndexes() ;
-                //
-                //   },5000) ;
-                //   this.playAnimation('entry');
             }
         });
     </script>
