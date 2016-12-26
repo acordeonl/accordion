@@ -215,11 +215,12 @@ For an overlayed drop menu:
                 }
             },
             _noteNumberToName: function(note){
+                if ( this.buttonType === 'bass_chord')
+                    return "" ;
                 var notes = ['C','C#','D','Eb','E','F','F#','G', 'Ab', 'A', 'Bb','B']  ;
         		var octave = Math.floor(note/12) ;
         		var name = notes[note%12] ;
-                if ( this.buttonType !== 'bass_chord')
-        		      name+=octave ;
+                name+=octave ;
         		return name ;
             },
             _stopSource: function () {
