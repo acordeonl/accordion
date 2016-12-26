@@ -5,6 +5,7 @@
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
     <script src="./audio_vars.js"></script>
+    <script src="./synth_vars.js" > </script>
 </imports>
 <dom-module id="ac-accordion">
     <template>
@@ -37,8 +38,8 @@
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
                     <div accordion class$="{{_computeRotation(rotation)}}">
-                        <accordion-treble volume="[[trebleVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-treble>
-                        <accordion-bass volume="[[bassVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-bass>
+                        <accordion-treble button-velocity="[[buttonVelocity]]" volume="[[trebleVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-treble>
+                        <accordion-bass button-velocity="[[buttonVelocity]]" volume="[[bassVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-bass>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
@@ -59,6 +60,10 @@
             behaviors: [],
             listeners: {},
             properties: {
+                buttonVelocity:{
+                    type:Number,
+                    value:1
+                },
                 trebleVolume:{
                     type:Number,
                     value:100
@@ -108,15 +113,8 @@
                 this.$$("ACCORDION-TREBLE").toggleNotes() ;
                 this.$$("ACCORDION-BASS").toggleNotes() ;
             },
-            _showButtons: function () {
-                var d= new Date ( ) ;
-                loadTime = d.getTime ( ) - loadTime ;
-                // loadTime = parseInt((duration/1000)%60) ;
-                console.log(loadTime/1000);
-                this.notesLoaded = true;
-            },
             _updateVelocity: function (e) {
-                instumentVelocity = (e.detail.velocity / 127);
+                this.buttonVelocity = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
