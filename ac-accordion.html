@@ -5,6 +5,7 @@
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
     <script src="./audio_vars.js"></script>
+    <script src="./synth_vars.js" > </script>
 </imports>
 <dom-module id="ac-accordion">
     <template>
@@ -32,7 +33,7 @@
                 @apply(--layout-horizontal);
             }
         </style>
-        <midi-manager on-note-on='_buttonPress' on-note-off='_buttonRelease' on-velocity-change="_updateVelocity"></midi-manager>
+        <midi-manager ></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
@@ -57,8 +58,18 @@
             is: "ac-accordion",
             observers: [],
             behaviors: [],
-            listeners: {},
+            listeners: {
+                'keypress':'_keyPress',
+                'keyup':'_keyUp',
+                'note-on':'_buttonPress',
+                'note-off':'_buttonRelease',
+                'velocity-change':'_updateVelocity'
+            },
             properties: {
+                opening:{
+                    type:Boolean,
+                    value:false
+                },
                 buttonVelocity:{
                     type:Number,
                     value:1
@@ -90,6 +101,28 @@
                 notesLoaded: {
                     type: Boolean,
                     value: false
+                }
+            },
+            _keyPress: function(e){
+                this._keyAction(e.key,"note-on") ;
+            },
+            _keyUp: function(e){
+                this._keyAction(e.key,"note-off") ;
+            },
+            _keyAction: function(key, cmd){
+                if(!this.opening) {
+                    this.fire(cmd, {
+                        channel:0,
+                        midiNote: keyMap[key],
+                        velocity: 1
+                    });
+                }
+                else{
+                    this.fire(cmd, {
+                        channel:0,
+                        midiNote: keyMap[key]+1,
+                        velocity: 1
+                    });
                 }
             },
             _computeRotation: function(rotation){
