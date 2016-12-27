@@ -11,6 +11,7 @@
     <template>
         <style>
             :host {
+                outline: none;
                 width: 60vw;
                 height: 100%;
             }
@@ -63,7 +64,8 @@
                 'keyup':'_keyUp',
                 'note-on':'_buttonPress',
                 'note-off':'_buttonRelease',
-                'velocity-change':'_updateVelocity'
+                'velocity-change':'_updateVelocity',
+                'mousemove':'_updateOpening'
             },
             properties: {
                 opening:{
@@ -101,6 +103,13 @@
                 notesLoaded: {
                     type: Boolean,
                     value: false
+                }
+            },
+            _updateOpening: function(e){
+                if( e.movementX > 0 )
+                    this.opening = true ;
+                if ( e.movementX < 0 ) {
+                    this.opening = false ;
                 }
             },
             _keyPress: function(e){
