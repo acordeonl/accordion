@@ -119,20 +119,14 @@
                 this._keyAction(e.key,"note-off") ;
             },
             _keyAction: function(key, cmd){
-                if(!this.opening) {
-                    this.fire(cmd, {
-                        channel:0,
-                        midiNote: keyMap[key],
-                        velocity: 1
-                    });
-                }
-                else{
-                    this.fire(cmd, {
-                        channel:0,
-                        midiNote: keyMap[key]+1,
-                        velocity: 1
-                    });
-                }
+                var note = keyMap[key] ;
+                if(this.opening)
+                    note ++ ;
+                this.fire(cmd, {
+                    channel:0,
+                    midiNote: note,
+                    velocity: 1
+                });
             },
             _computeRotation: function(rotation){
                 if( rotation )
