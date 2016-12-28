@@ -4,6 +4,8 @@
     <link rel="import" href="./accordion-bass.html">
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
+    <link rel="import" href="../ac-recorder/ac-recorder.html">
+    <link rel="import" href="../ac-player/ac-player.html">
     <script src="./audio_vars.js"></script>
     <script src="./synth_vars.js" > </script>
 </imports>
@@ -34,6 +36,8 @@
                 @apply(--layout-horizontal);
             }
         </style>
+        <ac-recorder ></ac-recorder>
+        <ac-player ></ac-player>
         <midi-manager ></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
@@ -104,6 +108,9 @@
                     type: Boolean,
                     value: false
                 }
+            },
+            play: function(){
+                this.$$('AC-PLAYER').play() ;
             },
             _updateOpening: function(e){
                 if( e.movementX > 0 )
