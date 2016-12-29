@@ -210,6 +210,7 @@ For an overlayed drop menu:
                     this.sourceGain.gain.value = this.buttonVelocity*this.buttonVolume/100 ;
                     this.source.connect(this.sourceGain);
                     this.source.loop = true;
+
                     this.sourceGain.connect(compressor);
                     this.source.start(0);
                 }
@@ -225,7 +226,7 @@ For an overlayed drop menu:
             },
             _stopSource: function () {
                 if (this.source !== undefined) {
-                    this.sourceGain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.03);
+                    this.sourceGain.gain.value = 0 ;
                     this.source.stop(context.currentTime + 0.03);
                 }
             },

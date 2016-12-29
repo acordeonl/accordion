@@ -112,6 +112,9 @@
             play: function(){
                 this.$$('AC-PLAYER').play() ;
             },
+            pause: function(){
+                this.$$('AC-PLAYER').pause() ;
+            },
             _updateOpening: function(e){
                 if( e.movementX > 0 )
                     this.opening = true ;
