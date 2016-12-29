@@ -37,7 +37,7 @@
             }
         </style>
         <ac-recorder ></ac-recorder>
-        <ac-player ></ac-player>
+        <ac-player instrument-activity-url="alicia_adorada" velocities-url="alicia_adorada_velocities"></ac-player>
         <midi-manager ></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
@@ -159,6 +159,7 @@
                 this.$$("ACCORDION-BASS").toggleNotes() ;
             },
             _updateVelocity: function (e) {
+                console.log("entro coleto");
                 this.buttonVelocity = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {
