@@ -72,6 +72,10 @@
                 'mousemove':'_updateOpening'
             },
             properties: {
+                recording:{
+                    type:Boolean,
+                    value:false
+                },
                 opening:{
                     type:Boolean,
                     value:false
@@ -109,8 +113,17 @@
                     value: false
                 }
             },
+            startRecording: function(){
+                this.recording = true ;
+                this.$$('AC-RECORDER').startRecording() ;
+            },
+            pauseRecording: function(){
+                this.recording = false ;
+                this.$$('AC-RECORDER').saveRecording() ;
+            },
             play: function(){
                 this.$$('AC-PLAYER').play() ;
+                this.$$('AC-RECORDER').dbug() ;
             },
             pause: function(){
                 this.$$('AC-PLAYER').pause() ;
@@ -130,6 +143,8 @@
             },
             _keyAction: function(key, cmd){
                 var note = keyMap[key] ;
+                if ( note === undefined || note === NaN)
+                    return ;
                 if(this.opening)
                     note ++ ;
                 this.fire(cmd, {
@@ -159,12 +174,13 @@
                 this.$$("ACCORDION-BASS").toggleNotes() ;
             },
             _updateVelocity: function (e) {
-                console.log("entro coleto");
                 this.buttonVelocity = (e.detail.velocity / 127);
+                if ( this.recording && e.detail.fromPlayer === undefined)
+                    this.$$('AC-RECORDER').addActivity("velocity-change",-1, e.detail.velocity, -1) ;
             },
             _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
-                var button;
+                var button = -1;
                 //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 s0 closed
                 if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
                     button = 0;
@@ -212,11 +228,15 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
-                this.$$('ACCORDION-BASS').chordButtonRelease(button);
+                if ( button === -1 ) {
+                    this.$$('ACCORDION-BASS').chordButtonRelease(button);
+                    if ( this.recording )
+                        this.$$('AC-RECORDER').addActivity("note-off",button,-1 , 3) ;
+                }
             },
             _updateChordsButtons: function () {
                 var st = this.bassNotes;
-                var button;
+                var button = -1;
                 //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
                 if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
                     button = 0;
@@ -264,10 +284,16 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
-                this.$$('ACCORDION-BASS').chordButtonPress(button);
+                if( button !== -1) {
+                    this.$$('ACCORDION-BASS').chordButtonPress(button);
+                    if ( this.recording )
+                        this.$$('AC-RECORDER').addActivity("note-on",button,-1 ,2) ;
+                }
             },
             _buttonPress: function (e) {
                 var button;
+                if ( this.recording && e.detail.fromPlayer === undefined)
+                    this.$$('AC-RECORDER').addActivity("note-on", e.detail.midiNote ,-1, e.detail.channel) ;
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
                     this.$$('ACCORDION-TREBLE').buttonPress(button);
@@ -289,6 +315,8 @@
             },
             _buttonRelease: function (e) {
                 var button;
+                if(this.recording && e.detail.fromPlayer === undefined)
+                    this.$$('AC-RECORDER').addActivity("note-off",e.detail.midiNote, -1, e.detail.channel) ;
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
                     this.$$('ACCORDION-TREBLE').buttonRelease(button);
