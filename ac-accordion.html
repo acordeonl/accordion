@@ -7,7 +7,7 @@
     <link rel="import" href="../ac-recorder/ac-recorder.html">
     <link rel="import" href="../ac-player/ac-player.html">
     <script src="./audio_vars.js"></script>
-    <script src="./synth_vars.js" > </script>
+    <script src="./synth_vars.js"></script>
 </imports>
 <dom-module id="ac-accordion">
     <template>
@@ -23,16 +23,16 @@
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
-            [accordion]{
+            [accordion] {
                 @apply(--layout-justified);
                 @apply(--layout-center);
-                height:100%;
-                width:65%;
+                height: 100%;
+                width: 65%;
             }
-            .reversed{
+            .reversed {
                 @apply(--layout-horizontal-reverse);
             }
-            .horizontal{
+            .horizontal {
                 @apply(--layout-horizontal);
             }
         </style>
@@ -43,16 +43,16 @@
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
                     <div accordion class$="{{_computeRotation(rotation)}}">
-                        <accordion-treble button-velocity="[[buttonVelocity]]" volume="[[trebleVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-treble>
-                        <accordion-bass button-velocity="[[buttonVelocity]]" volume="[[bassVolume]]" rotation=[[rotation]] tone = "{{tone}}"></accordion-bass>
+                        <accordion-treble button-velocity="[[buttonVelocity]]" volume="[[trebleVolume]]" rotation=[[rotation]] tone="{{tone}}"></accordion-treble>
+                        <accordion-bass button-velocity="[[buttonVelocity]]" volume="[[bassVolume]]" rotation=[[rotation]] tone="{{tone}}"></accordion-bass>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble volume="[[trebleVolume]]" tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-treble>
+                        <accordion-treble volume="[[trebleVolume]]" tone="{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-treble>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass volume="[[bassVolume]]" tone = "{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-bass>
+                        <accordion-bass volume="[[bassVolume]]" tone="{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-bass>
                     </template>
                 </template>
             </div>
@@ -64,41 +64,41 @@
             observers: [],
             behaviors: [],
             listeners: {
-                'keypress':'_keyPress',
-                'keyup':'_keyUp',
-                'note-on':'_buttonPress',
-                'note-off':'_buttonRelease',
-                'velocity-change':'_updateVelocity',
-                'mousemove':'_updateOpening'
+                'keypress': '_keyPress',
+                'keyup': '_keyUp',
+                'note-on': '_buttonPress',
+                'note-off': '_buttonRelease',
+                'velocity-change': '_updateVelocity',
+                'mousemove': '_updateOpening'
             },
             properties: {
-                recording:{
-                    type:Boolean,
-                    value:false
+                recording: {
+                    type: Boolean,
+                    value: false
                 },
-                opening:{
-                    type:Boolean,
-                    value:false
+                opening: {
+                    type: Boolean,
+                    value: false
                 },
-                buttonVelocity:{
-                    type:Number,
-                    value:1
+                buttonVelocity: {
+                    type: Number,
+                    value: 1
                 },
-                trebleVolume:{
-                    type:Number,
-                    value:100
+                trebleVolume: {
+                    type: Number,
+                    value: 100
                 },
-                bassVolume:{
-                    type:Number,
-                    value:60
+                bassVolume: {
+                    type: Number,
+                    value: 60
                 },
-                rotation:{
-                    type:Boolean,
-                    value:false
+                rotation: {
+                    type: Boolean,
+                    value: false
                 },
-                tone:{
-                    type:Number,
-                    value:0
+                tone: {
+                    type: Number,
+                    value: 0
                 },
                 showingTreble: {
                     type: Boolean,
@@ -113,70 +113,71 @@
                     value: false
                 }
             },
-            startRecording: function(){
-                this.recording = true ;
-                this.$$('AC-RECORDER').startRecording() ;
+            startRecording: function () {
+                this.recording = true;
+                this.$$('AC-RECORDER').startRecording();
             },
-            pauseRecording: function(){
-                this.recording = false ;
-                this.$$('AC-RECORDER').saveRecording() ;
+            pauseRecording: function () {
+                this.recording = false;
+                this.$$('AC-RECORDER').saveRecording();
             },
-            play: function(){
-                this.$$('AC-PLAYER').play() ;
+            play: function () {
+                this.$$('AC-PLAYER').play();
                 // this.$$('AC-RECORDER').dbug() ;
             },
-            pause: function(){
-                this.$$('AC-PLAYER').pause() ;
+            pause: function () {
+                this.$$('AC-PLAYER').pause();
             },
-            _updateOpening: function(e){
-                if( e.movementX > 0 )
-                    this.opening = true ;
-                if ( e.movementX < 0 ) {
-                    this.opening = false ;
+            _updateOpening: function (e) {
+                if (e.movementX > 0)
+                    this.opening = true;
+                if (e.movementX < 0) {
+                    this.opening = false;
                 }
             },
-            _keyPress: function(e){
-                this._keyAction(e.key,"note-on") ;
+            _keyPress: function (e) {
+                this._keyAction(e.key, "note-on");
             },
-            _keyUp: function(e){
-                this._keyAction(e.key,"note-off") ;
+            _keyUp: function (e) {
+                this._keyAction(e.key, "note-off");
             },
-            _keyAction: function(key, cmd){
-                var note = keyMap[key] ;
-                if ( note === undefined )
-                    return ;
-                if(this.opening)
-                    note ++ ;
+            _keyAction: function (key, cmd) {
+                var note = keyMap[key];
+                if (note === undefined)
+                    return;
+                if (this.opening)
+                    note++;
                 this.fire(cmd, {
-                    channel:0,
+                    channel: 0,
                     midiNote: note,
                     velocity: 1
                 });
             },
-            _computeRotation: function(rotation){
-                if( rotation )
-                    return "reversed" ;
-                return "horizontal" ;
+            _computeRotation: function (rotation) {
+                if (rotation)
+                    return "reversed";
+                return "horizontal";
             },
-            changeVolume: function(e){
-                this.trebleVolume = e.detail.trebleVolume ;
+            changeVolume: function (e) {
+                this.trebleVolume = e.detail.trebleVolume;
                 this.bassVolume = e.detail.bassVolume;
             },
-            changePitch: function(diff){
-                this.$$("ACCORDION-TREBLE").changePitch(diff) ;
-                this.$$("ACCORDION-BASS").changePitch(diff) ;
+            changePitch: function (diff) {
+                this.$$("ACCORDION-TREBLE").changePitch(diff);
+                this.$$("ACCORDION-BASS").changePitch(diff);
             },
-            rotate: function(){
-                this.rotation = !this.rotation ;
+            rotate: function () {
+                this.rotation = !this.rotation;
             },
-            toggleNotes: function(){
-                this.$$("ACCORDION-TREBLE").toggleNotes() ;
-                this.$$("ACCORDION-BASS").toggleNotes() ;
+            toggleNotes: function () {
+                this.$$("ACCORDION-TREBLE").toggleNotes();
+                this.$$("ACCORDION-BASS").toggleNotes();
             },
             _updateVelocity: function (e) {
                 this.buttonVelocity = (e.detail.velocity / 127);
-                if ( this.recording && e.detail.fromPlayer === undefined)
-                this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity) ;
+                if (this.recording && e.detail.fromPlayer === undefined) {
+                    this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
+                }
             },
             _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
@@ -229,8 +230,9 @@
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
-                if ( this.recording )
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-off",button , 3) ;
+                if (this.recording) {
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
+                }
             },
             _updateChordsButtons: function () {
                 var st = this.bassNotes;
@@ -283,13 +285,14 @@
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
                 this.$$('ACCORDION-BASS').chordButtonPress(button);
-                if ( this.recording )
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-on",button ,2) ;
+                if (this.recording) {
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 2);
+                }
             },
             _buttonPress: function (e) {
                 var button;
-                if ( this.recording && e.detail.fromPlayer === undefined)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", e.detail.midiNote , e.detail.channel) ;
+                if (this.recording && e.detail.fromPlayer === undefined)
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
                     this.$$('ACCORDION-TREBLE').buttonPress(button);
@@ -311,8 +314,8 @@
             },
             _buttonRelease: function (e) {
                 var button;
-                // if(this.recording && e.detail.fromPlayer === undefined)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-off",e.detail.midiNote, e.detail.channel) ;
+                if(this.recording && e.detail.fromPlayer === undefined)
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
                     this.$$('ACCORDION-TREBLE').buttonRelease(button);
@@ -341,12 +344,12 @@
                     }
                 return cnt;
             },
-            requestConvolver: function(url){
+            requestConvolver: function (url) {
                 var convolverRequest = new XMLHttpRequest();
                 convolverRequest.open('GET', url, true);
                 convolverRequest.responseType = 'arraybuffer';
-                convolverRequest.onload = function() {
-                    context.decodeAudioData(convolverRequest.response, function(buffer) {
+                convolverRequest.onload = function () {
+                    context.decodeAudioData(convolverRequest.response, function (buffer) {
                         convolver.buffer = buffer;
                     });
                 };
@@ -356,10 +359,9 @@
                 this.showingTreble = !this.showingTreble;
             },
             ready: function () {
-                Polymer.RenderStatus.afterNextRender(this, function(){
-                    this.requestConvolver("/data/16_IR_Pool_Size_00.wav") ;
-                }) ;
-
+                Polymer.RenderStatus.afterNextRender(this, function () {
+                    this.requestConvolver("/data/16_IR_Pool_Size_00.wav");
+                });
             }
         });
     </script>
