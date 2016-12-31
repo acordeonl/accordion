@@ -115,7 +115,7 @@
                 }
             },
             _test: function () {
-                this.$$('AC-PLAYER').updateTempo(50);
+                this.$$('AC-PLAYER').updateTempo(40);
             },
             startRecording: function () {
                 this.recording = true;
@@ -177,8 +177,8 @@
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
             _updateVelocity: function (e) {
-                if (this.recording && e.detail.fromPlayer === undefined)
-                    this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
+                // if (this.recording && e.detail.fromPlayer === undefined)
+                //     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
                 this.buttonVelocity = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {

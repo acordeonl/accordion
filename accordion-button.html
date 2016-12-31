@@ -226,7 +226,7 @@ For an overlayed drop menu:
             },
             _stopSource: function () {
                 if (this.source !== undefined) {
-                    this.sourceGain.gain.value = 0 ;
+                    this.sourceGain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.03);
                     this.source.stop(context.currentTime + 0.03);
                 }
             },

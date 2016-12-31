@@ -4,7 +4,7 @@ var dry = context.createGain();
 var wet = context.createGain();
 var compressor = context.createDynamicsCompressor();
 dry.gain.value = 0.8;
-wet.gain.value = 0.5 * dry.gain.value;
+wet.gain.value = 0.8 * dry.gain.value;
 
 compressor.connect(dry);
 compressor.connect(convolver);
