@@ -69,7 +69,8 @@
                 'note-on': '_buttonPress',
                 'note-off': '_buttonRelease',
                 'velocity-change': '_updateVelocity',
-                'mousemove': '_updateOpening'
+                'mousemove': '_updateOpening',
+                'click': '_test'
             },
             properties: {
                 recording: {
@@ -113,6 +114,9 @@
                     value: false
                 }
             },
+            _test: function () {
+                this.$$('AC-PLAYER').updateTempo(50);
+            },
             startRecording: function () {
                 this.recording = true;
                 this.$$('AC-RECORDER').startRecording();
@@ -123,7 +127,6 @@
             },
             play: function () {
                 this.$$('AC-PLAYER').play();
-                // this.$$('AC-RECORDER').dbug() ;
             },
             pause: function () {
                 this.$$('AC-PLAYER').pause();
@@ -174,10 +177,9 @@
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
             _updateVelocity: function (e) {
-                this.buttonVelocity = (e.detail.velocity / 127);
-                if (this.recording && e.detail.fromPlayer === undefined) {
+                if (this.recording && e.detail.fromPlayer === undefined)
                     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
-                }
+                this.buttonVelocity = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {
                 var st = this.bassNotes;
@@ -229,10 +231,9 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
-                this.$$('ACCORDION-BASS').chordButtonRelease(button);
-                if (this.recording) {
+                if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
-                }
+                this.$$('ACCORDION-BASS').chordButtonRelease(button);
             },
             _updateChordsButtons: function () {
                 var st = this.bassNotes;
@@ -284,10 +285,9 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
-                this.$$('ACCORDION-BASS').chordButtonPress(button);
-                if (this.recording) {
+                if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 2);
-                }
+                this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
             _buttonPress: function (e) {
                 var button;
@@ -314,7 +314,7 @@
             },
             _buttonRelease: function (e) {
                 var button;
-                if(this.recording && e.detail.fromPlayer === undefined)
+                if (this.recording && e.detail.fromPlayer === undefined)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
