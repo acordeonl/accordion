@@ -232,7 +232,7 @@
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
                 if (this.recording)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 2);
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
             },
             _updateChordsButtons: function () {
@@ -291,7 +291,7 @@
             },
             _buttonPress: function (e) {
                 var button;
-                if (this.recording && e.detail.fromPlayer === undefined)
+                if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
@@ -314,7 +314,7 @@
             },
             _buttonRelease: function (e) {
                 var button;
-                if (this.recording && e.detail.fromPlayer === undefined)
+                if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
