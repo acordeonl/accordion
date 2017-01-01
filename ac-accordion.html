@@ -177,8 +177,9 @@
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
             _updateVelocity: function (e) {
-                // if (this.recording && e.detail.fromPlayer === undefined)
-                //     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
+                console.log(e.detail.velocity); 
+                if (this.recording && e.detail.fromPlayer === undefined)
+                    this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
                 this.buttonVelocity = (e.detail.velocity / 127);
             },
             _releaseAllChordButtons: function () {
@@ -232,7 +233,7 @@
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
                 if (this.recording)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 2);
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
             },
             _updateChordsButtons: function () {
@@ -286,7 +287,7 @@
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
                 if (this.recording)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 2);
+                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
             _buttonPress: function (e) {
@@ -311,6 +312,10 @@
                         this._updateChordsButtons();
                     }
                 }
+                else if(e.detail.channel ===3 ) {
+                    this._releaseAllChordButtons();
+                    this.$$('ACCORDION-BASS').chordButtonPress(e.detail.midiNote);
+                }
             },
             _buttonRelease: function (e) {
                 var button;
@@ -334,6 +339,9 @@
                     if (cnt === 0) {
                         this._updateChordsButtons();
                     }
+                }
+                else if(e.detail.channel === 3 ) {
+                    this.$$('ACCORDION-BASS').chordButtonRelease(e.detail.midiNote);
                 }
             },
             _bitCount: function (num) {
