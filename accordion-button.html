@@ -108,6 +108,14 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
+                id:{
+                    type:String,
+                    value:"none"
+                },
+                actionQueue:{
+                    type:Array,
+                    value:[]
+                },
                 buttonVelocity:{
                     type:Number
                 },
@@ -143,7 +151,8 @@ For an overlayed drop menu:
                 },
                 done: {
                     type: Boolean,
-                    value: false
+                    value: false,
+                    observer:'_loaded'
                 },
                 text: {
                     type: String,
@@ -181,6 +190,19 @@ For an overlayed drop menu:
                 },
                 openLoopDuration: {
                     type: Number
+                }
+            },
+            _loaded: function(){
+                if(this.done) {
+                    setInterval(this._updateGUI, 100 ) ;
+                }
+            },
+            _updateGUI: function(){
+                if(this.actionQueue) {
+                    if(this.actionQueue.length > 0 ) {
+                        console.log(this.id);
+                        console.log(this.actionQueue);
+                    }
                 }
             },
             _changeVolume: function(sGain, buttonVelocity, buttonVolume){
