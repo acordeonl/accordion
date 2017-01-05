@@ -184,11 +184,19 @@ For an overlayed drop menu:
                     value: 0
                 }
             },
-            update: function(){
-
-            },
             addButtonAction: function(button , action){
-                this.actionQueue.push(action) ;
+                var which = Math.floor(button / 2);
+                this.$$("[id"+which+"]").addButtonAction(action) ;
+            },
+            addChordButtonAction: function(button , action){
+                var which = Math.floor(button / 2);
+                this.$$("[idChord"+which+"]").addButtonAction(action) ;
+            },
+            update: function(){
+                var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
+                for (var i = 0; i < nodeList.length; i++) {
+                    nodeList[i].update() ;
+                }
             },
             toggleNotes: function(){
                 this.showingNotes = !this.showingNotes ;

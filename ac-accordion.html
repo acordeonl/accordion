@@ -301,24 +301,30 @@
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
+            _buttonAction: function(e,which,cmd){
+                var action = {} ;
+                button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
+
+                action.time = e.detail.time ;
+                action.state = (cmd ==='on')? (button % 2) + 1:0;
+
+                if (e.detail.time)
+                    this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
+                else {
+                    if ( cmd === 'on')
+                        this.$$('ACCORDION-'+which).buttonPress(button);
+                    else
+                        this.$$('ACCORDION-'+which).buttonRelease(button);
+                }
+            },
             _buttonPress: function (e) {
-                var button;
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", e.detail.midiNote, e.detail.channel);
+
                 if (e.detail.channel === 0) {
-                    button = e.detail.midiNote - 24;
-                    if ( e.detail.time) {
-                        var action = {} ;
-                        action.time = e.detail.time ;
-                        action.state = (button % 2) + 1;
-                        this.$$('ACCORDION-TREBLE').addButtonAction(button ,action) ;
-                    }
-                    else {
-                        this.$$('ACCORDION-TREBLE').buttonPress(button);
-                    }
+                    this._buttonAction(e,'TREBLE','on') ;
                 } else if (e.detail.channel === 1) {
-                    button = e.detail.midiNote - 48;
-                    this.$$('ACCORDION-BASS').buttonPress(button);
+                    this._buttonAction(e,'BASS','on') ;
                 } else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
@@ -337,23 +343,13 @@
                 }
             },
             _buttonRelease: function (e) {
-                var button;
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", e.detail.midiNote, e.detail.channel);
+
                 if (e.detail.channel === 0) {
-                    button = e.detail.midiNote - 24;
-                    if(e.detail.time) {
-                        var action = {} ;
-                        action.time = e.detail.time ;
-                        action.state = 0 ;
-                        this.$$('ACCORDION-TREBLE').addButtonAction(button ,action) ;
-                    }
-                    else {
-                        this.$$('ACCORDION-TREBLE').buttonRelease(button);
-                    }
+                    this._buttonAction(e,'TREBLE','off') ;
                 } else if (e.detail.channel === 1) {
-                    button = e.detail.midiNote - 48;
-                    this.$$('ACCORDION-BASS').buttonRelease(button);
+                    this._buttonAction(e,'BASS','off') ;
                 } else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0) {
