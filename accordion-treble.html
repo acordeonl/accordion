@@ -96,7 +96,7 @@ For an overlayed drop menu:
                 <accordion-button button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" state="[[state20]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.21}}" open-index="{{openIndex.21}}" button-type="treble" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id="testiando" button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.21}}" open-index="{{openIndex.21}}" button-type="treble" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.22}}" open-index="{{openIndex.22}}" button-type="treble" state="[[state1]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.23}}" open-index="{{openIndex.23}}" button-type="treble" state="[[state2]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.24}}" open-index="{{openIndex.24}}" button-type="treble" state="[[state3]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -282,6 +282,15 @@ For an overlayed drop menu:
                 state30: {
                     type: Number,
                     value: 0
+                }
+            },
+            addButtonAction: function(button , action){
+                this.$.testiando.addButtonAction(action) ;
+            },
+            update: function(){
+                var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
+                for (var i = 0; i < nodeList.length; i++) {
+                    nodeList[i].update() ;
                 }
             },
             toggleNotes: function(){

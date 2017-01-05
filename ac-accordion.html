@@ -115,7 +115,16 @@
                 }
             },
             _test: function () {
-                this.$$('AC-PLAYER').updateTempo(40);
+                // this.$$('AC-PLAYER').updateTempo(40);
+                this.fire ("note-on" , {midiNote:24, time:10 , channel:0})
+            },
+            _loop: function(){
+                this._update() ;
+                window.requestAnimationFrame(this._loop.bind(this));
+            },
+            _update: function(){
+                this.$$("ACCORDION-TREBLE").update() ;
+                this.$$("ACCORDION-BASS").update() ;
             },
             startRecording: function () {
                 this.recording = true;
@@ -177,7 +186,7 @@
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
             _updateVelocity: function (e) {
-                console.log(e.detail.velocity); 
+                console.log(e.detail.velocity);
                 if (this.recording && e.detail.fromPlayer === undefined)
                     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
                 this.buttonVelocity = (e.detail.velocity / 127);
@@ -296,7 +305,15 @@
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
-                    this.$$('ACCORDION-TREBLE').buttonPress(button);
+                    if ( e.detail.time) {
+                        var action = {} ;
+                        action.time = e.detail.time ;
+                        action.state = (button % 2) + 1;
+                        this.$$('ACCORDION-TREBLE').addButtonAction(button ,action) ;
+                    }
+                    else {
+                        this.$$('ACCORDION-TREBLE').buttonPress(button);
+                    }
                 } else if (e.detail.channel === 1) {
                     button = e.detail.midiNote - 48;
                     this.$$('ACCORDION-BASS').buttonPress(button);
@@ -368,6 +385,7 @@
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
+                    this._loop() ;
                     this.requestConvolver("/data/16_IR_Pool_Size_00.wav");
                 });
             }

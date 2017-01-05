@@ -108,6 +108,10 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
+                actionQueue:{
+                    type:Array,
+                    value:[]
+                },
                 buttonVelocity:{
                     type:Number
                 },
@@ -182,6 +186,14 @@ For an overlayed drop menu:
                 openLoopDuration: {
                     type: Number
                 }
+            },
+            update: function(){
+                if( this.actionQueue.length > 0 ) {
+                    console.log(this.id);
+                }
+            },
+            addButtonAction: function(action){
+                this.actionQueue.push(action) ;
             },
             _changeVolume: function(sGain, buttonVelocity, buttonVolume){
                 this.sourceGain.gain.value = buttonVelocity*buttonVolume/100 ;
@@ -326,6 +338,7 @@ For an overlayed drop menu:
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
+                    this.actionQueue=  [] ;
                     if (!this.state)
                         this.state = 0;
                     }

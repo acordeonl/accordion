@@ -184,6 +184,12 @@ For an overlayed drop menu:
                     value: 0
                 }
             },
+            update: function(){
+
+            },
+            addButtonAction: function(button , action){
+                this.actionQueue.push(action) ;
+            },
             toggleNotes: function(){
                 this.showingNotes = !this.showingNotes ;
             },
