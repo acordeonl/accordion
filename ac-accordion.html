@@ -116,7 +116,10 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                this.fire ("note-on" , {midiNote:24, time:10 , channel:0}) ;
+                this.fire ("note-on" , {midiNote:24, time:5 , channel:0}) ;
+                this.fire ("note-off" , {midiNote:24, time:7 , channel:0}) ;
+                this.fire ("note-on" , {midiNote:25,  time:7.1 , channel:0}) ;
+                this.fire ("note-off" , {midiNote:25, time:10 , channel:0}) ;
             },
             _loop: function(){
                 this._update() ;
@@ -339,7 +342,15 @@
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", e.detail.midiNote, e.detail.channel);
                 if (e.detail.channel === 0) {
                     button = e.detail.midiNote - 24;
-                    this.$$('ACCORDION-TREBLE').buttonRelease(button);
+                    if(e.detail.time) {
+                        var action = {} ;
+                        action.time = e.detail.time ;
+                        action.state = 0 ;
+                        this.$$('ACCORDION-TREBLE').addButtonAction(button ,action) ;
+                    }
+                    else {
+                        this.$$('ACCORDION-TREBLE').buttonRelease(button);
+                    }
                 } else if (e.detail.channel === 1) {
                     button = e.detail.midiNote - 48;
                     this.$$('ACCORDION-BASS').buttonRelease(button);

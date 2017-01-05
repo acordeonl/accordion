@@ -108,7 +108,7 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
-                actionQueue:{
+                eventQueue:{
                     type:Array,
                     value:[]
                 },
@@ -188,11 +188,11 @@ For an overlayed drop menu:
                 }
             },
             update: function(){
-                while(this.actionQueue.length>0) {
-                    var next = this.actionQueue[this.actionQueue.length-1] ;
+                while(this.eventQueue.length>0) {
+                    var next = this.eventQueue[this.eventQueue.length-1] ;
                     if(next.time < context.currentTime) {
                         this.state = next.state ;
-                        this.actionQueue.pop() ;
+                        this.eventQueue.pop() ;
                     }
                     else {
                         break;
@@ -200,7 +200,7 @@ For an overlayed drop menu:
                 }
             },
             addButtonAction: function(action){
-                this.actionQueue.push(action) ;
+                this.eventQueue.unshift(action) ;
             },
             _changeVolume: function(sGain, buttonVelocity, buttonVolume){
                 this.sourceGain.gain.value = buttonVelocity*buttonVolume/100 ;
@@ -345,7 +345,7 @@ For an overlayed drop menu:
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
-                    this.actionQueue=  [] ;
+                    this.eventQueue=  [] ;
                     if (!this.state)
                         this.state = 0;
                     }
