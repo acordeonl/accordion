@@ -116,18 +116,17 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                // this.fire ("note-on" , {midiNote:24, time:5 , channel:0}) ;
-                // this.fire ("note-off" , {midiNote:24, time:7 , channel:0}) ;
-                this.fire ("note-on" , {midiNote:10,  time:5 , channel:3}) ;
-                this.fire ("note-off" , {midiNote:10, time:8 , channel:3}) ;
+                this.fire ("note-on" , {midiNote:24, time:5 , channel:0}) ;
+                this.fire ("note-off" , {midiNote:24, time:7 , channel:0}) ;
             },
             _loop: function(){
                 this._update() ;
                 window.requestAnimationFrame(this._loop.bind(this));
             },
             _update: function(){
-                this.$$("ACCORDION-TREBLE").update() ;
-                this.$$("ACCORDION-BASS").update() ;
+                this.$$('ACCORDION-TREBLE').update() ;
+                this.$$('ACCORDION-BASS').update() ;
+                this.$$('AC-PLAYER').scheduleNotes() ;
             },
             startRecording: function () {
                 this.recording = true;
