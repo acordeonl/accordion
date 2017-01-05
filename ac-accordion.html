@@ -116,7 +116,7 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                this.fire ("note-on" , {midiNote:24, time:10 , channel:0})
+                this.fire ("note-on" , {midiNote:24, time:10 , channel:0}) ;
             },
             _loop: function(){
                 this._update() ;
@@ -186,7 +186,6 @@
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
             _updateVelocity: function (e) {
-                console.log(e.detail.velocity);
                 if (this.recording && e.detail.fromPlayer === undefined)
                     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
                 this.buttonVelocity = (e.detail.velocity / 127);

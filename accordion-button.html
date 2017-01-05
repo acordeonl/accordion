@@ -188,8 +188,15 @@ For an overlayed drop menu:
                 }
             },
             update: function(){
-                if( this.actionQueue.length > 0 ) {
-                    console.log(this.id);
+                while(this.actionQueue.length>0) {
+                    var next = this.actionQueue[this.actionQueue.length-1] ;
+                    if(next.time < context.currentTime) {
+                        this.state = next.state ;
+                        this.actionQueue.pop() ;
+                    }
+                    else {
+                        break;
+                    }
                 }
             },
             addButtonAction: function(action){
