@@ -116,10 +116,10 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                this.fire ("note-on" , {midiNote:24, time:5 , channel:0}) ;
-                this.fire ("note-off" , {midiNote:24, time:7 , channel:0}) ;
-                this.fire ("note-on" , {midiNote:25,  time:7.1 , channel:0}) ;
-                this.fire ("note-off" , {midiNote:25, time:10 , channel:0}) ;
+                // this.fire ("note-on" , {midiNote:24, time:5 , channel:0}) ;
+                // this.fire ("note-off" , {midiNote:24, time:7 , channel:0}) ;
+                // this.fire ("note-on" , {midiNote:25,  time:7.1 , channel:0}) ;
+                // this.fire ("note-off" , {midiNote:25, time:10 , channel:0}) ;
             },
             _loop: function(){
                 this._update() ;
@@ -302,19 +302,32 @@
                 this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
             _buttonAction: function(e,which,cmd){
-                var action = {} ;
-                button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
+                var button  = e.detail.midiNote ;
+                if(e.detail.channel !== 3)
+                    button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
 
-                action.time = e.detail.time ;
-                action.state = (cmd ==='on')? (button % 2) + 1:0;
-
-                if (e.detail.time)
-                    this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
-                else {
-                    if ( cmd === 'on')
-                        this.$$('ACCORDION-'+which).buttonPress(button);
+                if (e.detail.time) {
+                    var action = {} ;
+                    action.time = e.detail.time ;
+                    action.state = (cmd ==='on')? (button % 2) + 1:0;
+                    if(e.detail.channel === 3 )
+                        this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;
                     else
-                        this.$$('ACCORDION-'+which).buttonRelease(button);
+                        this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
+                }
+                else {
+                    if(e.detail.channel === 3) {
+                        if(cmd==='on')
+                            this.$$('ACCORDION-'+which).chordButtonPress(button);
+                        else
+                            this.$$('ACCORDION-'+which).chordButtonRelease(button);
+                    }
+                    else {
+                        if ( cmd === 'on')
+                            this.$$('ACCORDION-'+which).buttonPress(button);
+                        else
+                            this.$$('ACCORDION-'+which).buttonRelease(button);
+                    }
                 }
             },
             _buttonPress: function (e) {
@@ -338,8 +351,7 @@
                     }
                 }
                 else if(e.detail.channel ===3 ) {
-                    this._releaseAllChordButtons();
-                    this.$$('ACCORDION-BASS').chordButtonPress(e.detail.midiNote);
+                    this._buttonAction(e,'BASS','on') ;
                 }
             },
             _buttonRelease: function (e) {
@@ -364,7 +376,7 @@
                     }
                 }
                 else if(e.detail.channel === 3 ) {
-                    this.$$('ACCORDION-BASS').chordButtonRelease(e.detail.midiNote);
+                    this._buttonAction(e,'BASS','off') ;
                 }
             },
             _bitCount: function (num) {
