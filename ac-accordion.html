@@ -242,6 +242,7 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
+                //add if to ignore button =-1
                 if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
