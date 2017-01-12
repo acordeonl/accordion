@@ -116,8 +116,7 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                this.fire ("note-on" , {midiNote:24, time:5 , channel:0}) ;
-                this.fire ("note-off" , {midiNote:24, time:7 , channel:0}) ;
+                this.fire ("note-on" , {midiNote:24, startTime:5 , endTime:7, channel:0}) ;
             },
             _loop: function(){
                 this._update() ;
@@ -242,7 +241,6 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
-                //add if to ignore button =-1
                 if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
@@ -306,9 +304,10 @@
                 if(e.detail.channel !== 3)
                     button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
 
-                if (e.detail.time) {
+                if (e.detail.startTime) {
                     var action = {} ;
-                    action.time = e.detail.time ;
+                    action.startTime = e.detail.startTime ;
+                    action.endTime =
                     action.state = (cmd ==='on')? (button % 2) + 1:0;
                     if(e.detail.channel === 3 )
                         this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;

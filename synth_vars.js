@@ -1,6 +1,8 @@
 var bassChordsNextNote = [] ;
 var bassChordspreviousNote = [] ;
 
+var requests = []  ;
+var undecodedBuffers = [] ;
 var savedBuffers = [] ;
 var loopDurations = [] ;
 var errorLoading = false ;
@@ -122,4 +124,4 @@ keyMap['n'] = 76 ;
 keyMap['m'] = 78 ;
 keyMap[','] = 80 ;
 keyMap['.'] = 82 ;
-keyMap['/'] = 84 ; 
+keyMap['/'] = 84 ;
