@@ -200,7 +200,9 @@ For an overlayed drop menu:
                 }
             },
             addButtonAction: function(action){
+                
                 this.eventQueue.unshift(action) ;
+                console.log(action);
             },
             _changeVolume: function(sGain, buttonVelocity, buttonVolume){
                 this.sourceGain.gain.value = buttonVelocity*buttonVolume/100 ;

@@ -286,12 +286,11 @@ For an overlayed drop menu:
                 }
             },
             _test: function(){
-                this._playNote(67) ;
+                this._playNote() ;
             },
             _onload: function(request){
                 request = request.currentTarget ;
-                var arr = request.responseURL.split("/") ;
-                var note = arr[arr.length-1].split(".")[0].slice(0, -1) ;
+                console.log(request.responseURL);
                 if (request.status === 404) {
                     if (!errorLoading) {
                         this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
@@ -301,39 +300,37 @@ For an overlayed drop menu:
                 }
                 var data = request.response;
                 var bb = new DataView(data);
-                loopDurations[note] = bb.getFloat32(0, true);
+                loopDurations[request.responseURL] = bb.getFloat32(0, true);
                 var length = bb.getUint32(4, true);
                 var dstU8 = new Uint8Array(length);
                 var srcU8 = new Uint8Array(data, 8, length);
                 dstU8.set(srcU8);
                 var sound = dstU8;
-                context.decodeAudioData(sound.buffer, function (buffer) {
-                    notesBuffers[note] = buffer ;
-                }.bind(note));
-            },
-            _loadNote: function(note){
-                var url = this.instrumentUrl+"/"+note+"c.mp3" ;
-                request = new XMLHttpRequest();
-                request.open('GET', url, true);
-                request.responseType = 'arraybuffer';
-                request.onload = this._onload.bind(this) ;
-                request.send();
+                undecodedBuffers[request.responseURL] = sound.buffer;
             },
             _loadNotes: function(){
-                for (var i = 24; i < 110; i++) {
-                    this._loadNote(i) ;
+                for (var i = 24; i < 100; i++) {
+                    var url = this.instrumentUrl+"/"+i+"c.mp3" ;
+                    request = new XMLHttpRequest();
+                    request.open('GET', url, true);
+                    request.responseType = 'arraybuffer';
+                    request.onload = this._onload ;
+                    request.send();
                 }
             },
-            _playNote: function(note){
-                var source = context.createBufferSource();
-                source.buffer = notesBuffers[note] ;
-                source.loopStart = source.buffer.duration - loopDurations[note];
-                source.loopEnd = source.buffer.duration;
-                sourceGain = context.createGain();
-                source.connect(sourceGain);
-                source.loop = true;
-                sourceGain.connect(compressor);
-                source.start(0);
+            _playNote: function(){
+                var url = "http://localhost:3000/data/accordion_synth/treble/75c.mp3"
+                context.decodeAudioData(undecodedBuffers[url], function (buffer) {
+                    var source = context.createBufferSource();
+                    source.buffer = buffer ;
+                    source.loopStart = source.buffer.duration - loopDurations[url];
+                    source.loopEnd = source.buffer.duration;
+                    sourceGain = context.createGain();
+                    source.connect(sourceGain);
+                    source.loop = true;
+                    sourceGain.connect(compressor);
+                    source.start(0);
+                });
             },
             addButtonAction: function(button , action){
                 var which = Math.floor(button / 2);
@@ -559,7 +556,7 @@ For an overlayed drop menu:
                     this.closeIndex[i]=this.closeIndex[i]+pitch ;
                     this.openIndex[i]=this.openIndex[i]+pitch ;
                 }
-                // this._updateIndexes() ;
+                this._updateIndexes() ;
             },
             _updateIndexes: function(){
                 var array = this.closeIndex ;

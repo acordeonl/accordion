@@ -3,7 +3,6 @@ var bassChordspreviousNote = [] ;
 
 var requests = []  ;
 var undecodedBuffers = [] ;
-var notesBuffers = [] ; 
 var savedBuffers = [] ;
 var loopDurations = [] ;
 var errorLoading = false ;
