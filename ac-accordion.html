@@ -116,7 +116,7 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                this.fire ("note-on" , {midiNote:24, startTime:5 , endTime:7, channel:0}) ;
+                this.fire ("note-on" , {midiNote:0, time:4 , channel:3}) ;
             },
             _loop: function(){
                 this._update() ;
@@ -300,14 +300,12 @@
                 this.$$('ACCORDION-BASS').chordButtonPress(button);
             },
             _buttonAction: function(e,which,cmd){
-                var button  = e.detail.midiNote ;
+                var button = e.detail.midiNote ;
                 if(e.detail.channel !== 3)
                     button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
-
-                if (e.detail.startTime) {
+                if (e.detail.time) {
                     var action = {} ;
-                    action.startTime = e.detail.startTime ;
-                    action.endTime =
+                    action.time = e.detail.time ;
                     action.state = (cmd ==='on')? (button % 2) + 1:0;
                     if(e.detail.channel === 3 )
                         this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;
@@ -315,6 +313,7 @@
                         this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
                 }
                 else {
+                    console.log("barro"); 
                     if(e.detail.channel === 3) {
                         if(cmd==='on')
                             this.$$('ACCORDION-'+which).chordButtonPress(button);

@@ -194,7 +194,6 @@ For an overlayed drop menu:
             },
             addChordButtonAction: function(button , action){
                 var which = Math.floor(button / 2);
-                console.log(which);
                 this.$$("[idChord"+which+"]").addButtonAction(action) ;
             },
             update: function(){

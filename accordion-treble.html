@@ -96,7 +96,7 @@ For an overlayed drop menu:
                 <accordion-button id20 button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" state="[[state20]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button id0 id="testiando" button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.21}}" open-index="{{openIndex.21}}" button-type="treble" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id0 button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.21}}" open-index="{{openIndex.21}}" button-type="treble" state="[[state0]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button id1 button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.22}}" open-index="{{openIndex.22}}" button-type="treble" state="[[state1]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button id2 button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.23}}" open-index="{{openIndex.23}}" button-type="treble" state="[[state2]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
                 <accordion-button id3 button-velocity="[[buttonVelocity]]" button-volume="[[volume]]" close-index="{{closeIndex.24}}" open-index="{{openIndex.24}}" button-type="treble" state="[[state3]]" instrument-url="[[instrumentUrl]]" showing-notes="[[showingNotes]]"></accordion-button>
@@ -286,11 +286,10 @@ For an overlayed drop menu:
                 }
             },
             _test: function(){
-                this._playNote() ;
+                // this._playNote() ;
             },
             _onload: function(request){
                 request = request.currentTarget ;
-                console.log(request.responseURL);
                 if (request.status === 404) {
                     if (!errorLoading) {
                         this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
@@ -319,7 +318,7 @@ For an overlayed drop menu:
                 }
             },
             _playNote: function(){
-                var url = "http://localhost:3000/data/accordion_synth/treble/75c.mp3"
+                var url = "http://localhost:3000/data/accordion_synth/treble/75c.mp3" ;
                 context.decodeAudioData(undecodedBuffers[url], function (buffer) {
                     var source = context.createBufferSource();
                     source.buffer = buffer ;
