@@ -218,6 +218,31 @@ For an overlayed drop menu:
                 audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
                 audio.source.stop(time+0.1) ;
             },
+            _startChordButtonAudio: function(button,time){
+                var source = context.createBufferSource();
+                var which = Math.floor(button / 2);
+                var state = (button % 2) + 1;
+                var note = this.chordsOpenIndex[which] ;
+                if ( state === 1 )
+                    note = this.chordsCloseIndex[which] ;
+                source.buffer = bassChordNotesBuffers[note] ;
+                source.loopStart = source.buffer.duration - bassChordLoopDurations[note];
+                source.loopEnd = source.buffer.duration;
+                sourceGain = context.createGain();
+                source.connect(sourceGain);
+                source.loop = true;
+                sourceGain.connect(compressor);
+                source.start(time);
+                var audio = {} ;
+                audio.source =  source ;
+                audio.gain =  sourceGain ;
+                bassChordButtonAudio[button] = audio ;
+            },
+            _stopChordButtonAudio: function(button,time){
+                var audio = bassChordButtonAudio[button] ;
+                audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
+                audio.source.stop(time+0.1) ;
+            },
             _onload: function(request){
                 request = request.currentTarget ;
                 if (request.status === 404) {
@@ -246,7 +271,6 @@ For an overlayed drop menu:
                         bassNotesBuffers[note] = buffer ;
                     else
                         bassChordNotesBuffers[note] = buffer ;
-
                 }.bind(url));
             },
             _loadNote: function(instrumentUrl,note){
@@ -258,8 +282,12 @@ For an overlayed drop menu:
                 request.send();
             },
             _loadNotes: function(){
-                for (var i = 48; i < 60; i++) {
+                var i ;
+                for ( i = 48; i < 60; i++) {
                     this._loadNote(this.instrumentUrl,i) ;
+                }
+                for ( i = 0; i < 42; i++) {
+                    this._loadNote(this.instrumentChordsUrl,i) ;
                 }
             },
             addButtonAction: function(button , action){
@@ -273,6 +301,12 @@ For an overlayed drop menu:
                 this.$$("[id"+which+"]").addButtonAction(action) ;
             },
             addChordButtonAction: function(button , action){
+                if(action.state === 0 ) {
+                    this._stopChordButtonAudio(button,action.time) ;
+                }
+                else {
+                    this._startChordButtonAudio(button,action.time) ;
+                }
                 var which = Math.floor(button / 2);
                 this.$$("[idChord"+which+"]").addButtonAction(action) ;
             },
