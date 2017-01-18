@@ -116,7 +116,7 @@
             },
             _test: function () {
                 // this.$$('AC-PLAYER').updateTempo(40);
-                this.fire ("note-on" , {midiNote:0, time:4 , channel:3}) ;
+                // this.fire ("note-on" , {mi   diNote:0, time:4 , channel:3}) ;
             },
             _loop: function(){
                 this._update() ;
@@ -313,7 +313,6 @@
                         this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
                 }
                 else {
-                    console.log("barro"); 
                     if(e.detail.channel === 3) {
                         if(cmd==='on')
                             this.$$('ACCORDION-'+which).chordButtonPress(button);
