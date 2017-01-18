@@ -1,13 +1,24 @@
 var bassChordsNextNote = [] ;
 var bassChordspreviousNote = [] ;
+var undecodedBuffers = [] ;
+var savedBuffers = [] ;
+var errorLoading = false ;
+
+
+
 
 var requests = []  ;
-var undecodedBuffers = [] ;
+
 var notesBuffers = [] ;
-var trebleButtonAudio = [] ;
-var savedBuffers = [] ;
 var loopDurations = [] ;
-var errorLoading = false ;
+var bassNotesBuffers = [] ;
+var bassLoopDurations = [] ;
+var bassChordNotesBuffers = [] ;
+var bassChordLoopDurations = [] ;
+
+var buttonAudio = [] ;
+var bassButtonAudio = [] ;
+var bassChordButtonAudio = [] ;
 
 var keyMap = [] ;
 

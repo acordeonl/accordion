@@ -92,6 +92,7 @@ For an overlayed drop menu:
             observers: ['_swap(showingTreble)'],
             behaviors: [ScaleUpBehavior],
             listeners: {
+                'click':'_test'
             },
             properties: {
                 buttonVelocity:{
@@ -188,7 +189,86 @@ For an overlayed drop menu:
                     value: 0
                 }
             },
+            _test: function(){
+                // this._startButtonAudio(1,0) ;
+                // this._stopButtonAudio(1,1) ;
+            },
+            _startButtonAudio: function(button,time){
+                var source = context.createBufferSource();
+                var which = Math.floor(button / 2);
+                var state = (button % 2) + 1;
+                var note = this.openIndex[which] ;
+                if ( state === 1 )
+                    note = this.closeIndex[which] ;
+                source.buffer = bassNotesBuffers[note] ;
+                source.loopStart = source.buffer.duration - bassLoopDurations[note];
+                source.loopEnd = source.buffer.duration;
+                sourceGain = context.createGain();
+                source.connect(sourceGain);
+                source.loop = true;
+                sourceGain.connect(compressor);
+                source.start(time);
+                var audio = {} ;
+                audio.source =  source ;
+                audio.gain =  sourceGain ;
+                bassButtonAudio[button] = audio ;
+            },
+            _stopButtonAudio: function(button,time){
+                var audio = bassButtonAudio[button] ;
+                audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
+                audio.source.stop(time+0.1) ;
+            },
+            _onload: function(request){
+                request = request.currentTarget ;
+                if (request.status === 404) {
+                    if (!errorLoading) {
+                        this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
+                        errorLoading = true;
+                    }
+                    return;
+                }
+                var data = request.response;
+                var bb = new DataView(data);
+                var arr = request.responseURL.split("/");
+                var url  = arr[arr.length-2] ;
+                var note =  arr[arr.length-1].split("c.")[0] ;
+                if (url==='bass_notes')
+                    bassLoopDurations[note] = bb.getFloat32(0, true);
+                else
+                    bassChordLoopDurations[note] = bb.getFloat32(0, true);
+                var length = bb.getUint32(4, true);
+                var dstU8 = new Uint8Array(length);
+                var srcU8 = new Uint8Array(data, 8, length);
+                dstU8.set(srcU8);
+                var sound = dstU8;
+                context.decodeAudioData(sound.buffer, function (buffer) {
+                    if(url==='bass_notes')
+                        bassNotesBuffers[note] = buffer ;
+                    else
+                        bassChordNotesBuffers[note] = buffer ;
+
+                }.bind(url));
+            },
+            _loadNote: function(instrumentUrl,note){
+                var url = instrumentUrl+"/"+note+"c.mp3" ;
+                request = new XMLHttpRequest();
+                request.open('GET', url, true);
+                request.responseType = 'arraybuffer';
+                request.onload = this._onload ;
+                request.send();
+            },
+            _loadNotes: function(){
+                for (var i = 48; i < 60; i++) {
+                    this._loadNote(this.instrumentUrl,i) ;
+                }
+            },
             addButtonAction: function(button , action){
+                if(action.state === 0 ) {
+                    this._stopButtonAudio(button,action.time) ;
+                }
+                else {
+                    this._startButtonAudio(button,action.time) ;
+                }
                 var which = Math.floor(button / 2);
                 this.$$("[id"+which+"]").addButtonAction(action) ;
             },
@@ -385,6 +465,8 @@ For an overlayed drop menu:
             ready: function () {
                 this.instrumentUrl ="/data/accordion_synth/bass_notes" ;
                 this.instrumentChordsUrl ="/data/accordion_synth/bass_chords" ;
+
+                this._loadNotes() ;
 
                 this.closeIndex[0]=  55;
                 this.closeIndex[1]=  48;

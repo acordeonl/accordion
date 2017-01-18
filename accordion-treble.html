@@ -343,22 +343,22 @@ For an overlayed drop menu:
                 var audio = {} ;
                 audio.source =  source ;
                 audio.gain =  sourceGain ;
-                trebleButtonAudio[button] = audio ;
+                buttonAudio[button] = audio ;
             },
             _stopButtonAudio: function(button,time){
-                var audio = trebleButtonAudio[button] ;
+                var audio = buttonAudio[button] ;
                 audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
                 audio.source.stop(time+0.1) ;
             },
             addButtonAction: function(button , action){
-                // if(action.state === 0 ) {
-                //     this._stopButtonAudio(button,action.time) ;
-                // }
-                // else {
-                //     this._startButtonAudio(button,action.time) ;
-                // }
-                // var which = Math.floor(button / 2);
-                // this.$$("[id"+which+"]").addButtonAction(action) ;
+                if(action.state === 0 ) {
+                    this._stopButtonAudio(button,action.time) ;
+                }
+                else {
+                    this._startButtonAudio(button,action.time) ;
+                }
+                var which = Math.floor(button / 2);
+                this.$$("[id"+which+"]").addButtonAction(action) ;
             },
             update: function(){
                 var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
