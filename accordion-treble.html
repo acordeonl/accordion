@@ -351,14 +351,12 @@ For an overlayed drop menu:
                 audio.source.stop(time+0.1) ;
             },
             addButtonAction: function(button , action){
-                this.async(function(){
-                    if(action.state === 0 ) {
-                        this._stopButtonAudio(button,action.time) ;
-                    }
-                    else {
-                        this._startButtonAudio(button,action.time) ;
-                    }
-                } , 1 )  ;
+                if(action.state === 0 ) {
+                    this._stopButtonAudio(button,action.time) ;
+                }
+                else {
+                    this._startButtonAudio(button,action.time) ;
+                }
                 var which = Math.floor(button / 2);
                 this.$$("[id"+which+"]").addButtonAction(action) ;
             },
