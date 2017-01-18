@@ -303,29 +303,32 @@
                 var button = e.detail.midiNote ;
                 if(e.detail.channel !== 3)
                     button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
+                var action = {} ;
                 if (e.detail.time) {
-                    var action = {} ;
                     action.time = e.detail.time ;
-                    action.state = (cmd ==='on')? (button % 2) + 1:0;
-                    if(e.detail.channel === 3 )
-                        this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;
-                    else
-                        this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
                 }
                 else {
-                    if(e.detail.channel === 3) {
-                        if(cmd==='on')
-                            this.$$('ACCORDION-'+which).chordButtonPress(button);
-                        else
-                            this.$$('ACCORDION-'+which).chordButtonRelease(button);
-                    }
-                    else {
-                        if ( cmd === 'on')
-                            this.$$('ACCORDION-'+which).buttonPress(button);
-                        else
-                            this.$$('ACCORDION-'+which).buttonRelease(button);
-                    }
+                    action.time = context.currentTime ;
                 }
+                action.state = (cmd ==='on')? (button % 2) + 1:0;
+                if(e.detail.channel === 3 )
+                    this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;
+                else
+                    this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
+                // else {
+                //     if(e.detail.channel === 3) {
+                //         if(cmd==='on')
+                //             this.$$('ACCORDION-'+which).chordButtonPress(button);
+                //         else
+                //             this.$$('ACCORDION-'+which).chordButtonRelease(button);
+                //     }
+                //     else {
+                //         if ( cmd === 'on')
+                //             this.$$('ACCORDION-'+which).buttonPress(button);
+                //         else
+                //             this.$$('ACCORDION-'+which).buttonRelease(button);
+                //     }
+                // }
             },
             _buttonPress: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
