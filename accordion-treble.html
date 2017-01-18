@@ -339,7 +339,7 @@ For an overlayed drop menu:
                 source.connect(sourceGain);
                 source.loop = true;
                 sourceGain.connect(compressor);
-                source.start(context.currentTime+time);
+                source.start(time);
                 var audio = {} ;
                 audio.source =  source ;
                 audio.gain =  sourceGain ;
@@ -347,10 +347,18 @@ For an overlayed drop menu:
             },
             _stopButtonAudio: function(button,time){
                 var audio = trebleButtonAudio[button] ;
-                audio.gain.gain.setTargetAtTime(0, context.currentTime+time, 0.008) ;
-                audio.source.stop(context.currentTime+time+0.1) ;
+                audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
+                audio.source.stop(time+0.1) ;
             },
             addButtonAction: function(button , action){
+                this.async(function(){
+                    if(action.state === 0 ) {
+                        this._stopButtonAudio(button,action.time) ;
+                    }
+                    else {
+                        this._startButtonAudio(button,action.time) ;
+                    }
+                } , 1 )  ;
                 var which = Math.floor(button / 2);
                 this.$$("[id"+which+"]").addButtonAction(action) ;
             },

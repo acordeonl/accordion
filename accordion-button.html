@@ -252,24 +252,24 @@ For an overlayed drop menu:
             _computeColor: function (state) {
                switch (state) {
                    case 0:
-                       if (this.done) {
-                           this._stopSource();
-                           this.previousState = state;
-                       }
+                    //    if (this.done) {
+                    //        this._stopSource();
+                    //        this.previousState = state;
+                    //    }
                        this.note = "" ;
                        return 'white';
                    case 1:
-                       if (this.done) {
-                           this._playNote();
-                           this.previousState = state;
-                       }
+                    //    if (this.done) {
+                    //        this._playNote();
+                    //        this.previousState = state;
+                    //    }
                        this.note = this._noteNumberToName(this.closeIndex) ;
                        return '#4775D1';
                    case 2:
-                       if (this.done) {
-                           this._playNote();
-                           this.previousState = state;
-                       }
+                    //    if (this.done) {
+                    //        this._playNote();
+                    //        this.previousState = state;
+                    //    }
                        this.note = this._noteNumberToName(this.openIndex);
                        return '#CC6666';
                }
