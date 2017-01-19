@@ -34,6 +34,7 @@ For an overlayed drop menu:
                 user-select: none;
                 height: 5.4vh;
                 width: 5.4vh;
+                visibility: hidden;
             }
             [text]{
                 height:100%;
@@ -50,12 +51,14 @@ For an overlayed drop menu:
                 user-select: none;
                 height: 5.4vh;
                 width: 5.4vh;
+                visibility: hidden;
             }
             .treble {
                 user-select: none;
                 margin-top: -0.6vh;
                 height: 6.8vh;
                 width: 6.8vh;
+                visibility: hidden;
             }
             [circle] {
                 background-color: var(--content-background);
@@ -73,25 +76,37 @@ For an overlayed drop menu:
                 border-radius: 100%;
             }
             .treble[shadow] {
-                height: 7.3vh;
-                width: 7.3vh;
+                height: 7.1vh;
+                width: 7.1vh;
+                visibility: visible ;
             }
             .bass_chord[shadow],
             .bass_note[shadow] {
                 height: 5.8vh;
                 width: 5.8vh;
+                visibility: visible;;
             }
         </style>
         <!-- local DOM -->
         <template is="dom-if" if="[[done]]">
             <div shadow class$="{{buttonType}}">
-                <div circle class$="{{buttonType}}" style$="background-color:{{_computeColor(state)}} ;">
+                <div circle class$="{{buttonType}}" style="visibility:visible ;background-color:white; position:absolute;">
+                </div>
+                <div circle class$="{{buttonType}}" style$=" visibility:{{_computeVisibility(state)}};background-color:{{_computeColor(state)}}; position:absolute ;">
                     <template is="dom-if" if="[[showingNotes]]" >
                         <div text >
                             [[note]]
                         </div>
                     </template>
                 </div>
+                <div circle class$="{{buttonType}}" style$="position:absolute; background-color:{{_computeColor2(playBackState)}};visibility:{{_computeVisibility2(playBackState)}};">
+                    <template is="dom-if" if="[[showingNotes]]" >
+                        <div text >
+                            [[playBackNote]]
+                        </div>
+                    </template>
+                </div>
+
             </div>
         </template>
     </template>
@@ -130,6 +145,10 @@ For an overlayed drop menu:
                     type:String,
                     value:""
                 },
+                playBackNote:{
+                    type:String,
+                    value:""
+                },
                 _loadedCloseNote: {
                     type: Boolean,
                     value: false
@@ -154,6 +173,9 @@ For an overlayed drop menu:
                     value: ""
                 },
                 state: {
+                    type: Number
+                },
+                playBackState: {
                     type: Number
                 },
                 previousState: {
@@ -191,7 +213,7 @@ For an overlayed drop menu:
                 while(this.eventQueue.length>0) {
                     var next = this.eventQueue[this.eventQueue.length-1] ;
                     if(next.time < context.currentTime) {
-                        this.state = next.state ;
+                        this.playBackState = next.state ;
                         this.eventQueue.pop() ;
                     }
                     else {
@@ -252,27 +274,38 @@ For an overlayed drop menu:
             _computeColor: function (state) {
                switch (state) {
                    case 0:
-                    //    if (this.done) {
-                    //        this._stopSource();
-                    //        this.previousState = state;
-                    //    }
                        this.note = "" ;
-                       return 'white';
+                       return 'green';
                    case 1:
-                    //    if (this.done) {
-                    //        this._playNote();
-                    //        this.previousState = state;
-                    //    }
                        this.note = this._noteNumberToName(this.closeIndex) ;
                        return '#4775D1';
                    case 2:
-                    //    if (this.done) {
-                    //        this._playNote();
-                    //        this.previousState = state;
-                    //    }
                        this.note = this._noteNumberToName(this.openIndex);
                        return '#CC6666';
                }
+            },
+            _computeColor2: function (playBackState) {
+               switch (playBackState) {
+                   case 0:
+                       this.playBackNote = "" ;
+                       return 'purple';
+                   case 1:
+                       this.playBackNote = this._noteNumberToName(this.closeIndex) ;
+                       return '#4775D1';
+                   case 2:
+                       this.playBackNote = this._noteNumberToName(this.openIndex);
+                       return '#CC6666';
+               }
+            },
+            _computeVisibility: function(state){
+                if(state===0)
+                    return 'hidden' ;
+                return 'visible' ;
+            },
+            _computeVisibility2: function(playBackState){
+                if(playBackState===0)
+                    return 'hidden' ;
+                return 'visible' ;
             },
             _requestBuffer: function (url, which) {
                 if (savedBuffers[url] !== undefined) {
