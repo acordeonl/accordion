@@ -1,0 +1,61 @@
+<link rel="import" href="../polymer/polymer.html">
+
+
+<script>
+/**
+* Behavior that highlights stuff.
+*
+* @polymerBehavior
+*/
+    AccordionButtonBehavior= {
+        properties:{
+            volume: {
+                type: Number,
+                value: 60
+            },
+            tone: {
+                type: Number,
+                value: 0
+            },
+            changingPitch: {
+                type: Boolean,
+                value: false
+            },
+            rotation:{
+                type:Boolean,
+                value:false
+            },
+            showingNotes:{
+                type:Boolean,
+                value:false
+            }
+        },
+        update: function(){
+            var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
+            for (var i = 0; i < nodeList.length; i++) {
+                nodeList[i].update() ;
+            }
+        },
+        toggleNotes: function(){
+            this.showingNotes = !this.showingNotes ;
+        },
+        _computeRotation: function(rotation){
+            if( rotation )
+                return "reversedHorizontal" ;
+            return "horizontal" ;
+        },
+        _computeColRotation: function(rotation){
+            if( rotation )
+                return "reversedVertical" ;
+            return "vertical" ;
+        },
+        _updateIndexes: function () {
+            var array = this.closeIndex;
+            this.closeIndex = [];
+            this.closeIndex = array;
+            var array2 = this.openIndex;
+            this.openIndex = [];
+            this.openIndex = array2;
+        }
+    } ;
+</script>

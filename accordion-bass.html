@@ -1,4 +1,5 @@
 <imports >
+    <link rel="import" href="./accordion-buttons-behavior.html">
     <link rel="import" href="../polymer/polymer.html">
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
@@ -86,42 +87,11 @@ For an overlayed drop menu:
         Polymer({
             is: "accordion-bass",
             observers: ['_swap(showingTreble)'],
-            behaviors: [ScaleUpBehavior],
-            listeners: {
-                'click': '_test'
-            },
+            listeners: {},
+            behaviors: [ScaleUpBehavior,AccordionButtonBehavior],
+            /* ./accordion-buttons-behavior.html
+             */
             properties: {
-                buttonVelocity: {
-                    type: Number
-                },
-                volume: {
-                    type: Number,
-                    value: 60
-                },
-                rotation: {
-                    type: Boolean,
-                    value: false
-                },
-                showingNotes: {
-                    type: Boolean,
-                    value: false
-                },
-                tone: {
-                    type: Number,
-                    value: 0
-                },
-                changingPitch: {
-                    type: Boolean,
-                    value: false
-                },
-                chordsCloseIndex: {
-                    type: Array,
-                    value: []
-                },
-                chordsOpenIndex: {
-                    type: Array,
-                    value: []
-                },
                 closeIndex: {
                     type: Array,
                     value: []
@@ -133,12 +103,17 @@ For an overlayed drop menu:
                 instrumentUrl: {
                     type: String
                 },
+                chordsCloseIndex: {
+                    type: Array,
+                    value: []
+                },
+                chordsOpenIndex: {
+                    type: Array,
+                    value: []
+                },
                 instrumentChordsUrl: {
                     type: String
                 },
-            },
-            _test: function () {
-                // this._startButtonAudio('playback',1,0) ; this._stopButtonAudio('playback',1,1) ;
             },
             _startButtonAudio: function (button, e) {
                 var source = context.createBufferSource();
@@ -263,28 +238,9 @@ For an overlayed drop menu:
                     this.$$("[id" + which + "]").addButtonAction(e);
                 }
             },
-            update: function () {
-                var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
-                for (var i = 0; i < nodeList.length; i++) {
-                    nodeList[i].update();
-                }
-            },
-            toggleNotes: function () {
-                this.showingNotes = !this.showingNotes;
-            },
             changePitch: function (pitch) {
                 this._changeChordsPitch(pitch);
                 this._changeBassNotesPitch(pitch);
-            },
-            _computeRotation: function (rotation) {
-                if (rotation)
-                    return "reversedHorizontal";
-                return "horizontal";
-            },
-            _computeColRotation: function (rotation) {
-                if (rotation)
-                    return "reversedVertical";
-                return "vertical";
             },
             _checkBassNotes: function (note) {
                 if (note > 59)
@@ -310,7 +266,7 @@ For an overlayed drop menu:
                     this.closeIndex[i] = this._checkBassNotes(this.closeIndex[i]);
                     this.openIndex[i] = this._checkBassNotes(this.openIndex[i]);
                 }
-                this._updateBassNotesIndexes();
+                this._updateIndexes();
             },
             _changeChordsPitch: function (pitch) {
                 if (pitch === 0) {
@@ -332,19 +288,6 @@ For an overlayed drop menu:
                     this._changeChordsPitch(pitch + 1);
                 }
             },
-            _swap: function (showingTreble) {
-                if (!showingTreble) {
-                    this.playAnimation('entry');
-                }
-            },
-            _updateBassNotesIndexes: function () {
-                var array = this.closeIndex;
-                this.closeIndex = [];
-                this.closeIndex = array;
-                var array2 = this.openIndex;
-                this.openIndex = [];
-                this.openIndex = array2;
-            },
             _updateChordIndexes: function () {
                 var array3 = this.chordsCloseIndex;
                 this.chordsCloseIndex = [];
@@ -352,6 +295,11 @@ For an overlayed drop menu:
                 var array4 = this.chordsOpenIndex;
                 this.chordsOpenIndex = [];
                 this.chordsOpenIndex = array4;
+            },
+            _swap: function (showingTreble) {
+                if (!showingTreble) {
+                    this.playAnimation('entry');
+                }
             },
             ready: function () {
                 this.instrumentUrl = "/data/accordion_synth/bass_notes";
@@ -382,7 +330,7 @@ For an overlayed drop menu:
                 this.chordsOpenIndex[4] = 24;
                 this.chordsOpenIndex[5] = 9;
                 this.changePitch(this.tone);
-                // this.playAnimation('entry') ; this._updateChordIndexes() ; this._updateBassNotesIndexes() ;
+                // this.playAnimation('entry') ; this._updateChordIndexes() ; this._updateIndexes() ;
             }
         });
     </script>

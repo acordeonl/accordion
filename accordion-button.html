@@ -113,21 +113,12 @@ For an overlayed drop menu:
             behaviors: [],
             listeners: {},
             properties: {
-                playbackEventQueue: {
-                    type: Array,
-                    value: []
-                },
-                instrumentEventQueue: {
-                    type: Array,
-                    value: []
+                buttonType: {
+                    type: String
                 },
                 showingNotes: {
                     type: Boolean,
                     value: false
-                },
-                textColor: {
-                    type: String,
-                    value: ""
                 },
                 note: {
                     type: String,
@@ -137,18 +128,19 @@ For an overlayed drop menu:
                     type: String,
                     value: ""
                 },
-                text: {
-                    type: String,
-                    value: ""
+                playbackEventQueue: {
+                    type: Array,
+                    value: []
+                },
+                instrumentEventQueue: {
+                    type: Array,
+                    value: []
                 },
                 state: {
                     type: Number
                 },
                 playbackState: {
                     type: Number
-                },
-                buttonType: {
-                    type: String
                 },
                 closeIndex: {
                     type: Number
