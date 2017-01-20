@@ -1,19 +1,24 @@
-var errorLoading = false ;
+var noteNotFound = false ;
+
+//treble
 var notesBuffers = [] ;
 var loopDurations = [] ;
+var playbackButtonAudio = [] ;
+var instrumentButtonAudio = [] ;
+
+//bass_notes
 var bassNotesBuffers = [] ;
 var bassLoopDurations = [] ;
+var playbackBassButtonAudio = [] ;
+var instrumentBassButtonAudio = [] ;
+
+//bass_chords
 var bassChordNotesBuffers = [] ;
 var bassChordLoopDurations = [] ;
-
-var playbackButtonAudio = [] ;
-var playbackBassButtonAudio = [] ;
 var playbackBassChordButtonAudio = [] ;
-
-var instrumentButtonAudio = [] ;
-var instrumentBassButtonAudio = [] ;
 var instrumentBassChordButtonAudio = [] ;
 
+//bass_chords pitch change
 var bassChordsNextNote = [] ;
 var bassChordspreviousNote = [] ;
 bassChordsNextNote[0] = 4 ;
@@ -101,6 +106,7 @@ bassChordspreviousNote[40] = 33 ;
 bassChordsNextNote[41] = 22 ;
 bassChordspreviousNote[41] = 32 ;
 
+//keyboad actions
 var keyMap = [] ;
 keyMap['w'] = 24 ;
 keyMap['e'] = 26 ;

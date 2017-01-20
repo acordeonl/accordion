@@ -175,9 +175,9 @@ For an overlayed drop menu:
             _onload: function (request) {
                 request = request.currentTarget;
                 if (request.status === 404) {
-                    if (!errorLoading) {
+                    if (!noteNotFound) {
                         this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
-                        errorLoading = true;
+                        noteNotFound = true;
                     }
                     return;
                 }
