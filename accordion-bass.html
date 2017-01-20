@@ -193,69 +193,63 @@ For an overlayed drop menu:
                 // this._startButtonAudio('playback',1,0) ;
                 // this._stopButtonAudio('playback',1,1) ;
             },
-            _startButtonAudio: function(origin,button,time){
+            _startButtonAudio: function(button,e){
                 var source = context.createBufferSource();
                 var which = Math.floor(button / 2);
                 var state = (button % 2) + 1;
-                var note = this.openIndex[which] ;
-                if ( state === 1 )
-                    note = this.closeIndex[which] ;
-                source.buffer = bassNotesBuffers[note] ;
-                source.loopStart = source.buffer.duration - bassLoopDurations[note];
+                var note ;
+                if (e.detail.channel ===3 ) {
+                    note = this.chordsOpenIndex[which] ;
+                    if ( state === 1 )
+                        note = this.chordsCloseIndex[which] ;
+                    source.buffer = bassChordNotesBuffers[note] ;
+                    source.loopStart = source.buffer.duration - bassChordLoopDurations[note];
+                }
+                else {
+                    note = this.openIndex[which] ;
+                    if ( state === 1 )
+                        note = this.closeIndex[which] ;
+                    source.buffer = bassNotesBuffers[note] ;
+                    source.loopStart = source.buffer.duration - bassLoopDurations[note];
+                }
                 source.loopEnd = source.buffer.duration;
                 sourceGain = context.createGain();
                 source.connect(sourceGain);
                 source.loop = true;
                 sourceGain.connect(compressor);
-                source.start(time);
+                source.start(e.detail.time);
                 var audio = {} ;
                 audio.source =  source ;
                 audio.gain =  sourceGain ;
-                if(origin ==='playback')
-                    playbackBassButtonAudio[button] = audio ;
-                if(origin ==='instrument')
-                    instrumentBassButtonAudio[button] = audio ;
+                if(e.detail.channel ===3 ) {
+                    if(e.detail.origin==='playback')
+                        playbackBassChordButtonAudio[button] = audio ;
+                    if(e.detail.origin==='instrument')
+                        instrumentBassChordButtonAudio[button] = audio ;
+                }
+                else{
+                    if(e.detail.origin ==='playback')
+                        playbackBassButtonAudio[button] = audio ;
+                    if(e.detail.origin ==='instrument')
+                        instrumentBassButtonAudio[button] = audio ;
+                }
             },
-            _stopButtonAudio: function(origin,button,time){
+            _stopButtonAudio: function(button,e){
                 var audio ;
-                if(origin ==='playback')
-                    audio = playbackBassButtonAudio[button] ;
-                if(origin ==='instrument')
-                    audio = instrumentBassButtonAudio[button] ;
-                audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
-                audio.source.stop(time+0.1) ;
-            },
-            _startChordButtonAudio: function(origin,button,time){
-                var source = context.createBufferSource();
-                var which = Math.floor(button / 2);
-                var state = (button % 2) + 1;
-                var note = this.chordsOpenIndex[which] ;
-                if ( state === 1 )
-                    note = this.chordsCloseIndex[which] ;
-                source.buffer = bassChordNotesBuffers[note] ;
-                source.loopStart = source.buffer.duration - bassChordLoopDurations[note];
-                source.loopEnd = source.buffer.duration;
-                sourceGain = context.createGain();
-                source.connect(sourceGain);
-                source.loop = true;
-                sourceGain.connect(compressor);
-                source.start(time);
-                var audio = {} ;
-                audio.source =  source ;
-                audio.gain =  sourceGain ;
-                if(origin==='playback')
-                    playbackBassChordButtonAudio[button] = audio ;
-                if(origin==='instrument')
-                    instrumentBassChordButtonAudio[button] = audio ;
-            },
-            _stopChordButtonAudio: function(origin,button,time){
-                var audio ;
-                if(origin==='playback')
-                    audio = playbackBassChordButtonAudio[button] ;
-                if(origin==='instrument')
-                    audio = instrumentBassChordButtonAudio[button] ;
-                audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
-                audio.source.stop(time+0.1) ;
+                if(e.detail.channel ===3 ) {
+                    if(e.detail.origin==='playback')
+                        audio = playbackBassChordButtonAudio[button] ;
+                    if(e.detail.origin==='instrument')
+                        audio = instrumentBassChordButtonAudio[button] ;
+                }
+                else{
+                    if(e.detail.origin ==='playback')
+                        audio = playbackBassButtonAudio[button] ;
+                    if(e.detail.origin ==='instrument')
+                        audio = instrumentBassButtonAudio[button] ;
+                }
+                audio.gain.gain.setTargetAtTime(0,e.detail.time, 0.008) ;
+                audio.source.stop(e.detail.time+0.1) ;
             },
             _onload: function(request){
                 request = request.currentTarget ;
@@ -304,25 +298,22 @@ For an overlayed drop menu:
                     this._loadNote(this.instrumentChordsUrl,i) ;
                 }
             },
-            addButtonAction: function(button , action){
-                if(action.state === 0 ) {
-                    this._stopButtonAudio(action.origin,button,action.time) ;
-                }
-                else {
-                    this._startButtonAudio(action.origin,button,action.time) ;
-                }
+            addButtonAction: function(e){
+                var button = e.detail.midiNote ;
+                if (e.detail.channel!==3)
+                    button-=48 ;
+                e.detail.state = 0 ;
+                if(e.detail.cmd ==='note-on')
+                    e.detail.state = (button % 2) + 1 ;
+                if(e.detail.state === 0 )
+                    this._stopButtonAudio(button,e) ;
+                else
+                    this._startButtonAudio(button,e) ;
                 var which = Math.floor(button / 2);
-                this.$$("[id"+which+"]").addButtonAction(action) ;
-            },
-            addChordButtonAction: function(button , action){
-                if(action.state === 0 ) {
-                    this._stopChordButtonAudio(action.origin,button,action.time) ;
-                }
-                else {
-                    this._startChordButtonAudio(action.origin,button,action.time) ;
-                }
-                var which = Math.floor(button / 2);
-                this.$$("[idChord"+which+"]").addButtonAction(action) ;
+                if(e.detail.channel===3)
+                    this.$$("[idChord"+which+"]").addButtonAction(e) ;
+                else
+                    this.$$("[id"+which+"]").addButtonAction(e) ;
             },
             update: function(){
                 var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');

@@ -164,8 +164,8 @@ For an overlayed drop menu:
                 var next ;
                 while (this.playbackEventQueue.length > 0) {
                     next = this.playbackEventQueue[this.playbackEventQueue.length - 1];
-                    if (next.time < context.currentTime) {
-                        this.playbackState = next.state;
+                    if (next.detail.time < context.currentTime) {
+                        this.playbackState = next.detail.state;
                         this.playbackEventQueue.pop();
                     } else {
                         break;
@@ -173,19 +173,19 @@ For an overlayed drop menu:
                 }
                 while (this.instrumentEventQueue.length > 0) {
                     next = this.instrumentEventQueue[this.instrumentEventQueue.length - 1];
-                    if (next.time < context.currentTime) {
-                        this.state = next.state;
+                    if (next.detail.time < context.currentTime) {
+                        this.state = next.detail.state;
                         this.instrumentEventQueue.pop();
                     } else {
                         break;
                     }
                 }
             },
-            addButtonAction: function (action) {
-                if(action.origin === 'playback')
-                    this.playbackEventQueue.unshift(action);
-                if(action.origin === 'instrument')
-                    this.instrumentEventQueue.unshift(action);
+            addButtonAction: function (e) {
+                if(e.detail.origin === 'playback')
+                    this.playbackEventQueue.unshift(e);
+                if(e.detail.origin === 'instrument')
+                    this.instrumentEventQueue.unshift(e);
             },
             _buttonPress: function () {
                 this.state = 1;
