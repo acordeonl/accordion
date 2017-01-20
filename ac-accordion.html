@@ -185,6 +185,17 @@
                 this.$$("ACCORDION-TREBLE").toggleNotes();
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
+            requestConvolver: function (url) {
+                var convolverRequest = new XMLHttpRequest();
+                convolverRequest.open('GET', url, true);
+                convolverRequest.responseType = 'arraybuffer';
+                convolverRequest.onload = function () {
+                    context.decodeAudioData(convolverRequest.response, function (buffer) {
+                        convolver.buffer = buffer;
+                    });
+                };
+                convolverRequest.send();
+            },
             _updateVelocity: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined)
                     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
@@ -193,7 +204,11 @@
             _chordActivity: function (cmd) {
                 var st = this.bassNotes;
                 var button = -1;
-                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
+                //based on G accrdion with notes on bass:
+                // 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59
+                //  bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,
+                //  55,56,57,58,59
+                //   this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
                 if(true) {
                     if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
                         button = 0;
@@ -255,18 +270,15 @@
                 e.detail.cmd = cmd ;
                 this.$$('ACCORDION-BASS').addButtonAction(e);
             },
-            _buttonAction: function(e,which){
-                this.$$('ACCORDION-'+which).addButtonAction(e) ;
-            },
             _action: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity(e.detail.cmd, e.detail.midiNote, e.detail.channel);
 
-                if (e.detail.channel === 0) {
-                    this._buttonAction(e,'TREBLE') ;
-                } else if (e.detail.channel === 1) {
-                    this._buttonAction(e,'BASS') ;
-                } else if (e.detail.channel === 2) {
+                if (e.detail.channel === 0)
+                    this.$$('ACCORDION-TREBLE').addButtonAction(e) ;
+                else if (e.detail.channel === 1 || e.detail.channel===3)
+                    this.$$('ACCORDION-BASS').addButtonAction(e) ;
+                else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0)
                         this._chordActivity('note-off');
@@ -282,9 +294,6 @@
                     if (cnt === 0)
                         this._chordActivity('note-on');
                 }
-                else if(e.detail.channel ===3 ) {
-                    this._buttonAction(e,'BASS') ;
-                }
             },
             _bitCount: function (num) {
                 var cnt = 0;
@@ -293,17 +302,6 @@
                         cnt++;
                     }
                 return cnt;
-            },
-            requestConvolver: function (url) {
-                var convolverRequest = new XMLHttpRequest();
-                convolverRequest.open('GET', url, true);
-                convolverRequest.responseType = 'arraybuffer';
-                convolverRequest.onload = function () {
-                    context.decodeAudioData(convolverRequest.response, function (buffer) {
-                        convolver.buffer = buffer;
-                    });
-                };
-                convolverRequest.send();
             },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
