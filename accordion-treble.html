@@ -605,47 +605,6 @@ For an overlayed drop menu:
                     this.playAnimation('entry');
                 }
             },
-            _requestBuffer: function (url, which) {
-                var request = new XMLHttpRequest();
-                request.open('GET', url, true);
-                request.responseType = 'arraybuffer';
-                request.onload = function () {
-                    if (request.status === 404) {
-                        if (!errorLoading) {
-                            this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
-                            errorLoading = true;
-                        }
-                        return;
-                    }
-                    var data = request.response;
-                    var bb = new DataView(data);
-                    if (which === "close")
-                        this.closeLoopDuration = bb.getFloat32(0, true);
-                    else
-                        this.openLoopDuration = bb.getFloat32(0, true);
-                    var length = bb.getUint32(4, true);
-                    var dstU8 = new Uint8Array(length);
-                    var srcU8 = new Uint8Array(data, 8, length);
-                    dstU8.set(srcU8);
-                    var sound = dstU8;
-                    context.decodeAudioData(sound.buffer, function (buffer) {
-                        savedBuffers[url] = buffer;
-                        if (which === "close") {
-                            loopDurations[url] = this.closeLoopDuration ;
-                            this.closeBuffer = buffer;
-                            this._loadedCloseNote = true;
-                        } else {
-                            loopDurations[url] = this.openLoopDuration ;
-                            this.openBuffer = buffer;
-                            this._loadedOpenNote = true;
-                        }
-                        if (this._loadedOpenNote && this._loadedCloseNote) {
-                            this.done = true;
-                        }
-                    }.bind(this));
-                }.bind(this);
-                request.send();
-            },
             ready: function () {
                 this.instrumentUrl = "/data/accordion_synth/treble";
                 this._loadNotes() ;

@@ -1,12 +1,4 @@
-var bassChordsNextNote = [] ;
-var bassChordspreviousNote = [] ;
-var undecodedBuffers = [] ;
-var savedBuffers = [] ;
 var errorLoading = false ;
-
-
-var requests = []  ;
-
 var notesBuffers = [] ;
 var loopDurations = [] ;
 var bassNotesBuffers = [] ;
@@ -15,15 +7,15 @@ var bassChordNotesBuffers = [] ;
 var bassChordLoopDurations = [] ;
 
 var playbackButtonAudio = [] ;
-var instrumentButtonAudio = [] ;
-
 var playbackBassButtonAudio = [] ;
 var playbackBassChordButtonAudio = [] ;
+
+var instrumentButtonAudio = [] ;
 var instrumentBassButtonAudio = [] ;
 var instrumentBassChordButtonAudio = [] ;
 
-var keyMap = [] ;
-
+var bassChordsNextNote = [] ;
+var bassChordspreviousNote = [] ;
 bassChordsNextNote[0] = 4 ;
 bassChordspreviousNote[0] = 35 ;
 bassChordsNextNote[1] = 5 ;
@@ -109,6 +101,7 @@ bassChordspreviousNote[40] = 33 ;
 bassChordsNextNote[41] = 22 ;
 bassChordspreviousNote[41] = 32 ;
 
+var keyMap = [] ;
 keyMap['w'] = 24 ;
 keyMap['e'] = 26 ;
 keyMap['r'] = 28 ;
