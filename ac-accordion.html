@@ -66,8 +66,7 @@
             listeners: {
                 'keypress': '_keyPress',
                 'keyup': '_keyUp',
-                'note-on': '_buttonPress',
-                'note-off': '_buttonRelease',
+                'action': '_action',
                 'velocity-change': '_updateVelocity',
                 'mousemove': '_updateOpening',
                 'click': '_test'
@@ -191,132 +190,77 @@
                     this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
                 this.buttonVelocity = (e.detail.velocity / 127);
             },
-            _releaseAllChordButtons: function () {
-                var st = this.bassNotes;
-                var button = -1;
-                //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 s0 closed
-                if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
-                    button = 0;
-
-                //s0 opened
-                if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
-                    button = 1;
-
-                //s1 closed
-                if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
-                    button = 2;
-
-                //s1 opened
-                if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
-                    button = 3;
-
-                //s2 closed
-                if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
-                    button = 4;
-
-                //s2 opened
-                if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
-                    button = 5;
-
-                //s3 closed
-                if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
-                    button = 6;
-
-                //s3 opened
-                if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
-                    button = 7;
-
-                //s4 closed
-                if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
-                    button = 8;
-
-                //s4 opened
-                if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
-                    button = 9;
-
-                //s5 closed
-                if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
-                    button = 10;
-
-                //s5 opened
-                if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
-                    button = 11;
-                if(button ===-1)
-                    return ;
-                if (this.recording)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
-                var action = {} ;
-                action.time = context.currentTime ;
-                action.state = 0;
-                action.origin = 'instrument' ;
-                // this.$$('ACCORDION-BASS').addChordButtonAction(button,action);
-            },
-            _updateChordsButtons: function () {
+            _chordActivity: function (cmd) {
                 var st = this.bassNotes;
                 var button = -1;
                 //based on G accrdion with notes on bass: 41,43,45,46,48,49,50,51,52,53,54,55,56,57,58,59 bits represent: 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59 this.$.trebleSynthesizer.allNotesOffChords(); s0 closed
-                if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
-                    button = 0;
+                if(true) {
+                    if ((st & (1 << 7)) && (st & (1 << 11)) && (st & (1 << 14)))
+                        button = 0;
 
-                //s0 opened
-                if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
-                    button = 1;
+                    //s0 opened
+                    if ((st & (1 << 7)) && (st & (1 << 10)) && (st & (1 << 14)))
+                        button = 1;
 
-                //s1 closed
-                if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
-                    button = 2;
+                    //s1 closed
+                    if ((st & (1 << 8)) && (st & (1 << 12)) && (st & (1 << 15)))
+                        button = 2;
 
-                //s1 opened
-                if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
-                    button = 3;
+                    //s1 opened
+                    if ((st & (1 << 8)) && (st & (1 << 11)) && (st & (1 << 15)))
+                        button = 3;
 
-                //s2 closed
-                if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
-                    button = 4;
+                    //s2 closed
+                    if ((st & (1 << 9)) && (st & (1 << 13)) && (st & (1 << 16)))
+                        button = 4;
 
-                //s2 opened
-                if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
-                    button = 5;
+                    //s2 opened
+                    if ((st & (1 << 9)) && (st & (1 << 12)) && (st & (1 << 16)))
+                        button = 5;
 
-                //s3 closed
-                if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
-                    button = 6;
+                    //s3 closed
+                    if ((st & (1 << 10)) && (st & (1 << 14)) && (st & (1 << 17)))
+                        button = 6;
 
-                //s3 opened
-                if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
-                    button = 7;
+                    //s3 opened
+                    if ((st & (1 << 10)) && (st & (1 << 13)) && (st & (1 << 17)))
+                        button = 7;
 
-                //s4 closed
-                if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
-                    button = 8;
+                    //s4 closed
+                    if ((st & (1 << 11)) && (st & (1 << 15)) && (st & (1 << 18)))
+                        button = 8;
 
-                //s4 opened
-                if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
-                    button = 9;
+                    //s4 opened
+                    if ((st & (1 << 11)) && (st & (1 << 14)) && (st & (1 << 18)))
+                        button = 9;
 
-                //s5 closed
-                if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
-                    button = 10;
+                    //s5 closed
+                    if ((st & (1 << 0)) && (st & (1 << 16)) && (st & (1 << 7)))
+                        button = 10;
 
-                //s5 opened
-                if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
-                    button = 11;
+                    //s5 opened
+                    if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
+                        button = 11;
+                }
                 if(button===-1)
                     return;
                 if (this.recording)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 3);
-                var action = {} ;
-                action.time = context.currentTime ;
-                action.state = (button % 2) + 1;
-                action.origin = 'instrument' ;
-                // this.$$('ACCORDION-BASS').addChordButtonAction(button,action);
+                    this.$$('AC-RECORDER').addInstrumentActivity(cmd, button, 3);
+                var e = {} ;
+                e.detail = {} ;
+                e.detail.time = context.currentTime ;
+                e.detail.midiNote = button ;
+                e.detail.channel = 3;
+                e.detail.origin = 'instrument' ;
+                e.detail.cmd = cmd ;
+                this.$$('ACCORDION-BASS').addButtonAction(e);
             },
             _buttonAction: function(e,which){
                 this.$$('ACCORDION-'+which).addButtonAction(e) ;
             },
-            _buttonPress: function (e) {
+            _action: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-on", e.detail.midiNote, e.detail.channel);
+                    this.$$('AC-RECORDER').addInstrumentActivity(e.detail.cmd, e.detail.midiNote, e.detail.channel);
 
                 if (e.detail.channel === 0) {
                     this._buttonAction(e,'TREBLE') ;
@@ -324,42 +268,21 @@
                     this._buttonAction(e,'BASS') ;
                 } else if (e.detail.channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
-                    if (cnt === 0) {
-                        this._releaseAllChordButtons();
-                    }
+                    if (cnt === 0)
+                        this._chordActivity('note-off');
                     var bNote = e.detail.midiNote - 41;
-                    this.bassNotes = this.bassNotes | (1 << bNote);
-                    cnt = (this._bitCount(this.bassNotes) % 3);
-                    if (cnt === 0) {
-                        this._updateChordsButtons();
+                    if(e.detail.cmd==='note-on') {
+                        this.bassNotes = this.bassNotes | (1 << bNote);
                     }
+                    else {
+                        var tmp = 524287 ^ (1 << bNote);
+                        this.bassNotes = this.bassNotes & tmp;
+                    }
+                    cnt = (this._bitCount(this.bassNotes) % 3);
+                    if (cnt === 0)
+                        this._chordActivity('note-on');
                 }
                 else if(e.detail.channel ===3 ) {
-                    this._buttonAction(e,'BASS') ;
-                }
-            },
-            _buttonRelease: function (e) {
-                if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
-                    this.$$('AC-RECORDER').addInstrumentActivity("note-off", e.detail.midiNote, e.detail.channel);
-
-                if (e.detail.channel === 0) {
-                    this._buttonAction(e,'TREBLE') ;
-                } else if (e.detail.channel === 1) {
-                    this._buttonAction(e,'BASS') ;
-                } else if (e.detail.channel === 2) {
-                    var cnt = (this._bitCount(this.bassNotes) % 3);
-                    if (cnt === 0) {
-                        this._releaseAllChordButtons();
-                    }
-                    var bNote = e.detail.midiNote - 41;
-                    var tmp = 524287 ^ (1 << bNote);
-                    this.bassNotes = this.bassNotes & tmp;
-                    cnt = (this._bitCount(this.bassNotes) % 3);
-                    if (cnt === 0) {
-                        this._updateChordsButtons();
-                    }
-                }
-                else if(e.detail.channel === 3 ) {
                     this._buttonAction(e,'BASS') ;
                 }
             },
