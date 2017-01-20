@@ -97,7 +97,7 @@ For an overlayed drop menu:
                     </div>
                 </template>
             </div>
-            <div circle class$="{{buttonType}}" style$="position:absolute; background-color:{{_computeColor2(playBackState)}};visibility:{{_computeVisibility2(playBackState)}};">
+            <div circle class$="{{buttonType}}" style$="position:absolute; background-color:{{_computeColor2(playbackState)}};visibility:{{_computeVisibility2(playbackState)}};">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[playBackNote]]
@@ -116,7 +116,11 @@ For an overlayed drop menu:
                 'mouseup': '_buttonRelease'
             },
             properties: {
-                eventQueue: {
+                playbackEventQueue: {
+                    type: Array,
+                    value: []
+                },
+                instrumentEventQueue: {
                     type: Array,
                     value: []
                 },
@@ -143,7 +147,7 @@ For an overlayed drop menu:
                 state: {
                     type: Number
                 },
-                playBackState: {
+                playbackState: {
                     type: Number
                 },
                 buttonType: {
@@ -157,18 +161,31 @@ For an overlayed drop menu:
                 }
             },
             update: function () {
-                while (this.eventQueue.length > 0) {
-                    var next = this.eventQueue[this.eventQueue.length - 1];
+                var next ;
+                while (this.playbackEventQueue.length > 0) {
+                    next = this.playbackEventQueue[this.playbackEventQueue.length - 1];
                     if (next.time < context.currentTime) {
-                        this.playBackState = next.state;
-                        this.eventQueue.pop();
+                        this.playbackState = next.state;
+                        this.playbackEventQueue.pop();
+                    } else {
+                        break;
+                    }
+                }
+                while (this.instrumentEventQueue.length > 0) {
+                    next = this.instrumentEventQueue[this.instrumentEventQueue.length - 1];
+                    if (next.time < context.currentTime) {
+                        this.state = next.state;
+                        this.instrumentEventQueue.pop();
                     } else {
                         break;
                     }
                 }
             },
             addButtonAction: function (action) {
-                this.eventQueue.unshift(action);
+                if(action.origin === 'playback')
+                    this.playbackEventQueue.unshift(action);
+                if(action.origin === 'instrument')
+                    this.instrumentEventQueue.unshift(action);
             },
             _buttonPress: function () {
                 this.state = 1;
@@ -211,8 +228,8 @@ For an overlayed drop menu:
                         return '#CC6666';
                 }
             },
-            _computeColor2: function (playBackState) {
-                switch (playBackState) {
+            _computeColor2: function (playbackState) {
+                switch (playbackState) {
                     case 0:
                         this.playBackNote = "";
                         return 'purple';
@@ -229,14 +246,15 @@ For an overlayed drop menu:
                     return 'hidden';
                 return 'visible';
             },
-            _computeVisibility2: function (playBackState) {
-                if (playBackState === 0)
+            _computeVisibility2: function (playbackState) {
+                if (playbackState === 0)
                     return 'hidden';
                 return 'visible';
             },
             ready: function () {
                 Polymer.RenderStatus.afterNextRender(this, function () {
-                    this.eventQueue = [];
+                    this.playbackEventQueue = [];
+                    this.instrumentEventQueue = [];
                     if (!this.state)
                         this.state = 0;
                     }

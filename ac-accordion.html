@@ -245,7 +245,11 @@
                     return ;
                 if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
-                this.$$('ACCORDION-BASS').chordButtonRelease(button);
+                var action = {} ;
+                action.time = context.currentTime ;
+                action.state = 0;
+                action.origin = 'instrument' ;
+                this.$$('ACCORDION-BASS').addChordButtonAction(button,action);
             },
             _updateChordsButtons: function () {
                 var st = this.bassNotes;
@@ -301,35 +305,24 @@
                     return;
                 if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 3);
-                this.$$('ACCORDION-BASS').chordButtonPress(button);
+                var action = {} ;
+                action.time = context.currentTime ;
+                action.state = (button % 2) + 1;
+                action.origin = 'instrument' ;
+                this.$$('ACCORDION-BASS').addChordButtonAction(button,action);
             },
             _buttonAction: function(e,which,cmd){
                 var button = e.detail.midiNote ;
                 if(e.detail.channel !== 3)
                     button = which==='TREBLE'? e.detail.midiNote-24: e.detail.midiNote-48;
-                if (e.detail.time) {
-                    var action = {} ;
-                    action.time = e.detail.time ;
-                    action.state = (cmd ==='on')? (button % 2) + 1:0;
-                    if(e.detail.channel === 3 )
-                        this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;
-                    else
-                        this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
-                }
-                else {
-                    if(e.detail.channel === 3) {
-                        if(cmd==='on')
-                            this.$$('ACCORDION-'+which).chordButtonPress(button);
-                        else
-                            this.$$('ACCORDION-'+which).chordButtonRelease(button);
-                    }
-                    else {
-                        if ( cmd === 'on')
-                            this.$$('ACCORDION-'+which).buttonPress(button);
-                        else
-                            this.$$('ACCORDION-'+which).buttonRelease(button);
-                    }
-                }
+                var action = {} ;
+                action.time = e.detail.time ;
+                action.state = (cmd ==='on')? (button % 2) + 1:0;
+                action.origin = e.detail.origin ;
+                if(e.detail.channel === 3 )
+                    this.$$('ACCORDION-'+which).addChordButtonAction(button ,action) ;
+                else
+                    this.$$('ACCORDION-'+which).addButtonAction(button ,action) ;
             },
             _buttonPress: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)

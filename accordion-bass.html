@@ -306,20 +306,20 @@ For an overlayed drop menu:
             },
             addButtonAction: function(button , action){
                 if(action.state === 0 ) {
-                    this._stopButtonAudio('playback',button,action.time) ;
+                    this._stopButtonAudio(action.origin,button,action.time) ;
                 }
                 else {
-                    this._startButtonAudio('playback',button,action.time) ;
+                    this._startButtonAudio(action.origin,button,action.time) ;
                 }
                 var which = Math.floor(button / 2);
                 this.$$("[id"+which+"]").addButtonAction(action) ;
             },
             addChordButtonAction: function(button , action){
                 if(action.state === 0 ) {
-                    this._stopChordButtonAudio('playback',button,action.time) ;
+                    this._stopChordButtonAudio(action.origin,button,action.time) ;
                 }
                 else {
-                    this._startChordButtonAudio('playback',button,action.time) ;
+                    this._startChordButtonAudio(action.origin,button,action.time) ;
                 }
                 var which = Math.floor(button / 2);
                 this.$$("[idChord"+which+"]").addButtonAction(action) ;
@@ -398,102 +398,6 @@ For an overlayed drop menu:
             _swap: function (showingTreble) {
                 if (!showingTreble) {
                     this.playAnimation('entry');
-                }
-            },
-            buttonPress: function (button) {
-                this._startButtonAudio('instrument',button,context.currentTime) ;
-                var which = Math.floor(button / 2);
-                switch (which) {
-                    case 0:
-                        this.state0 = (button % 2) + 1;
-                        return;
-                    case 1:
-                        this.state1 = (button % 2) + 1;
-                        return;
-                    case 2:
-                        this.state2 = (button % 2) + 1;
-                        return;
-                    case 3:
-                        this.state3 = (button % 2) + 1;
-                        return;
-                    case 4:
-                        this.state4 = (button % 2) + 1;
-                        return;
-                    case 5:
-                        this.state5 = (button % 2) + 1;
-                        return;
-                }
-            },
-            buttonRelease: function (button) {
-                this._stopButtonAudio('instrument',button,context.currentTime) ;
-                var which = Math.floor(button / 2);
-                switch (which) {
-                    case 0:
-                        this.state0 = 0;
-                        return;
-                    case 1:
-                        this.state1 = 0;
-                        return;
-                    case 2:
-                        this.state2 = 0;
-                        return;
-                    case 3:
-                        this.state3 = 0;
-                        return;
-                    case 4:
-                        this.state4 = 0;
-                        return;
-                    case 5:
-                        this.state5 = 0;
-                        return;
-                }
-            },
-            chordButtonPress: function (button) {
-                this._startChordButtonAudio('instrument',button,context.currentTime) ;
-                var which = Math.floor(button / 2);
-                switch (which) {
-                    case 0:
-                        this.stateChords0 = (button % 2) + 1;
-                        return;
-                    case 1:
-                        this.stateChords1 = (button % 2) + 1;
-                        return;
-                    case 2:
-                        this.stateChords2 = (button % 2) + 1;
-                        return;
-                    case 3:
-                        this.stateChords3 = (button % 2) + 1;
-                        return;
-                    case 4:
-                        this.stateChords4 = (button % 2) + 1;
-                        return;
-                    case 5:
-                        this.stateChords5 = (button % 2) + 1;
-                        return;
-                }
-            },
-            chordButtonRelease: function (button) {
-                this._stopChordButtonAudio('instrument',button,context.currentTime) ;
-                var which = Math.floor(button / 2);
-                switch (which) {
-                    case 0:
-                        this.stateChords0 = 0;
-                        return;
-                    case 1:
-                        this.stateChords1 = 0;
-                        return;
-                    case 2:
-                        this.stateChords2 = 0;
-                        return;
-                    case 3:
-                        this.stateChords3 = 0;
-                        return;
-                    case 4:
-                        this.stateChords4 = 0;
-                        return;
-                    case 5:
-                        this.stateChords5 = 0;
-                        return;
                 }
             },
             _updateBassNotesIndexes: function(){
