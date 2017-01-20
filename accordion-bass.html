@@ -190,10 +190,10 @@ For an overlayed drop menu:
                 }
             },
             _test: function(){
-                // this._startButtonAudio(1,0) ;
-                // this._stopButtonAudio(1,1) ;
+                // this._startButtonAudio('playback',1,0) ;
+                // this._stopButtonAudio('playback',1,1) ;
             },
-            _startButtonAudio: function(button,time){
+            _startButtonAudio: function(origin,button,time){
                 var source = context.createBufferSource();
                 var which = Math.floor(button / 2);
                 var state = (button % 2) + 1;
@@ -211,14 +211,21 @@ For an overlayed drop menu:
                 var audio = {} ;
                 audio.source =  source ;
                 audio.gain =  sourceGain ;
-                bassButtonAudio[button] = audio ;
+                if(origin ==='playback')
+                    playbackBassButtonAudio[button] = audio ;
+                if(origin ==='instrument')
+                    instrumentBassButtonAudio[button] = audio ;
             },
-            _stopButtonAudio: function(button,time){
-                var audio = bassButtonAudio[button] ;
+            _stopButtonAudio: function(origin,button,time){
+                var audio ;
+                if(origin ==='playback')
+                    audio = playbackBassButtonAudio[button] ;
+                if(origin ==='instrument')
+                    audio = instrumentBassButtonAudio[button] ;
                 audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
                 audio.source.stop(time+0.1) ;
             },
-            _startChordButtonAudio: function(button,time){
+            _startChordButtonAudio: function(origin,button,time){
                 var source = context.createBufferSource();
                 var which = Math.floor(button / 2);
                 var state = (button % 2) + 1;
@@ -236,10 +243,17 @@ For an overlayed drop menu:
                 var audio = {} ;
                 audio.source =  source ;
                 audio.gain =  sourceGain ;
-                bassChordButtonAudio[button] = audio ;
+                if(origin==='playback')
+                    playbackBassChordButtonAudio[button] = audio ;
+                if(origin==='instrument')
+                    instrumentBassChordButtonAudio[button] = audio ;
             },
-            _stopChordButtonAudio: function(button,time){
-                var audio = bassChordButtonAudio[button] ;
+            _stopChordButtonAudio: function(origin,button,time){
+                var audio ;
+                if(origin==='playback')
+                    audio = playbackBassChordButtonAudio[button] ;
+                if(origin==='instrument')
+                    audio = instrumentBassChordButtonAudio[button] ;
                 audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
                 audio.source.stop(time+0.1) ;
             },
@@ -292,20 +306,20 @@ For an overlayed drop menu:
             },
             addButtonAction: function(button , action){
                 if(action.state === 0 ) {
-                    this._stopButtonAudio(button,action.time) ;
+                    this._stopButtonAudio('playback',button,action.time) ;
                 }
                 else {
-                    this._startButtonAudio(button,action.time) ;
+                    this._startButtonAudio('playback',button,action.time) ;
                 }
                 var which = Math.floor(button / 2);
                 this.$$("[id"+which+"]").addButtonAction(action) ;
             },
             addChordButtonAction: function(button , action){
                 if(action.state === 0 ) {
-                    this._stopChordButtonAudio(button,action.time) ;
+                    this._stopChordButtonAudio('playback',button,action.time) ;
                 }
                 else {
-                    this._startChordButtonAudio(button,action.time) ;
+                    this._startChordButtonAudio('playback',button,action.time) ;
                 }
                 var which = Math.floor(button / 2);
                 this.$$("[idChord"+which+"]").addButtonAction(action) ;
@@ -387,6 +401,7 @@ For an overlayed drop menu:
                 }
             },
             buttonPress: function (button) {
+                this._startButtonAudio('instrument',button,context.currentTime) ;
                 var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
@@ -410,6 +425,7 @@ For an overlayed drop menu:
                 }
             },
             buttonRelease: function (button) {
+                this._stopButtonAudio('instrument',button,context.currentTime) ;
                 var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
@@ -433,6 +449,7 @@ For an overlayed drop menu:
                 }
             },
             chordButtonPress: function (button) {
+                this._startChordButtonAudio('instrument',button,context.currentTime) ;
                 var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
@@ -456,6 +473,7 @@ For an overlayed drop menu:
                 }
             },
             chordButtonRelease: function (button) {
+                this._stopChordButtonAudio('instrument',button,context.currentTime) ;
                 var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
@@ -530,7 +548,7 @@ For an overlayed drop menu:
                 this.chordsOpenIndex[4] = 24 ;
                 this.chordsOpenIndex[5] = 9 ;
                 this.changePitch(this.tone) ;
-
+                // this.playAnimation('entry') ;
                 // this._updateChordIndexes() ;
                 // this._updateBassNotesIndexes() ;
             }

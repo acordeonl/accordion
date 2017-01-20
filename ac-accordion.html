@@ -241,6 +241,8 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
+                if(button ===-1)
+                    return ;
                 if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-off", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonRelease(button);
@@ -295,6 +297,8 @@
                 //s5 opened
                 if ((st & (1 << 0)) && (st & (1 << 15)) && (st & (1 << 7)))
                     button = 11;
+                if(button===-1)
+                    return;
                 if (this.recording)
                     this.$$('AC-RECORDER').addInstrumentActivity("note-on", button, 3);
                 this.$$('ACCORDION-BASS').chordButtonPress(button);

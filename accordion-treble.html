@@ -286,8 +286,8 @@ For an overlayed drop menu:
                 }
             },
             _test: function(){
-                // this._startButtonAudio(4,0) ;
-                // this._stopButtonAudio(4,1) ;
+                // this._startButtonAudio('playback',4,0) ;
+                // this._stopButtonAudio('playback',4,1) ;
             },
             _onload: function(request){
                 request = request.currentTarget ;
@@ -325,7 +325,7 @@ For an overlayed drop menu:
                     this._loadNote(i) ;
                 }
             },
-            _startButtonAudio: function(button,time){
+            _startButtonAudio: function(origin,button,time){
                 var source = context.createBufferSource();
                 var which = Math.floor(button / 2);
                 var state = (button % 2) + 1;
@@ -343,19 +343,26 @@ For an overlayed drop menu:
                 var audio = {} ;
                 audio.source =  source ;
                 audio.gain =  sourceGain ;
-                buttonAudio[button] = audio ;
+                if(origin ==='playback')
+                    playbackButtonAudio[button] = audio ;
+                if(origin ==='instrument')
+                    instrumentButtonAudio[button] = audio ;
             },
-            _stopButtonAudio: function(button,time){
-                var audio = buttonAudio[button] ;
+            _stopButtonAudio: function(origin,button,time){
+                var audio ;
+                if(origin==='playback')
+                    audio = playbackButtonAudio[button] ;
+                if(origin==='instrument')
+                    audio = instrumentButtonAudio[button] ;
                 audio.gain.gain.setTargetAtTime(0,time, 0.008) ;
                 audio.source.stop(time+0.1) ;
             },
             addButtonAction: function(button , action){
                 if(action.state === 0 ) {
-                    this._stopButtonAudio(button,action.time) ;
+                    this._stopButtonAudio('playback',button,action.time) ;
                 }
                 else {
-                    this._startButtonAudio(button,action.time) ;
+                    this._startButtonAudio('playback',button,action.time) ;
                 }
                 var which = Math.floor(button / 2);
                 this.$$("[id"+which+"]").addButtonAction(action) ;
@@ -380,6 +387,7 @@ For an overlayed drop menu:
                 return "vertical" ;
             },
             buttonPress: function (button) {
+                this._startButtonAudio('instrument',button,context.currentTime) ;
                 var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
@@ -478,6 +486,7 @@ For an overlayed drop menu:
                 }
             },
             buttonRelease: function (button) {
+                this._stopButtonAudio('instrument',button,context.currentTime) ;
                 var which = Math.floor(button / 2);
                 switch (which) {
                     case 0:
@@ -705,6 +714,7 @@ For an overlayed drop menu:
                 this.openIndex[8] = 86;
                 this.openIndex[9] = 88;
                 this.changePitch(this.tone) ;
+                // this.playAnimation("entry") ;
             }
         });
     </script>

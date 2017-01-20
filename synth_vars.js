@@ -5,8 +5,6 @@ var savedBuffers = [] ;
 var errorLoading = false ;
 
 
-
-
 var requests = []  ;
 
 var notesBuffers = [] ;
@@ -16,9 +14,13 @@ var bassLoopDurations = [] ;
 var bassChordNotesBuffers = [] ;
 var bassChordLoopDurations = [] ;
 
-var buttonAudio = [] ;
-var bassButtonAudio = [] ;
-var bassChordButtonAudio = [] ;
+var playbackButtonAudio = [] ;
+var instrumentButtonAudio = [] ;
+
+var playbackBassButtonAudio = [] ;
+var playbackBassChordButtonAudio = [] ;
+var instrumentBassButtonAudio = [] ;
+var instrumentBassChordButtonAudio = [] ;
 
 var keyMap = [] ;
 
