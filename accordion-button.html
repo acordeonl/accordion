@@ -90,14 +90,14 @@ For an overlayed drop menu:
         <!-- local DOM -->
         <div shadow class$="{{buttonType}}">
             <div circle class$="{{buttonType}}" style="visibility:visible ;background-color:white; position:absolute;"></div>
-            <div circle class$="{{buttonType}}" style$=" visibility:{{_computeVisibility(state)}};background-color:{{_computeColor(state)}}; position:absolute ;">
+            <div circle class$="{{buttonType}}" style$=" visibility:{{_computeVisibility(state,0)}};background-color:{{_computeColor(state,0)}}; position:absolute ;">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[note]]
                     </div>
                 </template>
             </div>
-            <div circle class$="{{buttonType}}" style$="position:absolute; background-color:{{_computeColor2(playbackState)}};visibility:{{_computeVisibility2(playbackState)}};">
+            <div circle class$="{{buttonType}}" style$="position:absolute; background-color:{{_computeColor(playbackState,1)}};visibility:{{_computeVisibility(playbackState,1)}};">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[playBackNote]]
@@ -111,10 +111,7 @@ For an overlayed drop menu:
             is: "accordion-button",
             observers: [],
             behaviors: [],
-            listeners: {
-                'mousedown': '_buttonPress',
-                'mouseup': '_buttonRelease'
-            },
+            listeners: {},
             properties: {
                 playbackEventQueue: {
                     type: Array,
@@ -161,7 +158,7 @@ For an overlayed drop menu:
                 }
             },
             update: function () {
-                var next ;
+                var next;
                 while (this.playbackEventQueue.length > 0) {
                     next = this.playbackEventQueue[this.playbackEventQueue.length - 1];
                     if (next.detail.time < context.currentTime) {
@@ -182,16 +179,11 @@ For an overlayed drop menu:
                 }
             },
             addButtonAction: function (e) {
-                if(e.detail.origin === 'playback')
+                if (e.detail.origin === 'playback')
                     this.playbackEventQueue.unshift(e);
-                if(e.detail.origin === 'instrument')
+                if (e.detail.origin === 'instrument') {
                     this.instrumentEventQueue.unshift(e);
-            },
-            _buttonPress: function () {
-                this.state = 1;
-            },
-            _buttonRelease: function () {
-                this.state = 0;
+                }
             },
             _noteNumberToName: function (note) {
                 if (this.buttonType === 'bass_chord')
@@ -215,39 +207,25 @@ For an overlayed drop menu:
                 name += octave;
                 return name;
             },
-            _computeColor: function (state) {
-                switch (state) {
-                    case 0:
-                        this.note = "";
-                        return 'green';
-                    case 1:
+            _computeColor: function (state, which) {
+                if (state === 1) {
+                    if (which === 0)
                         this.note = this._noteNumberToName(this.closeIndex);
-                        return '#4775D1';
-                    case 2:
-                        this.note = this._noteNumberToName(this.openIndex);
-                        return '#CC6666';
-                }
-            },
-            _computeColor2: function (playbackState) {
-                switch (playbackState) {
-                    case 0:
-                        this.playBackNote = "";
-                        return 'purple';
-                    case 1:
+                    else {
                         this.playBackNote = this._noteNumberToName(this.closeIndex);
-                        return '#4775D1';
-                    case 2:
+                    }
+                    return '#4775D1';
+                } else {
+                    if (which === 0)
+                        this.note = this._noteNumberToName(this.openIndex);
+                    else {
                         this.playBackNote = this._noteNumberToName(this.openIndex);
-                        return '#CC6666';
+                    }
+                    return '#CC6666';
                 }
             },
             _computeVisibility: function (state) {
                 if (state === 0)
-                    return 'hidden';
-                return 'visible';
-            },
-            _computeVisibility2: function (playbackState) {
-                if (playbackState === 0)
                     return 'hidden';
                 return 'visible';
             },

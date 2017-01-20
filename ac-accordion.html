@@ -69,7 +69,6 @@
                 'action': '_action',
                 'velocity-change': '_updateVelocity',
                 'mousemove': '_updateOpening',
-                'click': '_test'
             },
             properties: {
                 recording: {
@@ -113,10 +112,6 @@
                     value: false
                 }
             },
-            _test: function () {
-                // this.$$('AC-PLAYER').updateTempo(40);
-                // this.fire ("note-on" , {mi   diNote:0, time:4 , channel:3}) ;
-            },
             _loop: function(){
                 this._update() ;
                 window.requestAnimationFrame(this._loop.bind(this));
@@ -159,10 +154,12 @@
                     return;
                 if (this.opening)
                     note++;
-                this.fire(cmd, {
+                this.fire('action', {
                     channel: 0,
                     midiNote: note,
-                    velocity: 1
+                    cmd: cmd,
+                    time:context.currentTime,
+                    origin:'instrument'
                 });
             },
             _computeRotation: function (rotation) {
@@ -273,7 +270,6 @@
             _action: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity(e.detail.cmd, e.detail.midiNote, e.detail.channel);
-
                 if (e.detail.channel === 0)
                     this.$$('ACCORDION-TREBLE').addButtonAction(e) ;
                 else if (e.detail.channel === 1 || e.detail.channel===3)
@@ -283,9 +279,8 @@
                     if (cnt === 0)
                         this._chordActivity('note-off');
                     var bNote = e.detail.midiNote - 41;
-                    if(e.detail.cmd==='note-on') {
+                    if(e.detail.cmd==='note-on')
                         this.bassNotes = this.bassNotes | (1 << bNote);
-                    }
                     else {
                         var tmp = 524287 ^ (1 << bNote);
                         this.bassNotes = this.bassNotes & tmp;
