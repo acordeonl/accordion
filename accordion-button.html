@@ -142,19 +142,13 @@ For an overlayed drop menu:
                 playbackState: {
                     type: Number
                 },
-                closeIndex: {
-                    type: Number
-                },
-                openIndex: {
-                    type: Number
-                }
             },
             update: function () {
                 var next;
                 while (this.playbackEventQueue.length > 0) {
                     next = this.playbackEventQueue[this.playbackEventQueue.length - 1];
                     if (next.detail.time < context.currentTime) {
-                        this.playbackState = next.detail.state;
+                        this.playbackState = next.detail.buttonState;
                         this.playbackEventQueue.pop();
                     } else {
                         break;
@@ -163,7 +157,7 @@ For an overlayed drop menu:
                 while (this.instrumentEventQueue.length > 0) {
                     next = this.instrumentEventQueue[this.instrumentEventQueue.length - 1];
                     if (next.detail.time < context.currentTime) {
-                        this.state = next.detail.state;
+                        this.state = next.detail.buttonState;
                         this.instrumentEventQueue.pop();
                     } else {
                         break;

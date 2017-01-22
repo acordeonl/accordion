@@ -1,23 +1,5 @@
 var noteNotFound = false ;
 
-//treble
-var notesBuffers = [] ;
-var loopDurations = [] ;
-var playbackButtonAudio = [] ;
-var instrumentButtonAudio = [] ;
-
-//bass_notes
-var bassNotesBuffers = [] ;
-var bassLoopDurations = [] ;
-var playbackBassButtonAudio = [] ;
-var instrumentBassButtonAudio = [] ;
-
-//bass_chords
-var bassChordNotesBuffers = [] ;
-var bassChordLoopDurations = [] ;
-var playbackBassChordButtonAudio = [] ;
-var instrumentBassChordButtonAudio = [] ;
-
 //bass_chords pitch change
 var bassChordsNextNote = [] ;
 var bassChordspreviousNote = [] ;

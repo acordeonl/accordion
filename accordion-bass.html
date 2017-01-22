@@ -4,6 +4,7 @@
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
     <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
+    <link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
 </imports>
 <!--
 
@@ -64,6 +65,9 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
+        <ac-synthesizer id="bassNotesSynthesizer" instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
+        <ac-synthesizer id="bassChordsSynthesizer" instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
+
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button idChord3 close-index="[[chordsCloseIndex.3]]" open-index="[[chordsOpenIndex.3]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
@@ -88,7 +92,7 @@ For an overlayed drop menu:
             is: "accordion-bass",
             observers: ['_swap(showingTreble)'],
             listeners: {},
-            behaviors: [ScaleUpBehavior,AccordionButtonBehavior],
+            behaviors: [ScaleUpBehavior,AccordionButtonsBehavior],
             /* ./accordion-buttons-behavior.html
              */
             properties: {
@@ -100,9 +104,6 @@ For an overlayed drop menu:
                     type: Array,
                     value: []
                 },
-                instrumentUrl: {
-                    type: String
-                },
                 chordsCloseIndex: {
                     type: Array,
                     value: []
@@ -111,130 +112,41 @@ For an overlayed drop menu:
                     type: Array,
                     value: []
                 },
-                instrumentChordsUrl: {
-                    type: String
-                },
-            },
-            _startButtonAudio: function (button, e) {
-                var source = context.createBufferSource();
-                var which = Math.floor(button / 2);
-                var state = (button % 2) + 1;
-                var note;
-                if (e.detail.channel === 3) {
-                    note = this.chordsOpenIndex[which];
-                    if (state === 1)
-                        note = this.chordsCloseIndex[which];
-                    source.buffer = bassChordNotesBuffers[note];
-                    source.loopStart = source.buffer.duration - bassChordLoopDurations[note];
-                } else {
-                    note = this.openIndex[which];
-                    if (state === 1)
-                        note = this.closeIndex[which];
-                    source.buffer = bassNotesBuffers[note];
-                    source.loopStart = source.buffer.duration - bassLoopDurations[note];
-                }
-                source.loopEnd = source.buffer.duration;
-                sourceGain = context.createGain();
-                source.connect(sourceGain);
-                source.loop = true;
-                sourceGain.connect(compressor);
-                source.start(e.detail.time);
-                var audio = {};
-                audio.source = source;
-                audio.gain = sourceGain;
-                if (e.detail.channel === 3) {
-                    if (e.detail.origin === 'playback')
-                        playbackBassChordButtonAudio[button] = audio;
-                    if (e.detail.origin === 'instrument')
-                        instrumentBassChordButtonAudio[button] = audio;
-                    }
-                else {
-                    if (e.detail.origin === 'playback')
-                        playbackBassButtonAudio[button] = audio;
-                    if (e.detail.origin === 'instrument')
-                        instrumentBassButtonAudio[button] = audio;
-                    }
-                },
-            _stopButtonAudio: function (button, e) {
-                var audio;
-                if (e.detail.channel === 3) {
-                    if (e.detail.origin === 'playback')
-                        audio = playbackBassChordButtonAudio[button];
-                    if (e.detail.origin === 'instrument')
-                        audio = instrumentBassChordButtonAudio[button];
-                    }
-                else {
-                    if (e.detail.origin === 'playback')
-                        audio = playbackBassButtonAudio[button];
-                    if (e.detail.origin === 'instrument')
-                        audio = instrumentBassButtonAudio[button];
-                    }
-                audio.gain.gain.setTargetAtTime(0, e.detail.time, 0.008);
-                audio.source.stop(e.detail.time + 0.1);
-            },
-            _onload: function (request) {
-                request = request.currentTarget;
-                if (request.status === 404) {
-                    if (!noteNotFound) {
-                        this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
-                        noteNotFound = true;
-                    }
-                    return;
-                }
-                var data = request.response;
-                var bb = new DataView(data);
-                var arr = request.responseURL.split("/");
-                var url = arr[arr.length - 2];
-                var note = arr[arr.length - 1].split("c.")[0];
-                if (url === 'bass_notes')
-                    bassLoopDurations[note] = bb.getFloat32(0, true);
-                else
-                    bassChordLoopDurations[note] = bb.getFloat32(0, true);
-                var length = bb.getUint32(4, true);
-                var dstU8 = new Uint8Array(length);
-                var srcU8 = new Uint8Array(data, 8, length);
-                dstU8.set(srcU8);
-                var sound = dstU8;
-                context.decodeAudioData(sound.buffer, function (buffer) {
-                    if (url === 'bass_notes')
-                        bassNotesBuffers[note] = buffer;
-                    else
-                        bassChordNotesBuffers[note] = buffer;
-                    }
-                .bind(url));
-            },
-            _loadNote: function (instrumentUrl, note) {
-                var url = instrumentUrl + "/" + note + "c.mp3";
-                request = new XMLHttpRequest();
-                request.open('GET', url, true);
-                request.responseType = 'arraybuffer';
-                request.onload = this._onload;
-                request.send();
             },
             _loadNotes: function () {
                 var i;
                 for (i = 48; i < 60; i++) {
-                    this._loadNote(this.instrumentUrl, i);
+                    this.$.bassNotesSynthesizer._loadNote(i);
                 }
                 for (i = 0; i < 42; i++) {
-                    this._loadNote(this.instrumentChordsUrl, i);
+                    this.$.bassChordsSynthesizer._loadNote(i);
                 }
             },
             addButtonAction: function (e) {
-                var button = e.detail.midiNote;
-                if (e.detail.channel !== 3)
-                    button -= 48;
-                e.detail.state = 0;
-                if (e.detail.cmd === 'note-on')
-                    e.detail.state = (button % 2) + 1;
-                if (e.detail.state === 0)
-                    this._stopButtonAudio(button, e);
-                else
-                    this._startButtonAudio(button, e);
-                var which = Math.floor(button / 2);
-                if (e.detail.channel === 3)
+                var note,which,button=e.detail.midiNote;
+                e.detail.buttonState = 0 ;
+                if (e.detail.channel === 3) {
+                    which = Math.floor(button / 2);
+                    if (e.detail.cmd === 'note-on') {
+                        e.detail.buttonState = (button % 2) + 1 ;
+                        note = (button % 2) ? this.chordsOpenIndex[which]: this.chordsCloseIndex[which];
+                        this.$.bassChordsSynthesizer._startButtonAudio(note, button, e);
+                    }
+                    else
+                        this.$.bassChordsSynthesizer._stopButtonAudio(button, e);
                     this.$$("[idChord" + which + "]").addButtonAction(e);
+                }
                 else {
+                // if(e.detail.channel !== 3) {
+                    button -= 48;
+                    which = Math.floor(button / 2);
+                    if (e.detail.cmd === 'note-on') {
+                        e.detail.buttonState = (button % 2) + 1 ;
+                        note = (button % 2) ? this.openIndex[which]: this.closeIndex[which];
+                        this.$.bassNotesSynthesizer._startButtonAudio(note, button, e);
+                    }
+                    else
+                        this.$.bassNotesSynthesizer._stopButtonAudio(button, e);
                     this.$$("[id" + which + "]").addButtonAction(e);
                 }
             },
@@ -302,8 +214,6 @@ For an overlayed drop menu:
                 }
             },
             ready: function () {
-                this.instrumentUrl = "/data/accordion_synth/bass_notes";
-                this.instrumentChordsUrl = "/data/accordion_synth/bass_chords";
                 this._loadNotes();
                 this.closeIndex[0] = 55;
                 this.closeIndex[1] = 48;

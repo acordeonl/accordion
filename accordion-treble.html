@@ -3,6 +3,7 @@
 <link rel="import" href="../local-dom/local-dom.html" async>
 <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
 <link rel="import" href="./accordion-button.html" async>
+<link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
 <!--
 
 Shows drop down menu (works on chrome)
@@ -56,57 +57,58 @@ For an overlayed drop menu:
             [tablet] #col2 {
                 padding: 0.6vw;
             }
-            .vertical{
+            .vertical {
                 @apply(--layout-vertical);
             }
-            .reversedVertical{
+            .reversedVertical {
                 @apply(--layout-vertical-reverse);
             }
-            .reversedHorizontal{
+            .reversedHorizontal {
                 @apply(--layout-horizontal-reverse);
             }
-            .horizontal{
+            .horizontal {
                 @apply(--layout-horizontal);
             }
         </style>
         <!-- local DOM -->
-        <local-dom  class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
+        <ac-synthesizer id="trebleSynthesizer" instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
+        <local-dom class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button id21  close-index="[[closeIndex.21]]" open-index="[[openIndex.21]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id22  close-index="[[closeIndex.22]]" open-index="[[openIndex.22]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id23  close-index="[[closeIndex.23]]" open-index="[[openIndex.23]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id24  close-index="[[closeIndex.24]]" open-index="[[openIndex.24]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id25  close-index="[[closeIndex.25]]" open-index="[[openIndex.25]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id26  close-index="[[closeIndex.26]]" open-index="[[openIndex.26]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id27  close-index="[[closeIndex.27]]" open-index="[[openIndex.27]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id28  close-index="[[closeIndex.28]]" open-index="[[openIndex.28]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id29  close-index="[[closeIndex.29]]" open-index="[[openIndex.29]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id30  close-index="[[closeIndex.30]]" open-index="[[openIndex.30]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id21 close-index="[[closeIndex.21]]" open-index="[[openIndex.21]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id22 close-index="[[closeIndex.22]]" open-index="[[openIndex.22]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id23 close-index="[[closeIndex.23]]" open-index="[[openIndex.23]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id24 close-index="[[closeIndex.24]]" open-index="[[openIndex.24]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id25 close-index="[[closeIndex.25]]" open-index="[[openIndex.25]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id26 close-index="[[closeIndex.26]]" open-index="[[openIndex.26]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id27 close-index="[[closeIndex.27]]" open-index="[[openIndex.27]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id28 close-index="[[closeIndex.28]]" open-index="[[openIndex.28]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id29 close-index="[[closeIndex.29]]" open-index="[[openIndex.29]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id30 close-index="[[closeIndex.30]]" open-index="[[openIndex.30]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col2 {{_computeColRotation(rotation)}}">
-                <accordion-button id10  close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id11  close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id12  close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id13  close-index="{{closeIndex.13}}" open-index="{{openIndex.13}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id14  close-index="{{closeIndex.14}}" open-index="{{openIndex.14}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id15  close-index="{{closeIndex.15}}" open-index="{{openIndex.15}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id16  close-index="{{closeIndex.16}}" open-index="{{openIndex.16}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id17  close-index="{{closeIndex.17}}" open-index="{{openIndex.17}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id18  close-index="{{closeIndex.18}}" open-index="{{openIndex.18}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id19  close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id20  close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id10 close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id11 close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id12 close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id13 close-index="{{closeIndex.13}}" open-index="{{openIndex.13}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id14 close-index="{{closeIndex.14}}" open-index="{{openIndex.14}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id15 close-index="{{closeIndex.15}}" open-index="{{openIndex.15}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id16 close-index="{{closeIndex.16}}" open-index="{{openIndex.16}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id17 close-index="{{closeIndex.17}}" open-index="{{openIndex.17}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id18 close-index="{{closeIndex.18}}" open-index="{{openIndex.18}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id19 close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id20 close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button id0  close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" button-type="treble" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id1  close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id2  close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id3  close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id4  close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id5  close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id6  close-index="{{closeIndex.6}}" open-index="{{openIndex.6}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id7  close-index="{{closeIndex.7}}" open-index="{{openIndex.7}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id8  close-index="{{closeIndex.8}}" open-index="{{openIndex.8}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id9  close-index="{{closeIndex.9}}" open-index="{{openIndex.9}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id0 close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" button-type="treble" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id1 close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id2 close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id3 close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id4 close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id5 close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id6 close-index="{{closeIndex.6}}" open-index="{{openIndex.6}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id7 close-index="{{closeIndex.7}}" open-index="{{openIndex.7}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id8 close-index="{{closeIndex.8}}" open-index="{{openIndex.8}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button id9 close-index="{{closeIndex.9}}" open-index="{{openIndex.9}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
         </local-dom>
     </template>
@@ -115,7 +117,9 @@ For an overlayed drop menu:
             is: "accordion-treble",
             observers: ['_swap(showingTreble)'],
             listeners: {},
-            behaviors: [AccordionButtonBehavior,ScaleUpBehavior],
+            behaviors: [
+                AccordionButtonsBehavior, ScaleUpBehavior
+            ],
             /* ./accordion-buttons-behavior.html
              */
             properties: {
@@ -126,97 +130,32 @@ For an overlayed drop menu:
                 openIndex: {
                     type: Array,
                     value: []
-                },
-                instrumentUrl: {
-                    type: String
                 }
             },
-            _onload: function(request){
-                request = request.currentTarget ;
-                if (request.status === 404) {
-                    if (!noteNotFound) {
-                        this.fire("toast", {msg: 'La tonalidad no pudo ser cargada'});
-                        noteNotFound = true;
-                    }
-                    return;
-                }
-                var data = request.response;
-                var bb = new DataView(data);
-                var arr = request.responseURL.split("/");
-                var note =  arr[arr.length-1].split("c.")[0] ;
-                loopDurations[note] = bb.getFloat32(0, true);
-                var length = bb.getUint32(4, true);
-                var dstU8 = new Uint8Array(length);
-                var srcU8 = new Uint8Array(data, 8, length);
-                dstU8.set(srcU8);
-                var sound = dstU8;
-                context.decodeAudioData(sound.buffer, function (buffer) {
-                    notesBuffers[note] = buffer ;
-                });
-            },
-            _loadNote: function(note){
-                var url = this.instrumentUrl+"/"+note+"c.mp3" ;
-                request = new XMLHttpRequest();
-                request.open('GET', url, true);
-                request.responseType = 'arraybuffer';
-                request.onload = this._onload ;
-                request.send();
-            },
-            _loadNotes: function(){
+            _loadNotes: function () {
                 for (var i = 24; i < 110; i++) {
-                    this._loadNote(i) ;
+                    this.$.trebleSynthesizer._loadNote(i);
                 }
             },
-            _startButtonAudio: function(button,e){
-                var source = context.createBufferSource();
+            addButtonAction: function (e) {
+                var note,button = e.detail.midiNote - 24;
                 var which = Math.floor(button / 2);
-                var state = (button % 2) + 1;
-                var note = this.openIndex[which] ;
-                if ( state === 1 )
-                    note = this.closeIndex[which] ;
-                source.buffer = notesBuffers[note] ;
-                source.loopStart = source.buffer.duration - loopDurations[note];
-                source.loopEnd = source.buffer.duration;
-                sourceGain = context.createGain();
-                source.connect(sourceGain);
-                source.loop = true;
-                sourceGain.connect(compressor);
-                source.start(e.detail.time);
-                var audio = {} ;
-                audio.source =  source ;
-                audio.gain =  sourceGain ;
-                if(e.detail.origin ==='playback')
-                    playbackButtonAudio[button] = audio ;
-                if(e.detail.origin ==='instrument')
-                    instrumentButtonAudio[button] = audio ;
-            },
-            _stopButtonAudio: function(button,e){
-                var audio ;
-                if(e.detail.origin==='playback')
-                    audio = playbackButtonAudio[button] ;
-                if(e.detail.origin==='instrument')
-                    audio = instrumentButtonAudio[button] ;
-                audio.gain.gain.setTargetAtTime(0,e.detail.time, 0.008) ;
-                audio.source.stop(e.detail.time+0.1) ;
-            },
-            addButtonAction: function(e){
-                var button = e.detail.midiNote-24 ;
-                e.detail.state = 0 ;
-                if(e.detail.cmd ==='note-on')
-                    e.detail.state = (button % 2) + 1 ;
-                if(e.detail.state === 0 )
-                    this._stopButtonAudio(button,e) ;
+                e.detail.buttonState = 0  ;
+                if (e.detail.cmd === 'note-on') {
+                    e.detail.buttonState = (button % 2) + 1 ;
+                    note = (button % 2) ? this.openIndex[which]: this.closeIndex[which];
+                    this.$.trebleSynthesizer._startButtonAudio(note, button, e);
+                }
                 else
-                    this._startButtonAudio(button,e) ;
-                var which = Math.floor(button / 2);
-                this.$$("[id"+which+"]").addButtonAction(e) ;
+                    this.$.trebleSynthesizer._stopButtonAudio(button, e);
+                this.$$("[id" + which + "]").addButtonAction(e);
             },
             changePitch: function (pitch) {
-                for ( var i = 0 ; i < 31 ;i ++  ) {
-                    this.closeIndex[i]=this.closeIndex[i]+pitch ;
-                    this.openIndex[i]=this.openIndex[i]+pitch ;
+                for (var i = 0; i < 31; i++) {
+                    this.closeIndex[i] = this.closeIndex[i] + pitch;
+                    this.openIndex[i] = this.openIndex[i] + pitch;
                 }
-                this._updateIndexes() ;
+                this._updateIndexes();
             },
             _swap: function (showingTreble) {
                 if (showingTreble) {
@@ -224,9 +163,7 @@ For an overlayed drop menu:
                 }
             },
             ready: function () {
-                this.instrumentUrl = "/data/accordion_synth/treble";
-                this._loadNotes() ;
-
+                this._loadNotes();
                 this.closeIndex[21] = 61;
                 this.closeIndex[22] = 55;
                 this.closeIndex[23] = 59;
@@ -258,7 +195,6 @@ For an overlayed drop menu:
                 this.closeIndex[7] = 84;
                 this.closeIndex[8] = 89;
                 this.closeIndex[9] = 93;
-
                 this.openIndex[21] = 63;
                 this.openIndex[22] = 57;
                 this.openIndex[23] = 60;
@@ -290,7 +226,7 @@ For an overlayed drop menu:
                 this.openIndex[7] = 82;
                 this.openIndex[8] = 86;
                 this.openIndex[9] = 88;
-                this.changePitch(this.tone) ;
+                this.changePitch(this.tone);
                 // this.playAnimation("entry") ;
             }
         });
