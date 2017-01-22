@@ -1,9 +1,12 @@
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="./accordion-buttons-behavior.html">
-<link rel="import" href="../local-dom/local-dom.html" async>
-<link rel="import" href="../animation-behaviors/scale-up-behavior.html">
-<link rel="import" href="./accordion-button.html" async>
-<link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
+<imports >
+    <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
+    <link rel="import" href="./accordion-buttons-behavior.html">
+    <link rel="import" href="../ac-instrument-behaviors/instrument-behavior.html">
+    <link rel="import" href="../local-dom/local-dom.html" async>
+    <link rel="import" href="./accordion-button.html" async>
+    <link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
+</imports>
 <!--
 
 Shows drop down menu (works on chrome)
@@ -74,41 +77,41 @@ For an overlayed drop menu:
         <ac-synthesizer id="trebleSynthesizer" instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
         <local-dom class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button id21 close-index="[[closeIndex.21]]" open-index="[[openIndex.21]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id22 close-index="[[closeIndex.22]]" open-index="[[openIndex.22]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id23 close-index="[[closeIndex.23]]" open-index="[[openIndex.23]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id24 close-index="[[closeIndex.24]]" open-index="[[openIndex.24]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id25 close-index="[[closeIndex.25]]" open-index="[[openIndex.25]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id26 close-index="[[closeIndex.26]]" open-index="[[openIndex.26]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id27 close-index="[[closeIndex.27]]" open-index="[[openIndex.27]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id28 close-index="[[closeIndex.28]]" open-index="[[openIndex.28]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id29 close-index="[[closeIndex.29]]" open-index="[[openIndex.29]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id30 close-index="[[closeIndex.30]]" open-index="[[openIndex.30]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id21 close-index="[[closeIndex.21]]" open-index="[[openIndex.21]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id22 close-index="[[closeIndex.22]]" open-index="[[openIndex.22]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id23 close-index="[[closeIndex.23]]" open-index="[[openIndex.23]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id24 close-index="[[closeIndex.24]]" open-index="[[openIndex.24]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id25 close-index="[[closeIndex.25]]" open-index="[[openIndex.25]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id26 close-index="[[closeIndex.26]]" open-index="[[openIndex.26]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id27 close-index="[[closeIndex.27]]" open-index="[[openIndex.27]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id28 close-index="[[closeIndex.28]]" open-index="[[openIndex.28]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id29 close-index="[[closeIndex.29]]" open-index="[[openIndex.29]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id30 close-index="[[closeIndex.30]]" open-index="[[openIndex.30]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col2 {{_computeColRotation(rotation)}}">
-                <accordion-button id10 close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id11 close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id12 close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id13 close-index="{{closeIndex.13}}" open-index="{{openIndex.13}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id14 close-index="{{closeIndex.14}}" open-index="{{openIndex.14}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id15 close-index="{{closeIndex.15}}" open-index="{{openIndex.15}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id16 close-index="{{closeIndex.16}}" open-index="{{openIndex.16}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id17 close-index="{{closeIndex.17}}" open-index="{{openIndex.17}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id18 close-index="{{closeIndex.18}}" open-index="{{openIndex.18}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id19 close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id20 close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id10 close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id11 close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id12 close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id13 close-index="{{closeIndex.13}}" open-index="{{openIndex.13}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id14 close-index="{{closeIndex.14}}" open-index="{{openIndex.14}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id15 close-index="{{closeIndex.15}}" open-index="{{openIndex.15}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id16 close-index="{{closeIndex.16}}" open-index="{{openIndex.16}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id17 close-index="{{closeIndex.17}}" open-index="{{openIndex.17}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id18 close-index="{{closeIndex.18}}" open-index="{{openIndex.18}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id19 close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id20 close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button id0 close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" button-type="treble" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id1 close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id2 close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id3 close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id4 close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id5 close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id6 close-index="{{closeIndex.6}}" open-index="{{openIndex.6}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id7 close-index="{{closeIndex.7}}" open-index="{{openIndex.7}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id8 close-index="{{closeIndex.8}}" open-index="{{openIndex.8}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id9 close-index="{{closeIndex.9}}" open-index="{{openIndex.9}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id0 close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" button-type="treble" showing-notes="[[showingNotes]]" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id1 close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id2 close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id3 close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id4 close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id5 close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id6 close-index="{{closeIndex.6}}" open-index="{{openIndex.6}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id7 close-index="{{closeIndex.7}}" open-index="{{openIndex.7}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id8 close-index="{{closeIndex.8}}" open-index="{{openIndex.8}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id9 close-index="{{closeIndex.9}}" open-index="{{openIndex.9}}" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
         </local-dom>
     </template>
@@ -118,7 +121,7 @@ For an overlayed drop menu:
             observers: ['_swap(showingTreble)'],
             listeners: {},
             behaviors: [
-                AccordionButtonsBehavior, ScaleUpBehavior
+                InstrumentBehavior,AccordionButtonsBehavior, ScaleUpBehavior
             ],
             /* ./accordion-buttons-behavior.html
              */

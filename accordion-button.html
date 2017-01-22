@@ -1,5 +1,5 @@
 p<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../ac-instrument-behaviors/instrument-button-behavior.html">
 <!--
 
 Shows drop down menu (works on chrome)
@@ -110,7 +110,7 @@ For an overlayed drop menu:
         Polymer({
             is: "accordion-button",
             observers: [],
-            behaviors: [],
+            behaviors: [InstrumentButtonBehavior],
             listeners: {},
             properties: {
                 buttonType: {
@@ -128,48 +128,12 @@ For an overlayed drop menu:
                     type: String,
                     value: ""
                 },
-                playbackEventQueue: {
-                    type: Array,
-                    value: []
-                },
-                instrumentEventQueue: {
-                    type: Array,
-                    value: []
-                },
                 state: {
                     type: Number
                 },
                 playbackState: {
                     type: Number
                 },
-            },
-            update: function () {
-                var next;
-                while (this.playbackEventQueue.length > 0) {
-                    next = this.playbackEventQueue[this.playbackEventQueue.length - 1];
-                    if (next.detail.time < context.currentTime) {
-                        this.playbackState = next.detail.buttonState;
-                        this.playbackEventQueue.pop();
-                    } else {
-                        break;
-                    }
-                }
-                while (this.instrumentEventQueue.length > 0) {
-                    next = this.instrumentEventQueue[this.instrumentEventQueue.length - 1];
-                    if (next.detail.time < context.currentTime) {
-                        this.state = next.detail.buttonState;
-                        this.instrumentEventQueue.pop();
-                    } else {
-                        break;
-                    }
-                }
-            },
-            addButtonAction: function (e) {
-                if (e.detail.origin === 'playback')
-                    this.playbackEventQueue.unshift(e);
-                if (e.detail.origin === 'instrument') {
-                    this.instrumentEventQueue.unshift(e);
-                }
             },
             _noteNumberToName: function (note) {
                 if (this.buttonType === 'bass_chord')

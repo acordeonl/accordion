@@ -8,31 +8,9 @@
 */
     AccordionButtonsBehavior= {
         properties:{
-            volume: {
-                type: Number,
-                value: 60
-            },
-            tone: {
-                type: Number,
-                value: 0
-            },
-            changingPitch: {
-                type: Boolean,
-                value: false
-            },
             rotation:{
                 type:Boolean,
                 value:false
-            },
-            showingNotes:{
-                type:Boolean,
-                value:false
-            }
-        },
-        update: function(){
-            var nodeList = Polymer.dom(this.root).querySelectorAll('ACCORDION-BUTTON');
-            for (var i = 0; i < nodeList.length; i++) {
-                nodeList[i].update() ;
             }
         },
         toggleNotes: function(){
@@ -55,6 +33,14 @@
             var array2 = this.openIndex;
             this.openIndex = [];
             this.openIndex = array2;
+        },
+        _updateChordIndexes: function () {
+            var array3 = this.chordsCloseIndex;
+            this.chordsCloseIndex = [];
+            this.chordsCloseIndex = array3;
+            var array4 = this.chordsOpenIndex;
+            this.chordsOpenIndex = [];
+            this.chordsOpenIndex = array4;
         }
     } ;
 </script>

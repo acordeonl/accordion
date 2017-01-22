@@ -1,9 +1,10 @@
 <imports >
-    <link rel="import" href="./accordion-buttons-behavior.html">
     <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
+    <link rel="import" href="./accordion-buttons-behavior.html">
+    <link rel="import" href="../ac-instrument-behaviors/instrument-behavior.html">
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
-    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
     <link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
 </imports>
 <!--
@@ -70,20 +71,20 @@ For an overlayed drop menu:
 
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
-                <accordion-button idChord3 close-index="[[chordsCloseIndex.3]]" open-index="[[chordsOpenIndex.3]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id3 close-index="[[closeIndex.3]]" open-index="[[openIndex.3]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button idChord4 close-index="[[chordsCloseIndex.4]]" open-index="[[chordsOpenIndex.4]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id4 close-index="[[closeIndex.4]]" open-index="[[openIndex.4]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button idChord5 close-index="[[chordsCloseIndex.5]]" open-index="[[chordsOpenIndex.5]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id5 close-index="[[closeIndex.5]]" open-index="[[openIndex.5]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button idChord3 close-index="[[chordsCloseIndex.3]]" open-index="[[chordsOpenIndex.3]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id3 close-index="[[closeIndex.3]]" open-index="[[openIndex.3]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button idChord4 close-index="[[chordsCloseIndex.4]]" open-index="[[chordsOpenIndex.4]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id4 close-index="[[closeIndex.4]]" open-index="[[openIndex.4]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button idChord5 close-index="[[chordsCloseIndex.5]]" open-index="[[chordsOpenIndex.5]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id5 close-index="[[closeIndex.5]]" open-index="[[openIndex.5]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
             <div class$="col {{_computeColRotation(rotation)}}">
-                <accordion-button idChord0 close-index="[[chordsCloseIndex.0]]" open-index="[[chordsOpenIndex.0]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id0 close-index="[[closeIndex.0]]" open-index="[[openIndex.0]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button idChord1 close-index="[[chordsCloseIndex.1]]" open-index="[[chordsOpenIndex.1]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id1 close-index="[[closeIndex.1]]" open-index="[[openIndex.1]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button idChord2 close-index="[[chordsCloseIndex.2]]" open-index="[[chordsOpenIndex.2]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
-                <accordion-button id2 close-index="[[closeIndex.2]]" open-index="[[openIndex.2]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button idChord0 close-index="[[chordsCloseIndex.0]]" open-index="[[chordsOpenIndex.0]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id0 close-index="[[closeIndex.0]]" open-index="[[openIndex.0]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button idChord1 close-index="[[chordsCloseIndex.1]]" open-index="[[chordsOpenIndex.1]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id1 close-index="[[closeIndex.1]]" open-index="[[openIndex.1]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button idChord2 close-index="[[chordsCloseIndex.2]]" open-index="[[chordsOpenIndex.2]]" button-type="bass_chord" showing-notes="[[showingNotes]]"></accordion-button>
+                <accordion-button button id2 close-index="[[closeIndex.2]]" open-index="[[openIndex.2]]" button-type="bass_note" showing-notes="[[showingNotes]]"></accordion-button>
             </div>
         </local-dom>
     </template>
@@ -92,7 +93,7 @@ For an overlayed drop menu:
             is: "accordion-bass",
             observers: ['_swap(showingTreble)'],
             listeners: {},
-            behaviors: [ScaleUpBehavior,AccordionButtonsBehavior],
+            behaviors: [InstrumentBehavior,ScaleUpBehavior,AccordionButtonsBehavior],
             /* ./accordion-buttons-behavior.html
              */
             properties: {
@@ -199,14 +200,6 @@ For an overlayed drop menu:
                 else {
                     this._changeChordsPitch(pitch + 1);
                 }
-            },
-            _updateChordIndexes: function () {
-                var array3 = this.chordsCloseIndex;
-                this.chordsCloseIndex = [];
-                this.chordsCloseIndex = array3;
-                var array4 = this.chordsOpenIndex;
-                this.chordsOpenIndex = [];
-                this.chordsOpenIndex = array4;
             },
             _swap: function (showingTreble) {
                 if (!showingTreble) {
