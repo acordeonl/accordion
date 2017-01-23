@@ -136,8 +136,9 @@ For an overlayed drop menu:
                 }
             },
             _loadNotes: function () {
-                for (var i = 24; i < 110; i++) {
-                    this.$.trebleSynthesizer._loadNote(i);
+                for (var i = 0; i < 31; i++) {
+                    this.$.trebleSynthesizer._loadNote(this.closeIndex[i]);
+                    this.$.trebleSynthesizer._loadNote(this.openIndex[i]);
                 }
             },
             addButtonAction: function (e) {
@@ -166,7 +167,6 @@ For an overlayed drop menu:
                 }
             },
             ready: function () {
-                this._loadNotes();
                 this.closeIndex[21] = 61;
                 this.closeIndex[22] = 55;
                 this.closeIndex[23] = 59;
@@ -230,6 +230,7 @@ For an overlayed drop menu:
                 this.openIndex[8] = 86;
                 this.openIndex[9] = 88;
                 this.changePitch(this.tone);
+                this._loadNotes();
                 // this.playAnimation("entry") ;
             }
         });

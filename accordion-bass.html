@@ -116,11 +116,11 @@ For an overlayed drop menu:
             },
             _loadNotes: function () {
                 var i;
-                for (i = 48; i < 60; i++) {
-                    this.$.bassNotesSynthesizer._loadNote(i);
-                }
-                for (i = 0; i < 42; i++) {
-                    this.$.bassChordsSynthesizer._loadNote(i);
+                for (i = 0; i < 6; i++) {
+                    this.$.bassNotesSynthesizer._loadNote(this.closeIndex[i]);
+                    this.$.bassNotesSynthesizer._loadNote(this.openIndex[i]);
+                    this.$.bassChordsSynthesizer._loadNote(this.chordsCloseIndex[i]);
+                    this.$.bassChordsSynthesizer._loadNote(this.chordsOpenIndex[i]);
                 }
             },
             addButtonAction: function (e) {
@@ -207,7 +207,6 @@ For an overlayed drop menu:
                 }
             },
             ready: function () {
-                this._loadNotes();
                 this.closeIndex[0] = 55;
                 this.closeIndex[1] = 48;
                 this.closeIndex[2] = 53;
@@ -232,8 +231,9 @@ For an overlayed drop menu:
                 this.chordsOpenIndex[3] = 3;
                 this.chordsOpenIndex[4] = 24;
                 this.chordsOpenIndex[5] = 9;
+                this._loadNotes();
                 this.changePitch(this.tone);
-                // this.playAnimation('entry') ; this._updateChordIndexes() ; this._updateIndexes() ;
+                // this.playAnimation('entry') ; 
             }
         });
     </script>
