@@ -235,6 +235,10 @@
             _action: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity(e.detail.cmd, e.detail.midiNote, e.detail.channel);
+                if(e.detail.cmd==='velocity-change'){
+                    this.$$('ACCORDION-TREBLE').jup(e);
+                    this.$$('ACCORDION-BASS').jup(e);
+                }
                 if (e.detail.channel === 0)
                     this.$$('ACCORDION-TREBLE').addButtonAction(e);
                 else if (e.detail.channel === 1 || e.detail.channel === 3)

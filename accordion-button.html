@@ -39,7 +39,7 @@ For an overlayed drop menu:
             [text] {
                 height: 100%;
                 width: 100%;
-                color: white;
+                color: var(--content-background);
                 font-weight: bold;
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
@@ -71,7 +71,8 @@ For an overlayed drop menu:
                 @apply(--layout-center-justified);
                 @apply(--layout-vertical);
                 @apply(--layout-center);
-                background-color: #e4e4e4;
+                /*background-color: #e4e4e4;*/
+                background-color: var(--background-color0);
                 /*background-color: #f1ecef ;*/
                 border-radius: 100%;
             }
@@ -86,18 +87,24 @@ For an overlayed drop menu:
                 width: 5.8vh;
                 visibility: visible;
             }
+            .closing{
+                background-color: var(--close-color) ;
+            }
+            .opening{
+                background-color: var(--open-color) ;
+            }
         </style>
         <!-- local DOM -->
         <div shadow class$="{{buttonType}}">
-            <div circle class$="{{buttonType}}" style="visibility:visible ;background-color:white; position:absolute;"></div>
-            <div circle class$="{{buttonType}}" style$=" visibility:{{_computeVisibility(state,0)}};background-color:{{_computeColor(state,0)}}; position:absolute ;">
+            <div circle class$="{{buttonType}}" style="visibility:visible; position:absolute;"></div>
+            <div circle class$="{{buttonType}} {{_computeColor(state,0)}}" style$=" visibility:{{_computeVisibility(state,0)}};position:absolute ;">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[note]]
                     </div>
                 </template>
             </div>
-            <div circle class$="{{buttonType}}" style$="position:absolute; background-color:{{_computeColor(playbackState,1)}};visibility:{{_computeVisibility(playbackState,1)}};">
+            <div circle class$="{{buttonType}} {{_computeColor(playbackState,1)}}" style$="position:absolute; visibility:{{_computeVisibility(playbackState,1)}};">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[playBackNote]]
@@ -164,14 +171,14 @@ For an overlayed drop menu:
                     else {
                         this.playBackNote = this._noteNumberToName(this.closeIndex);
                     }
-                    return '#4775D1';
+                    return 'closing';
                 } else {
                     if (which === 0)
                         this.note = this._noteNumberToName(this.openIndex);
                     else {
                         this.playBackNote = this._noteNumberToName(this.openIndex);
                     }
-                    return '#CC6666';
+                    return 'opening';
                 }
             },
             _computeVisibility: function (state) {
