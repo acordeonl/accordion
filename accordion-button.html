@@ -18,9 +18,9 @@ For an overlayed drop menu:
 ----------------|-------------|----------
 `--item-background-color` | List item backround color | `#f1ecef`
 `--item-color` | List item color used for fonts | `#302f31`
-`--close-color` | Icon button hover color | `4775D1`
-`--content-background` | Drop menu's background color | `white`
-`--close-color` | Icon button hover color | `4775D1`
+`--button-close-color` | Icon button hover color | `4775D1`
+`--button-background-color` | Drop menu's background color | `white`
+`--button-close-color` | Icon button hover color | `4775D1`
 `--icon-button` | Mixin applied the icon button | `{}`
 
 @demo demo/drop-menu-demo.html
@@ -39,7 +39,7 @@ For an overlayed drop menu:
             [text] {
                 height: 100%;
                 width: 100%;
-                color: var(--content-background);
+                color: var(--button-background-color,#fafafa);
                 font-weight: bold;
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
@@ -61,7 +61,7 @@ For an overlayed drop menu:
                 visibility: hidden;
             }
             [circle] {
-                background-color: var(--content-background);
+                background-color: var(--button-background-color,#fafafa);
                 border-radius: 100%;
             }
             [circle]:hover {
@@ -71,9 +71,7 @@ For an overlayed drop menu:
                 @apply(--layout-center-justified);
                 @apply(--layout-vertical);
                 @apply(--layout-center);
-                /*background-color: #e4e4e4;*/
-                background-color: var(--button-shadow);
-                /*background-color: #f1ecef ;*/
+                background-color: var(--button-shadow-color,#bdbdbd);
                 border-radius: 100%;
             }
             .treble[shadow] {
@@ -88,10 +86,10 @@ For an overlayed drop menu:
                 visibility: visible;
             }
             .closing{
-                background-color: var(--close-color) ;
+                background-color: var(--button-close-color,#4775D1) ;
             }
             .opening{
-                background-color: var(--open-color) ;
+                background-color: var(--button-open-color,#CC6666) ;
             }
         </style>
         <!-- local DOM -->
