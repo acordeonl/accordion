@@ -74,7 +74,7 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer id="trebleSynthesizer" instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
+        <ac-synthesizer id="trebleSynthesizer"  velocity=[[buttonVelocity]] gain=[[volume]] instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
         <local-dom class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(rotation)}}">
                 <accordion-button button id21 close-index="[[closeIndex.21]]" open-index="[[openIndex.21]]" button-type="treble" showing-notes="[[showingNotes]]"></accordion-button>
@@ -120,11 +120,12 @@ For an overlayed drop menu:
             is: "accordion-treble",
             observers: ['_swap(showingTreble)'],
             listeners: {},
+            /* ./accordion-buttons-behavior.html
+               ../ac-instrument-behaviors/instrument-behavior.html
+            */
             behaviors: [
                 InstrumentBehavior,AccordionButtonsBehavior, ScaleUpBehavior
             ],
-            /* ./accordion-buttons-behavior.html
-             */
             properties: {
                 closeIndex: {
                     type: Array,

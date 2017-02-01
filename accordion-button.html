@@ -61,6 +61,7 @@ For an overlayed drop menu:
                 visibility: hidden;
             }
             [circle] {
+                position:absolute;
                 background-color: var(--button-background-color,#fafafa);
                 border-radius: 100%;
             }
@@ -94,15 +95,15 @@ For an overlayed drop menu:
         </style>
         <!-- local DOM -->
         <div shadow class$="{{buttonType}}">
-            <div circle class$="{{buttonType}}" style="visibility:visible; position:absolute;"></div>
-            <div circle class$="{{buttonType}} {{_computeColor(state,0)}}" style$=" visibility:{{_computeVisibility(state,0)}};position:absolute ;">
+            <div circle class$="{{buttonType}}" style="visibility:visible;"></div>
+            <div circle class$="{{buttonType}} {{_computeColor(state,0)}}" style$=" visibility:{{_computeVisibility(state,0)}};">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[note]]
                     </div>
                 </template>
             </div>
-            <div circle class$="{{buttonType}} {{_computeColor(playbackState,1)}}" style$="position:absolute; visibility:{{_computeVisibility(playbackState,1)}};">
+            <div circle class$="{{buttonType}} {{_computeColor(playbackState,1)}}" style$="visibility:{{_computeVisibility(playbackState,1)}};">
                 <template is="dom-if" if="[[showingNotes]]">
                     <div text>
                         [[playBackNote]]

@@ -67,7 +67,6 @@
                 'keypress': '_keyPress',
                 'keyup': '_keyUp',
                 'action': '_action',
-                'velocity-change': '_updateVelocity',
                 'mousemove': '_updateOpening'
             },
             properties: {
@@ -85,11 +84,11 @@
                 },
                 trebleVolume: {
                     type: Number,
-                    value: 100
+                    value: 1
                 },
                 bassVolume: {
                     type: Number,
-                    value: 60
+                    value: 1
                 },
                 rotation: {
                     type: Boolean,
@@ -162,11 +161,6 @@
                 });
             },
             // ------------- accordion activity -------------
-            _updateVelocity: function (e) {
-                if (this.recording && e.detail.fromPlayer === undefined)
-                    this.$$('AC-RECORDER').addVelocityActivity(e.detail.velocity);
-                this.buttonVelocity = (e.detail.velocity / 127);
-            },
             _chordActivity: function (cmd) {
                 var st = this.bassNotes;
                 var button = -1;
@@ -235,9 +229,8 @@
             _action: function (e) {
                 if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
                     this.$$('AC-RECORDER').addInstrumentActivity(e.detail.cmd, e.detail.midiNote, e.detail.channel);
-                if(e.detail.cmd==='velocity-change'){
-                    this.$$('ACCORDION-TREBLE').jup(e);
-                    this.$$('ACCORDION-BASS').jup(e);
+                if (e.detail.cmd==='velocity-change') {
+                    this.buttonVelocity = (e.detail.velocity/127) ;
                 }
                 if (e.detail.channel === 0)
                     this.$$('ACCORDION-TREBLE').addButtonAction(e);
@@ -293,8 +286,8 @@
                 return "horizontal";
             },
             changeVolume: function (e) {
-                this.trebleVolume = e.detail.trebleVolume;
-                this.bassVolume = e.detail.bassVolume;
+                this.trebleVolume = e.detail.trebleVolume/100;
+                this.bassVolume = e.detail.bassVolume/100;
             },
             changePitch: function (diff) {
                 noteNotFound = false ;
@@ -309,9 +302,9 @@
                 this.$$("ACCORDION-BASS").toggleNotes();
             },
             ready: function () {
+                this.requestConvolver("/data/16_IR_Pool_Size_00.wav");
                 Polymer.RenderStatus.afterNextRender(this, function () {
                     this._loop();
-                    this.requestConvolver("/data/16_IR_Pool_Size_00.wav");
                 });
             }
         });

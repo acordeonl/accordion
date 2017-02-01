@@ -66,8 +66,8 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer id="bassNotesSynthesizer" instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
-        <ac-synthesizer id="bassChordsSynthesizer" instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
+        <ac-synthesizer velocity=[[buttonVelocity]] gain=[[volume]] id="bassNotesSynthesizer" instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
+        <ac-synthesizer velocity=[[buttonVelocity]] gain=[[volume]] id="bassChordsSynthesizer" instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
 
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
