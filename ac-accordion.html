@@ -6,6 +6,7 @@
     <link rel="import" href="../midi-manager/midi-manager.html">
     <link rel="import" href="../ac-recorder/ac-recorder.html">
     <link rel="import" href="../ac-player/ac-player.html">
+    <link rel="import" href="../ac-instrument-behaviors/instrument-behavior.html">
     <script src="./audio_vars.js"></script>
     <script src="./accordion_synth_vars.js"></script>
 </imports>
@@ -43,16 +44,16 @@
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
                     <div accordion class$="{{_computeRotation(rotation)}}">
-                        <accordion-treble button-velocity="[[buttonVelocity]]" volume="[[trebleVolume]]" rotation=[[rotation]] tone="{{tone}}"></accordion-treble>
-                        <accordion-bass button-velocity="[[buttonVelocity]]" volume="[[bassVolume]]" rotation=[[rotation]] tone="{{tone}}"></accordion-bass>
+                        <accordion-treble buttons instrument-volume='0.8' playback-volume='0.8' name='diapasón' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-treble>
+                        <accordion-bass buttons  name='bajos' instrument-volume='0.4' playback-volume='0.4' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-bass>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble volume="[[trebleVolume]]" tone="{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-treble>
+                        <accordion-treble buttons instrument-volume='0.8' playback-volume='0.8' name='diapasón' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-treble>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass volume="[[bassVolume]]" tone="{{tone}}" showing-treble=[[showingTreble]] rotation=[[rotation]] mobile></accordion-bass>
+                        <accordion-bass buttons  name='bajos' instrument-volume='0.4' playback-volume='0.4' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-bass>
                     </template>
                 </template>
             </div>
@@ -62,41 +63,28 @@
         Polymer({
             is: "ac-accordion",
             observers: [],
-            behaviors: [],
+            behaviors: [InstrumentBehavior],
             listeners: {
                 'keypress': '_keyPress',
                 'keyup': '_keyUp',
-                'action': '_action',
                 'mousemove': '_updateOpening'
             },
             properties: {
-                recording: {
-                    type: Boolean,
-                    value: false
-                },
                 opening: {
                     type: Boolean,
                     value: false
-                },
-                buttonVelocity: {
-                    type: Number,
-                    value: 1
-                },
-                trebleVolume: {
-                    type: Number,
-                    value: 1
-                },
-                bassVolume: {
-                    type: Number,
-                    value: 1
                 },
                 rotation: {
                     type: Boolean,
                     value: false
                 },
-                tone: {
-                    type: Number,
-                    value: 0
+                trebleVolume:{
+                    type:Number,
+                    value:1
+                },
+                trebleBass:{
+                    type:Number,
+                    value:1
                 },
                 showingTreble: {
                     type: Boolean,
@@ -105,32 +93,7 @@
                 bassNotes: {
                     type: Number,
                     value: 0
-                },
-                notesLoaded: {
-                    type: Boolean,
-                    value: false
                 }
-            },
-            requestConvolver: function (url) {
-                var convolverRequest = new XMLHttpRequest();
-                convolverRequest.open('GET', url, true);
-                convolverRequest.responseType = 'arraybuffer';
-                convolverRequest.onload = function () {
-                    context.decodeAudioData(convolverRequest.response, function (buffer) {
-                        convolver.buffer = buffer;
-                    });
-                };
-                convolverRequest.send();
-            },
-            // ------------- GUI update ---------------------
-            _loop: function () {
-                this._update();
-                window.requestAnimationFrame(this._loop.bind(this));
-            },
-            _update: function () {
-                this.$$('ACCORDION-TREBLE').update();
-                this.$$('ACCORDION-BASS').update();
-                this.$$('AC-PLAYER').scheduleNotes();
             },
             // -------- keyboard mouse activity -------------
             _updateOpening: function (e) {
@@ -226,12 +189,7 @@
                 e.detail.cmd = cmd;
                 this.$$('ACCORDION-BASS').addButtonAction(e);
             },
-            _action: function (e) {
-                if (this.recording && e.detail.fromPlayer === undefined && e.detail.channel !== 2)
-                    this.$$('AC-RECORDER').addInstrumentActivity(e.detail.cmd, e.detail.midiNote, e.detail.channel);
-                if (e.detail.cmd==='velocity-change') {
-                    this.buttonVelocity = (e.detail.velocity/127) ;
-                }
+            _instrumentAction: function (e) {
                 if (e.detail.channel === 0)
                     this.$$('ACCORDION-TREBLE').addButtonAction(e);
                 else if (e.detail.channel === 1 || e.detail.channel === 3)
@@ -250,8 +208,8 @@
                     cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0)
                         this._chordActivity('note-on');
-                    }
-                },
+                }
+            },
             _bitCount: function (num) {
                 var cnt = 0;
                 for (var i = 0; i < 31; i++) {
@@ -259,22 +217,6 @@
                         cnt++;
                     }
                 return cnt;
-            },
-            // ------------- recording controls -------------
-            startRecording: function () {
-                this.recording = true;
-                this.$$('AC-RECORDER').startRecording();
-            },
-            pauseRecording: function () {
-                this.recording = false;
-                this.$$('AC-RECORDER').saveRecording();
-            },
-            // ------------- playback controls --------------
-            play: function () {
-                this.$$('AC-PLAYER').play();
-            },
-            pause: function () {
-                this.$$('AC-PLAYER').pause();
             },
             // ------------- general controls ---------------
             swap: function () {
@@ -285,28 +227,9 @@
                     return "reversed";
                 return "horizontal";
             },
-            changeVolume: function (e) {
-                this.trebleVolume = e.detail.trebleVolume/100;
-                this.bassVolume = e.detail.bassVolume/100;
-            },
-            changePitch: function (diff) {
-                noteNotFound = false ;
-                this.$$("ACCORDION-TREBLE").changePitch(diff);
-                this.$$("ACCORDION-BASS").changePitch(diff);
-            },
             rotate: function () {
                 this.rotation = !this.rotation;
             },
-            toggleNotes: function () {
-                this.$$("ACCORDION-TREBLE").toggleNotes();
-                this.$$("ACCORDION-BASS").toggleNotes();
-            },
-            ready: function () {
-                this.requestConvolver("/data/16_IR_Pool_Size_00.wav");
-                Polymer.RenderStatus.afterNextRender(this, function () {
-                    this._loop();
-                });
-            }
         });
     </script>
 </dom-module>

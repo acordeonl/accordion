@@ -6,6 +6,16 @@ var compressor = context.createDynamicsCompressor();
 dry.gain.value = 0.8;
 wet.gain.value = 0.8 * dry.gain.value;
 
+var convolverRequest = new XMLHttpRequest();
+convolverRequest.open('GET',"/data/16_IR_Pool_Size_00.wav", true);
+convolverRequest.responseType = 'arraybuffer';
+convolverRequest.onload = function () {
+    context.decodeAudioData(convolverRequest.response, function (buffer) {
+        convolver.buffer = buffer;
+    });
+};
+convolverRequest.send();
+
 
 compressor.connect(dry);
 compressor.connect(convolver);
