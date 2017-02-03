@@ -92,19 +92,25 @@ For an overlayed drop menu:
             .opening{
                 background-color: var(--button-open-color,#CC6666) ;
             }
+            .hidden{
+                visibility: hidden ;
+            }
+            .visible{
+                visibility: visible ;
+            }
         </style>
         <!-- local DOM -->
-        <div shadow class$="{{buttonType}}">
-            <div circle class$="{{buttonType}}" style="visibility:visible;"></div>
-            <div circle class$="{{buttonType}} {{_computeColor(state,0)}}" style$=" visibility:{{_computeVisibility(state,0)}};">
-                <template is="dom-if" if="[[showingNotes]]">
+        <div shadow class$="[[buttonType]]">
+            <div circle class$="[[buttonType]]" style="visibility:visible;"></div>
+            <div circle class$='[[buttonType]] [[_computeColor(instrumentState,0)]] [[_computeVisibility(instrumentState,0)]]' style$='opacity:[[instrumentOpacity]]'>
+                <template is="dom-if" if="[[showingInstrumentNotes]]">
                     <div text>
-                        [[note]]
+                        [[instrumentNote]]
                     </div>
                 </template>
             </div>
-            <div circle class$="{{buttonType}} {{_computeColor(playbackState,1)}}" style$="visibility:{{_computeVisibility(playbackState,1)}};">
-                <template is="dom-if" if="[[showingNotes]]">
+            <div circle class$="[[buttonType]] [[_computeColor(playbackState,1)]] [[_computeVisibility(playbackState,1)]]" style$='opacity:[[playbackOpacity]]'>
+                <template is="dom-if" if="[[showingPlaybackNotes]]">
                     <div text>
                         [[playBackNote]]
                     </div>
@@ -119,27 +125,29 @@ For an overlayed drop menu:
             behaviors: [InstrumentButtonBehavior],
             listeners: {},
             properties: {
+                closeIndex:{
+                    type:Number,
+                    observer:'_computeCloseNote'
+                },
+                openIndex:{
+                    type:Number,
+                    observer:'_computeOpenNote'
+                },
+                openNote:{
+                    type:String
+                },
+                closeNote:{
+                    type:String
+                },
                 buttonType: {
                     type: String
                 },
-                showingNotes: {
-                    type: Boolean,
-                    value: false
-                },
-                note: {
-                    type: String,
-                    value: ""
-                },
-                playBackNote: {
-                    type: String,
-                    value: ""
-                },
-                state: {
-                    type: Number
-                },
-                playbackState: {
-                    type: Number
-                },
+            },
+            _computeCloseNote: function(){
+                this.closeNote= this._noteNumberToName(this.closeIndex);
+            },
+            _computeOpenNote: function(){
+                this.openNote= this._noteNumberToName(this.openIndex);
             },
             _noteNumberToName: function (note) {
                 if (this.buttonType === 'bass_chord')
@@ -166,16 +174,16 @@ For an overlayed drop menu:
             _computeColor: function (state, which) {
                 if (state === 1) {
                     if (which === 0)
-                        this.note = this._noteNumberToName(this.closeIndex);
+                        this.instrumentNote =  this.closeNote ;
                     else {
-                        this.playBackNote = this._noteNumberToName(this.closeIndex);
+                        this.playBackNote = this.closeNote ;
                     }
                     return 'closing';
                 } else {
                     if (which === 0)
-                        this.note = this._noteNumberToName(this.openIndex);
+                        this.instrumentNote = this.openNote ;
                     else {
-                        this.playBackNote = this._noteNumberToName(this.openIndex);
+                        this.playBackNote = this.openNote ;
                     }
                     return 'opening';
                 }
@@ -189,10 +197,7 @@ For an overlayed drop menu:
                 Polymer.RenderStatus.afterNextRender(this, function () {
                     this.playbackEventQueue = [];
                     this.instrumentEventQueue = [];
-                    if (!this.state)
-                        this.state = 0;
-                    }
-                );
+                });
             }
         });
     </script>

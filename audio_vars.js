@@ -3,8 +3,12 @@ var convolver = context.createConvolver();
 var dry = context.createGain();
 var wet = context.createGain();
 var compressor = context.createDynamicsCompressor();
-dry.gain.value = 0.8;
-wet.gain.value = 0.8 * dry.gain.value;
+var synthReverb=40 ;
+wet.gain.value = ( 1.0 - ((100-synthReverb)/100) );
+dry.gain.value = (100-synthReverb)/100;
+
+// dry.gain.value = 0.8;
+// wet.gain.value = 0.8 * dry.gain.value;
 
 var convolverRequest = new XMLHttpRequest();
 convolverRequest.open('GET',"/data/16_IR_Pool_Size_00.wav", true);
