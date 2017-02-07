@@ -66,8 +66,8 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer instrument-velocity=[[instrumentVelocity]] instrument-gain=[[instrumentVolume]] playback-gain=[[playbackVolume]] id="bassNotesSynthesizer" instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
-        <ac-synthesizer instrument-velocity=[[instrumentVelocity]] instrument-gain=[[instrumentVolume]] playback-gain=[[playbackVolume]] id="bassChordsSynthesizer" instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
+        <ac-synthesizer id="bassNotesSynthesizer" instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
+        <ac-synthesizer id="bassChordsSynthesizer" instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button button idChord3 close-index="[[chordsCloseIndex.3]]" open-index="[[chordsOpenIndex.3]]" button-type="bass_chord"></accordion-button>

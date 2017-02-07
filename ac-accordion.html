@@ -44,16 +44,16 @@
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
                     <div accordion class$="{{_computeRotation(rotation)}}">
-                        <accordion-treble buttons instrument-volume='0.8' playback-volume='0.8' name='diapasón' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-treble>
-                        <accordion-bass buttons  name='bajos' instrument-volume='0.4' playback-volume='0.4' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-bass>
+                        <accordion-treble buttons name='diapasón' instrument-panning='0.57' instrument-volume='0.86' playback-volume='0.8'  rotation=[[rotation]]></accordion-treble>
+                        <accordion-bass buttons name='bajos' instrument-panning='-0.35'   instrument-volume='0.3' playback-volume='0.4' rotation=[[rotation]]></accordion-bass>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble buttons instrument-volume='0.8' playback-volume='0.8' name='diapasón' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-treble>
+                        <accordion-treble buttons name='diapasón' instrument-panning='0.5' instrument-volume='0.8' playback-volume='0.8'  rotation=[[rotation]]></accordion-treble>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass buttons  name='bajos' instrument-volume='0.4' playback-volume='0.4' instrument-velocity="[[velocity]]" rotation=[[rotation]] tone="{{tone}}"></accordion-bass>
+                        <accordion-bass buttons name='bajos' instrument-panning='-0.4'  instrument-volume='0.4' playback-volume='0.4' rotation=[[rotation]]></accordion-bass>
                     </template>
                 </template>
             </div>
@@ -77,14 +77,6 @@
                 rotation: {
                     type: Boolean,
                     value: false
-                },
-                trebleVolume:{
-                    type:Number,
-                    value:1
-                },
-                trebleBass:{
-                    type:Number,
-                    value:1
                 },
                 showingTreble: {
                     type: Boolean,
