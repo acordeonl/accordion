@@ -6,6 +6,7 @@
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
     <link rel="import" href="../ac-synthesizer/ac-synthesizer.html">
+    <link rel="import" href="../iron-localstorage/iron-localstorage.html">
 </imports>
 <!--
 
@@ -117,14 +118,12 @@ For an overlayed drop menu:
     </template>
     <script>
         Polymer({
-            is: "accordion-treble",
-            observers: ['_swap(showingTreble)'],
-            listeners:{},
+            is: "accordion-treble", observers: ['_swap(showingTreble)'], listeners: {},
             /* ./accordion-buttons-behavior.html
                ../ac-instrument-behaviors/instrument-buttons-behavior.html
             */
             behaviors: [
-                InstrumentButtonsBehavior,AccordionButtonsBehavior, ScaleUpBehavior
+                InstrumentButtonsBehavior, AccordionButtonsBehavior, ScaleUpBehavior
             ],
             properties: {
                 closeIndex: {
@@ -143,15 +142,17 @@ For an overlayed drop menu:
                 }
             },
             addButtonAction: function (e) {
-                var note,button = e.detail.midiNote - 24;
+                var note,
+                    button = e.detail.midiNote - 24;
                 var which = Math.floor(button / 2);
-                e.detail.buttonState = 0  ;
+                e.detail.buttonState = 0;
                 if (e.detail.cmd === 'note-on') {
-                    e.detail.buttonState = (button % 2) + 1 ;
-                    note = (button % 2) ? this.openIndex[which]: this.closeIndex[which];
+                    e.detail.buttonState = (button % 2) + 1;
+                    note = (button % 2)
+                        ? this.openIndex[which]
+                        : this.closeIndex[which];
                     this.$$('AC-SYNTHESIZER')._startButtonAudio(note, button, e);
-                }
-                else
+                } else
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
                 this.$$("[id" + which + "]").addButtonAction(e);
             },
@@ -232,7 +233,6 @@ For an overlayed drop menu:
                 this.openIndex[9] = 88;
                 this.changePitch(this.tone);
                 this._loadNotes();
-                // this.playAnimation("entry") ;
             }
         });
     </script>
