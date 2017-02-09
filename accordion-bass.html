@@ -151,7 +151,7 @@ For an overlayed drop menu:
                     this.$$("[id" + which + "]").addButtonAction(e);
                 }
             },
-            changePitch: function (pitch) {
+            addPitch: function (pitch) {
                 this._changeChordsPitch(pitch);
                 this._changeBassNotesPitch(pitch);
             },
@@ -232,7 +232,7 @@ For an overlayed drop menu:
                 this.chordsOpenIndex[4] = 24;
                 this.chordsOpenIndex[5] = 9;
                 this._loadNotes();
-                this.changePitch(this.tone);
+                this.addPitch(this.tone);
                 // this.playAnimation('entry') ;
             }
         });

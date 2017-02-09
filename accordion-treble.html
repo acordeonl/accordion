@@ -156,7 +156,7 @@ For an overlayed drop menu:
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
                 this.$$("[id" + which + "]").addButtonAction(e);
             },
-            changePitch: function (pitch) {
+            addPitch: function (pitch) {
                 for (var i = 0; i < 31; i++) {
                     this.closeIndex[i] = this.closeIndex[i] + pitch;
                     this.openIndex[i] = this.openIndex[i] + pitch;
@@ -231,7 +231,7 @@ For an overlayed drop menu:
                 this.openIndex[7] = 82;
                 this.openIndex[8] = 86;
                 this.openIndex[9] = 88;
-                this.changePitch(this.tone);
+                this.addPitch(this.tone);
                 this._loadNotes();
             }
         });

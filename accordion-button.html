@@ -39,7 +39,7 @@ For an overlayed drop menu:
             [text] {
                 height: 100%;
                 width: 100%;
-                color: var(--button-background-color,#fafafa);
+                color: var(--content-background,#fafafa);
                 font-weight: bold;
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
@@ -62,7 +62,7 @@ For an overlayed drop menu:
             }
             [circle] {
                 position:absolute;
-                background-color: var(--button-background-color,#fafafa);
+                background-color: var(--content-background,#fafafa);
                 border-radius: 100%;
             }
             [circle]:hover {
@@ -72,7 +72,7 @@ For an overlayed drop menu:
                 @apply(--layout-center-justified);
                 @apply(--layout-vertical);
                 @apply(--layout-center);
-                background-color: var(--button-shadow-color,#bdbdbd);
+                background-color: var(--button-shadow,#bdbdbd);
                 border-radius: 100%;
             }
             .treble[shadow] {
@@ -87,10 +87,10 @@ For an overlayed drop menu:
                 visibility: visible;
             }
             .closing{
-                background-color: var(--button-close-color,#4775D1) ;
+                background-color: var(--close-color,#4775D1) ;
             }
             .opening{
-                background-color: var(--button-open-color,#CC6666) ;
+                background-color: var(--open-color,#CC6666) ;
             }
             .hidden{
                 visibility: hidden ;
