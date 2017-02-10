@@ -154,6 +154,7 @@ For an overlayed drop menu:
             addPitch: function (pitch) {
                 this._changeChordsPitch(pitch);
                 this._changeBassNotesPitch(pitch);
+                this._loadNotes();
             },
             _checkBassNotes: function (note) {
                 if (note > 59)
