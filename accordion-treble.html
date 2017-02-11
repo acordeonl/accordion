@@ -148,9 +148,9 @@ For an overlayed drop menu:
                 e.detail.buttonState = 0;
                 if (e.detail.cmd === 'note-on') {
                     e.detail.buttonState = (button % 2) + 1;
-                    note = (button % 2)
-                        ? this.openIndex[which]
-                        : this.closeIndex[which];
+                    note = this.closeIndex[which] ;
+                    if(button%2)
+                        note = this.openIndex[which] ;
                     this.$$('AC-SYNTHESIZER')._startButtonAudio(note, button, e);
                 } else
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
@@ -161,7 +161,7 @@ For an overlayed drop menu:
                     this.closeIndex[i] = this.closeIndex[i] + pitch;
                     this.openIndex[i] = this.openIndex[i] + pitch;
                 }
-                this._loadNotes(); 
+                this._loadNotes();
                 this._updateIndexes();
             },
             _swap: function (showingTreble) {
