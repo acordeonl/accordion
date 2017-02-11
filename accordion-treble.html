@@ -137,8 +137,8 @@ For an overlayed drop menu:
             },
             _loadNotes: function () {
                 for (var i = 0; i < 31; i++) {
-                    this.$$('AC-SYNTHESIZER')._loadNote(this.closeIndex[i]);
-                    this.$$('AC-SYNTHESIZER')._loadNote(this.openIndex[i]);
+                    this.$$('AC-SYNTHESIZER').loadNote(this.closeIndex[i]);
+                    this.$$('AC-SYNTHESIZER').loadNote(this.openIndex[i]);
                 }
             },
             addButtonAction: function (e) {

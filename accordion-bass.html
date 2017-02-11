@@ -117,10 +117,10 @@ For an overlayed drop menu:
             _loadNotes: function () {
                 var i;
                 for (i = 0; i < 6; i++) {
-                    this.$.bassNotesSynthesizer._loadNote(this.closeIndex[i]);
-                    this.$.bassNotesSynthesizer._loadNote(this.openIndex[i]);
-                    this.$.bassChordsSynthesizer._loadNote(this.chordsCloseIndex[i]);
-                    this.$.bassChordsSynthesizer._loadNote(this.chordsOpenIndex[i]);
+                    this.$.bassNotesSynthesizer.loadNote(this.closeIndex[i]);
+                    this.$.bassNotesSynthesizer.loadNote(this.openIndex[i]);
+                    this.$.bassChordsSynthesizer.loadNote(this.chordsCloseIndex[i]);
+                    this.$.bassChordsSynthesizer.loadNote(this.chordsOpenIndex[i]);
                 }
             },
             addButtonAction: function (e) {
