@@ -1,7 +1,6 @@
 <imports >
     <link rel="import" href="../polymer/polymer.html">
     <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
-    <link rel="import" href="./accordion-buttons-behavior.html">
     <link rel="import" href="../ac-instrument-behaviors/instrument-buttons-behavior.html">
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
@@ -78,41 +77,41 @@ For an overlayed drop menu:
         <ac-synthesizer instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
         <local-dom class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button button id21 close-index="[[closeIndex.21]]" open-index="[[openIndex.21]]" button-type="treble"></accordion-button>
-                <accordion-button button id22 close-index="[[closeIndex.22]]" open-index="[[openIndex.22]]" button-type="treble"></accordion-button>
-                <accordion-button button id23 close-index="[[closeIndex.23]]" open-index="[[openIndex.23]]" button-type="treble"></accordion-button>
-                <accordion-button button id24 close-index="[[closeIndex.24]]" open-index="[[openIndex.24]]" button-type="treble"></accordion-button>
-                <accordion-button button id25 close-index="[[closeIndex.25]]" open-index="[[openIndex.25]]" button-type="treble"></accordion-button>
-                <accordion-button button id26 close-index="[[closeIndex.26]]" open-index="[[openIndex.26]]" button-type="treble"></accordion-button>
-                <accordion-button button id27 close-index="[[closeIndex.27]]" open-index="[[openIndex.27]]" button-type="treble"></accordion-button>
-                <accordion-button button id28 close-index="[[closeIndex.28]]" open-index="[[openIndex.28]]" button-type="treble"></accordion-button>
-                <accordion-button button id29 close-index="[[closeIndex.29]]" open-index="[[openIndex.29]]" button-type="treble"></accordion-button>
-                <accordion-button button id30 close-index="[[closeIndex.30]]" open-index="[[openIndex.30]]" button-type="treble"></accordion-button>
+                <accordion-button button id21 close-note-index="[[buttonCloseNote.21]]" open-note-index="[[buttonOpenNote.21]]" button-type="treble"></accordion-button>
+                <accordion-button button id22 close-note-index="[[buttonCloseNote.22]]" open-note-index="[[buttonOpenNote.22]]" button-type="treble"></accordion-button>
+                <accordion-button button id23 close-note-index="[[buttonCloseNote.23]]" open-note-index="[[buttonOpenNote.23]]" button-type="treble"></accordion-button>
+                <accordion-button button id24 close-note-index="[[buttonCloseNote.24]]" open-note-index="[[buttonOpenNote.24]]" button-type="treble"></accordion-button>
+                <accordion-button button id25 close-note-index="[[buttonCloseNote.25]]" open-note-index="[[buttonOpenNote.25]]" button-type="treble"></accordion-button>
+                <accordion-button button id26 close-note-index="[[buttonCloseNote.26]]" open-note-index="[[buttonOpenNote.26]]" button-type="treble"></accordion-button>
+                <accordion-button button id27 close-note-index="[[buttonCloseNote.27]]" open-note-index="[[buttonOpenNote.27]]" button-type="treble"></accordion-button>
+                <accordion-button button id28 close-note-index="[[buttonCloseNote.28]]" open-note-index="[[buttonOpenNote.28]]" button-type="treble"></accordion-button>
+                <accordion-button button id29 close-note-index="[[buttonCloseNote.29]]" open-note-index="[[buttonOpenNote.29]]" button-type="treble"></accordion-button>
+                <accordion-button button id30 close-note-index="[[buttonCloseNote.30]]" open-note-index="[[buttonOpenNote.30]]" button-type="treble"></accordion-button>
             </div>
             <div class$="col2 {{_computeColRotation(rotation)}}">
-                <accordion-button button id10 close-index="{{closeIndex.10}}" open-index="{{openIndex.10}}" button-type="treble"></accordion-button>
-                <accordion-button button id11 close-index="{{closeIndex.11}}" open-index="{{openIndex.11}}" button-type="treble"></accordion-button>
-                <accordion-button button id12 close-index="{{closeIndex.12}}" open-index="{{openIndex.12}}" button-type="treble"></accordion-button>
-                <accordion-button button id13 close-index="{{closeIndex.13}}" open-index="{{openIndex.13}}" button-type="treble"></accordion-button>
-                <accordion-button button id14 close-index="{{closeIndex.14}}" open-index="{{openIndex.14}}" button-type="treble"></accordion-button>
-                <accordion-button button id15 close-index="{{closeIndex.15}}" open-index="{{openIndex.15}}" button-type="treble"></accordion-button>
-                <accordion-button button id16 close-index="{{closeIndex.16}}" open-index="{{openIndex.16}}" button-type="treble"></accordion-button>
-                <accordion-button button id17 close-index="{{closeIndex.17}}" open-index="{{openIndex.17}}" button-type="treble"></accordion-button>
-                <accordion-button button id18 close-index="{{closeIndex.18}}" open-index="{{openIndex.18}}" button-type="treble"></accordion-button>
-                <accordion-button button id19 close-index="{{closeIndex.19}}" open-index="{{openIndex.19}}" button-type="treble"></accordion-button>
-                <accordion-button button id20 close-index="{{closeIndex.20}}" open-index="{{openIndex.20}}" button-type="treble"></accordion-button>
+                <accordion-button button id10 close-note-index="{{buttonCloseNote.10}}" open-note-index="{{buttonOpenNote.10}}" button-type="treble"></accordion-button>
+                <accordion-button button id11 close-note-index="{{buttonCloseNote.11}}" open-note-index="{{buttonOpenNote.11}}" button-type="treble"></accordion-button>
+                <accordion-button button id12 close-note-index="{{buttonCloseNote.12}}" open-note-index="{{buttonOpenNote.12}}" button-type="treble"></accordion-button>
+                <accordion-button button id13 close-note-index="{{buttonCloseNote.13}}" open-note-index="{{buttonOpenNote.13}}" button-type="treble"></accordion-button>
+                <accordion-button button id14 close-note-index="{{buttonCloseNote.14}}" open-note-index="{{buttonOpenNote.14}}" button-type="treble"></accordion-button>
+                <accordion-button button id15 close-note-index="{{buttonCloseNote.15}}" open-note-index="{{buttonOpenNote.15}}" button-type="treble"></accordion-button>
+                <accordion-button button id16 close-note-index="{{buttonCloseNote.16}}" open-note-index="{{buttonOpenNote.16}}" button-type="treble"></accordion-button>
+                <accordion-button button id17 close-note-index="{{buttonCloseNote.17}}" open-note-index="{{buttonOpenNote.17}}" button-type="treble"></accordion-button>
+                <accordion-button button id18 close-note-index="{{buttonCloseNote.18}}" open-note-index="{{buttonOpenNote.18}}" button-type="treble"></accordion-button>
+                <accordion-button button id19 close-note-index="{{buttonCloseNote.19}}" open-note-index="{{buttonOpenNote.19}}" button-type="treble"></accordion-button>
+                <accordion-button button id20 close-note-index="{{buttonCloseNote.20}}" open-note-index="{{buttonOpenNote.20}}" button-type="treble"></accordion-button>
             </div>
             <div class$="col1 {{_computeColRotation(rotation)}}">
-                <accordion-button button id0 close-index="{{closeIndex.0}}" open-index="{{openIndex.0}}" button-type="treble"></accordion-button>
-                <accordion-button button id1 close-index="{{closeIndex.1}}" open-index="{{openIndex.1}}" button-type="treble"></accordion-button>
-                <accordion-button button id2 close-index="{{closeIndex.2}}" open-index="{{openIndex.2}}" button-type="treble"></accordion-button>
-                <accordion-button button id3 close-index="{{closeIndex.3}}" open-index="{{openIndex.3}}" button-type="treble"></accordion-button>
-                <accordion-button button id4 close-index="{{closeIndex.4}}" open-index="{{openIndex.4}}" button-type="treble"></accordion-button>
-                <accordion-button button id5 close-index="{{closeIndex.5}}" open-index="{{openIndex.5}}" button-type="treble"></accordion-button>
-                <accordion-button button id6 close-index="{{closeIndex.6}}" open-index="{{openIndex.6}}" button-type="treble"></accordion-button>
-                <accordion-button button id7 close-index="{{closeIndex.7}}" open-index="{{openIndex.7}}" button-type="treble"></accordion-button>
-                <accordion-button button id8 close-index="{{closeIndex.8}}" open-index="{{openIndex.8}}" button-type="treble"></accordion-button>
-                <accordion-button button id9 close-index="{{closeIndex.9}}" open-index="{{openIndex.9}}" button-type="treble"></accordion-button>
+                <accordion-button button id0 close-note-index="{{buttonCloseNote.0}}" open-note-index="{{buttonOpenNote.0}}" button-type="treble"></accordion-button>
+                <accordion-button button id1 close-note-index="{{buttonCloseNote.1}}" open-note-index="{{buttonOpenNote.1}}" button-type="treble"></accordion-button>
+                <accordion-button button id2 close-note-index="{{buttonCloseNote.2}}" open-note-index="{{buttonOpenNote.2}}" button-type="treble"></accordion-button>
+                <accordion-button button id3 close-note-index="{{buttonCloseNote.3}}" open-note-index="{{buttonOpenNote.3}}" button-type="treble"></accordion-button>
+                <accordion-button button id4 close-note-index="{{buttonCloseNote.4}}" open-note-index="{{buttonOpenNote.4}}" button-type="treble"></accordion-button>
+                <accordion-button button id5 close-note-index="{{buttonCloseNote.5}}" open-note-index="{{buttonOpenNote.5}}" button-type="treble"></accordion-button>
+                <accordion-button button id6 close-note-index="{{buttonCloseNote.6}}" open-note-index="{{buttonOpenNote.6}}" button-type="treble"></accordion-button>
+                <accordion-button button id7 close-note-index="{{buttonCloseNote.7}}" open-note-index="{{buttonOpenNote.7}}" button-type="treble"></accordion-button>
+                <accordion-button button id8 close-note-index="{{buttonCloseNote.8}}" open-note-index="{{buttonOpenNote.8}}" button-type="treble"></accordion-button>
+                <accordion-button button id9 close-note-index="{{buttonCloseNote.9}}" open-note-index="{{buttonOpenNote.9}}" button-type="treble"></accordion-button>
             </div>
         </local-dom>
     </template>
@@ -123,23 +122,33 @@ For an overlayed drop menu:
                ../ac-instrument-behaviors/instrument-buttons-behavior.html
             */
             behaviors: [
-                InstrumentButtonsBehavior, AccordionButtonsBehavior, ScaleUpBehavior
+                InstrumentButtonsBehavior, ScaleUpBehavior
             ],
             properties: {
-                closeIndex: {
+                // Mapping of button to instrument button closing note
+                buttonCloseNote: {
                     type: Array,
                     value: []
                 },
-                openIndex: {
+                // Mapping of button to instrument button opening note with
+                buttonOpenNote: {
                     type: Array,
                     value: []
                 }
             },
             _loadNotes: function () {
-                for (var i = 0; i < 31; i++) {
-                    this.$$('AC-SYNTHESIZER').loadNote(this.closeIndex[i]);
-                    this.$$('AC-SYNTHESIZER').loadNote(this.openIndex[i]);
+                var i ;
+                for ( i = 0; i < 31; i++) {
+                    this.$$('AC-SYNTHESIZER').loadNote(this.buttonCloseNote[i]);
+                    this.$$('AC-SYNTHESIZER').loadNote(this.buttonOpenNote[i]);
                 }
+            },
+            _setPitch: function (diff) {
+                for (var i = 0; i < 31; i++) {
+                    this.buttonCloseNote[i] = this.buttonCloseNote[i] + diff;
+                    this.buttonOpenNote[i] = this.buttonOpenNote[i] + diff;
+                }
+                this._updateNotesArray();
             },
             addButtonAction: function (e) {
                 var note,
@@ -148,21 +157,21 @@ For an overlayed drop menu:
                 e.detail.buttonState = 0;
                 if (e.detail.cmd === 'note-on') {
                     e.detail.buttonState = (button % 2) + 1;
-                    note = this.closeIndex[which] ;
+                    note = this.buttonCloseNote[which] ;
                     if(button%2)
-                        note = this.openIndex[which] ;
+                        note = this.buttonOpenNote[which] ;
                     this.$$('AC-SYNTHESIZER')._startButtonAudio(note, button, e);
                 } else
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
                 this.$$("[id" + which + "]").addButtonAction(e);
             },
-            addPitch: function (pitch) {
-                for (var i = 0; i < 31; i++) {
-                    this.closeIndex[i] = this.closeIndex[i] + pitch;
-                    this.openIndex[i] = this.openIndex[i] + pitch;
-                }
-                this._loadNotes();
-                this._updateIndexes();
+            _updateNotesArray: function(){
+                var array = this.buttonCloseNote;
+                this.buttonCloseNote = [];
+                this.buttonCloseNote = array;
+                array = this.buttonOpenNote;
+                this.buttonOpenNote = [];
+                this.buttonOpenNote = array;
             },
             _swap: function (showingTreble) {
                 if (showingTreble) {
@@ -170,70 +179,72 @@ For an overlayed drop menu:
                 }
             },
             ready: function () {
-                this.closeIndex[21] = 61;
-                this.closeIndex[22] = 55;
-                this.closeIndex[23] = 59;
-                this.closeIndex[24] = 62;
-                this.closeIndex[25] = 67;
-                this.closeIndex[26] = 71;
-                this.closeIndex[27] = 74;
-                this.closeIndex[28] = 79;
-                this.closeIndex[29] = 83;
-                this.closeIndex[30] = 86;
-                this.closeIndex[10] = 66;
-                this.closeIndex[11] = 55;
-                this.closeIndex[12] = 60;
-                this.closeIndex[13] = 64;
-                this.closeIndex[14] = 67;
-                this.closeIndex[15] = 72;
-                this.closeIndex[16] = 76;
-                this.closeIndex[17] = 79;
-                this.closeIndex[18] = 84;
-                this.closeIndex[19] = 88;
-                this.closeIndex[20] = 91;
-                this.closeIndex[0] = 75;
-                this.closeIndex[1] = 60;
-                this.closeIndex[2] = 65;
-                this.closeIndex[3] = 69;
-                this.closeIndex[4] = 72;
-                this.closeIndex[5] = 77;
-                this.closeIndex[6] = 81;
-                this.closeIndex[7] = 84;
-                this.closeIndex[8] = 89;
-                this.closeIndex[9] = 93;
-                this.openIndex[21] = 63;
-                this.openIndex[22] = 57;
-                this.openIndex[23] = 60;
-                this.openIndex[24] = 64;
-                this.openIndex[25] = 66;
-                this.openIndex[26] = 69;
-                this.openIndex[27] = 72;
-                this.openIndex[28] = 76;
-                this.openIndex[29] = 78;
-                this.openIndex[30] = 81;
-                this.openIndex[10] = 68;
-                this.openIndex[11] = 59;
-                this.openIndex[12] = 62;
-                this.openIndex[13] = 65;
-                this.openIndex[14] = 69;
-                this.openIndex[15] = 71;
-                this.openIndex[16] = 74;
-                this.openIndex[17] = 77;
-                this.openIndex[18] = 81;
-                this.openIndex[19] = 83;
-                this.openIndex[20] = 86;
-                this.openIndex[0] = 73;
-                this.openIndex[1] = 64;
-                this.openIndex[2] = 67;
-                this.openIndex[3] = 70;
-                this.openIndex[4] = 74;
-                this.openIndex[5] = 76;
-                this.openIndex[6] = 79;
-                this.openIndex[7] = 82;
-                this.openIndex[8] = 86;
-                this.openIndex[9] = 88;
-                this.addPitch(this.tone);
-                this._loadNotes();
+                if(true){
+                    this.buttonCloseNote[21] = 61;
+                    this.buttonCloseNote[22] = 55;
+                    this.buttonCloseNote[23] = 59;
+                    this.buttonCloseNote[24] = 62;
+                    this.buttonCloseNote[25] = 67;
+                    this.buttonCloseNote[26] = 71;
+                    this.buttonCloseNote[27] = 74;
+                    this.buttonCloseNote[28] = 79;
+                    this.buttonCloseNote[29] = 83;
+                    this.buttonCloseNote[30] = 86;
+                    this.buttonCloseNote[10] = 66;
+                    this.buttonCloseNote[11] = 55;
+                    this.buttonCloseNote[12] = 60;
+                    this.buttonCloseNote[13] = 64;
+                    this.buttonCloseNote[14] = 67;
+                    this.buttonCloseNote[15] = 72;
+                    this.buttonCloseNote[16] = 76;
+                    this.buttonCloseNote[17] = 79;
+                    this.buttonCloseNote[18] = 84;
+                    this.buttonCloseNote[19] = 88;
+                    this.buttonCloseNote[20] = 91;
+                    this.buttonCloseNote[0] = 75;
+                    this.buttonCloseNote[1] = 60;
+                    this.buttonCloseNote[2] = 65;
+                    this.buttonCloseNote[3] = 69;
+                    this.buttonCloseNote[4] = 72;
+                    this.buttonCloseNote[5] = 77;
+                    this.buttonCloseNote[6] = 81;
+                    this.buttonCloseNote[7] = 84;
+                    this.buttonCloseNote[8] = 89;
+                    this.buttonCloseNote[9] = 93;
+                    this.buttonOpenNote[21] = 63;
+                    this.buttonOpenNote[22] = 57;
+                    this.buttonOpenNote[23] = 60;
+                    this.buttonOpenNote[24] = 64;
+                    this.buttonOpenNote[25] = 66;
+                    this.buttonOpenNote[26] = 69;
+                    this.buttonOpenNote[27] = 72;
+                    this.buttonOpenNote[28] = 76;
+                    this.buttonOpenNote[29] = 78;
+                    this.buttonOpenNote[30] = 81;
+                    this.buttonOpenNote[10] = 68;
+                    this.buttonOpenNote[11] = 59;
+                    this.buttonOpenNote[12] = 62;
+                    this.buttonOpenNote[13] = 65;
+                    this.buttonOpenNote[14] = 69;
+                    this.buttonOpenNote[15] = 71;
+                    this.buttonOpenNote[16] = 74;
+                    this.buttonOpenNote[17] = 77;
+                    this.buttonOpenNote[18] = 81;
+                    this.buttonOpenNote[19] = 83;
+                    this.buttonOpenNote[20] = 86;
+                    this.buttonOpenNote[0] = 73;
+                    this.buttonOpenNote[1] = 64;
+                    this.buttonOpenNote[2] = 67;
+                    this.buttonOpenNote[3] = 70;
+                    this.buttonOpenNote[4] = 74;
+                    this.buttonOpenNote[5] = 76;
+                    this.buttonOpenNote[6] = 79;
+                    this.buttonOpenNote[7] = 82;
+                    this.buttonOpenNote[8] = 86;
+                    this.buttonOpenNote[9] = 88;
+                    this._updateNotesArray();
+                }
+                this._loadInstrumentNotes(this._loadNotes) ;
             }
         });
     </script>

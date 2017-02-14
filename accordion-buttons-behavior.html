@@ -16,46 +16,23 @@
         toggleNotes: function(){
             this.showingNotes = !this.showingNotes ;
         },
-        _computeRotation: function(rotation){
-            if( rotation )
-                return "reversedHorizontal" ;
-            return "horizontal" ;
-        },
-        _computeColRotation: function(rotation){
-            if( rotation )
-                return "reversedVertical" ;
-            return "vertical" ;
-        },
+        
         _updateIndexes: function () {
             var array = this.closeIndex;
             this.closeIndex = [];
             this.closeIndex = array;
-            var array2 = this.openIndex;
+            array = this.openIndex;
             this.openIndex = [];
-            this.openIndex = array2;
-        },
-        _setDefaultInstrmentPanning: function(){
-            this.instrumentPanning = 0 ;
-        },
-        _setDefaultPlaybackPanning: function(){
-            this.playbackPanning = 0 ;
-
-        },
-        _setDefaultInstrumentVolume: function(){
-            this.instrumentVolume = 1 ;
-
-        },
-        _setDefaultPlaybackVolume: function(){
-            this.playbackVolume = 1 ;
-
+            this.openIndex = array;
+            array = this.chordsCloseIndex;
+            this.chordsCloseIndex = [];
+            this.chordsCloseIndex = array;
+            array = this.chordsOpenIndex;
+            this.chordsOpenIndex = [];
+            this.chordsOpenIndex = array;
         },
         _updateChordIndexes: function () {
-            var array3 = this.chordsCloseIndex;
-            this.chordsCloseIndex = [];
-            this.chordsCloseIndex = array3;
-            var array4 = this.chordsOpenIndex;
-            this.chordsOpenIndex = [];
-            this.chordsOpenIndex = array4;
+
         }
     } ;
 </script>

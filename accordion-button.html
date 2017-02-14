@@ -125,11 +125,19 @@ For an overlayed drop menu:
             behaviors: [InstrumentButtonBehavior],
             listeners: {},
             properties: {
-                closeIndex:{
+                instrumentNote: {
+                    type: String,
+                    value: ""
+                },
+                playBackNote: {
+                    type: String,
+                    value: ""
+                },
+                closeNoteIndex:{
                     type:Number,
                     observer:'_computeCloseNote'
                 },
-                openIndex:{
+                openNoteIndex:{
                     type:Number,
                     observer:'_computeOpenNote'
                 },
@@ -144,32 +152,15 @@ For an overlayed drop menu:
                 },
             },
             _computeCloseNote: function(){
-                this.closeNote= this._noteNumberToName(this.closeIndex);
+                this.closeNote= this._noteNumberToName(this.closeNoteIndex);
             },
             _computeOpenNote: function(){
-                this.openNote= this._noteNumberToName(this.openIndex);
+                this.openNote= this._noteNumberToName(this.openNoteIndex);
             },
-            _noteNumberToName: function (note) {
+            _noteNumberToName: function (note) { 
                 if (this.buttonType === 'bass_chord')
                     return "";
-                var notes = [
-                    'C',
-                    'C#',
-                    'D',
-                    'Eb',
-                    'E',
-                    'F',
-                    'F#',
-                    'G',
-                    'Ab',
-                    'A',
-                    'Bb',
-                    'B'
-                ];
-                var octave = Math.floor(note / 12);
-                var name = notes[note % 12];
-                name += octave;
-                return name;
+                return this._getNoteName(note);
             },
             _computeColor: function (state, which) {
                 if (state === 1) {
@@ -192,12 +183,6 @@ For an overlayed drop menu:
                 if (state === 0)
                     return 'hidden';
                 return 'visible';
-            },
-            ready: function () {
-                Polymer.RenderStatus.afterNextRender(this, function () {
-                    this.playbackEventQueue = [];
-                    this.instrumentEventQueue = [];
-                });
             }
         });
     </script>
