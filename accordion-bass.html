@@ -114,12 +114,11 @@ For an overlayed drop menu:
                 },
             },
             _loadNotes: function () {
-                var i;
-                for (i = 0; i < 6; i++) {
-                    this.$.bassNotesSynthesizer.loadNote(this.buttonCloseNote[i]);
-                    this.$.bassNotesSynthesizer.loadNote(this.buttonOpenNote[i]);
-                    this.$.bassChordsSynthesizer.loadNote(this.chordButtonCloseNote[i]);
-                    this.$.bassChordsSynthesizer.loadNote(this.chordButtonOpenNote[i]);
+                for ( var i = 0; i < 6; i++) {
+                    this._loadNote('bassNotesSynthesizer', this.buttonCloseNote[i]);
+                    this._loadNote('bassNotesSynthesizer', this.buttonOpenNote[i]);
+                    this._loadNote('bassChordsSynthesizer', this.chordButtonCloseNote[i]);
+                    this._loadNote('bassChordsSynthesizer', this.chordButtonOpenNote[i]);
                 }
             },
             _setPitch: function (diff) {

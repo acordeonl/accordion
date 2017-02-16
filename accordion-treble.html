@@ -74,7 +74,7 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
+        <ac-synthesizer id="trebleSynthesizer" instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
         <local-dom class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(rotation)}}">
                 <accordion-button button id21 close-note-index="[[buttonCloseNote.21]]" open-note-index="[[buttonOpenNote.21]]" button-type="treble"></accordion-button>
@@ -137,10 +137,9 @@ For an overlayed drop menu:
                 }
             },
             _loadNotes: function () {
-                var i ;
-                for ( i = 0; i < 31; i++) {
-                    this.$$('AC-SYNTHESIZER').loadNote(this.buttonCloseNote[i]);
-                    this.$$('AC-SYNTHESIZER').loadNote(this.buttonOpenNote[i]);
+                for (var  i = 0; i < 31; i++) {
+                    this._loadNote('trebleSynthesizer',this.buttonCloseNote[i]);
+                    this._loadNote('trebleSynthesizer', this.buttonOpenNote[i]);
                 }
             },
             _setPitch: function (diff) {
