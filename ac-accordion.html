@@ -1,5 +1,6 @@
 <imports >
     <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="/bower_components/paper-spinner/paper-spinner-lite.html" async>
     <link rel="import" href="./accordion-treble.html">
     <link rel="import" href="./accordion-bass.html">
     <link rel="import" href="../local-dom/local-dom.html">
@@ -36,6 +37,19 @@
             .horizontal {
                 @apply(--layout-horizontal);
             }
+            [spinner] {
+                height:80%;
+                width: 100%;
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+                @apply(--layout-center);
+            }
+            .withDisplay{
+                display: flex ;
+            }
+            .noDisplay{
+                display: none ;
+            }
         </style>
         <ac-recorder ></ac-recorder>
         <ac-player instrument-activity-url="alicia_adorada" velocities-url="alicia_adorada_velocities"></ac-player>
@@ -43,7 +57,12 @@
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[laptop]]">
-                    <div accordion class$="{{_computeRotation(rotation)}}">
+                    <template is="dom-if" if="[[!finishedLoading]]" >
+                        <div spinner>
+                            <paper-spinner-lite active></paper-spinner-lite>
+                        </div>
+                    </template>
+                    <div accordion class$="{{_computeRotation(rotation)}} {{_computeDisplay(finishedLoading)}}">
                         <accordion-treble buttons instrument-notes='62' name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
                         <accordion-bass buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
                     </div>
@@ -209,6 +228,11 @@
             // ------------- general controls ---------------
             swap: function () {
                 this.showingTreble = !this.showingTreble;
+            },
+            _computeDisplay: function(finishedLoading){
+                if(finishedLoading)
+                    return 'withDisplay' ;
+                return 'noDisplay' ;
             },
             _computeRotation: function (rotation) {
                 if (rotation)
