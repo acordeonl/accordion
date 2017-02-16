@@ -212,6 +212,9 @@ For an overlayed drop menu:
                 this.chordButtonOpenNote = [];
                 this.chordButtonOpenNote = array;
             },
+            onFinishedLoadingNotes: function(){
+                this.playAnimation('entry') ;
+            },
             _swap: function (showingTreble) {
                 if (!showingTreble) {
                     this.playAnimation('entry');
@@ -246,7 +249,6 @@ For an overlayed drop menu:
                     this._updateNotesArray();
                 }
                 this._loadInstrumentNotes(this._loadNotes) ;
-                // this.playAnimation('entry') ;
             }
         });
     </script>

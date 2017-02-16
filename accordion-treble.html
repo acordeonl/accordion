@@ -164,6 +164,9 @@ For an overlayed drop menu:
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
                 this.$$("[id" + which + "]").addButtonAction(e);
             },
+            onFinishedLoadingNotes: function(){
+                this.playAnimation('entry') ;
+            },
             _updateNotesArray: function(){
                 var array = this.buttonCloseNote;
                 this.buttonCloseNote = [];
