@@ -11,7 +11,11 @@ bassChordsNextNote[2] = 6 ;
 bassChordspreviousNote[2] = 36 ;
 bassChordsNextNote[3] = 7 ;
 bassChordspreviousNote[3] = 37 ;
+
+
 bassChordsNextNote[4] = 8 ;
+
+
 bassChordspreviousNote[4] = 0 ;
 bassChordsNextNote[5] = 8 ;
 bassChordspreviousNote[5] = 1 ;
