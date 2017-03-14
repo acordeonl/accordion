@@ -70,6 +70,7 @@
                 <template is="dom-if" if="[[!laptop]]">
                     <template is="dom-if" if="[[showingTreble]]">
                         <accordion-treble buttons instrument-notes='62' name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
+                        <accordion-bass buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
                     </template>
                     <template is="dom-if" if="[[!showingTreble]]">
                         <accordion-bass buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
