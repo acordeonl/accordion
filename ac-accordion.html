@@ -22,14 +22,9 @@
             [wrapper] {
                 height: 100%;
                 width: 100%;
+                transform: translateZ(0);
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
-            }
-            [accordion] {
-                @apply(--layout-justified);
-                @apply(--layout-center);
-                height: 100%;
-                width: 65%;
             }
             .reversed {
                 @apply(--layout-horizontal-reverse);
@@ -56,26 +51,13 @@
         <midi-manager ></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
-                <template is="dom-if" if="[[laptop]]">
-                    <template is="dom-if" if="[[!finishedLoading]]" >
-                        <div spinner>
-                            <paper-spinner-lite active></paper-spinner-lite>
-                        </div>
-                    </template>
-                    <div accordion class$="{{_computeRotation(rotation)}} {{_computeDisplay(finishedLoading)}}">
-                        <accordion-treble buttons instrument-notes='62' name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
-                        <accordion-bass buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
+                <template is="dom-if" if="[[!finishedLoading]]" >
+                    <div spinner>
+                        <paper-spinner-lite active></paper-spinner-lite>
                     </div>
                 </template>
-                <template is="dom-if" if="[[!laptop]]">
-                    <template is="dom-if" if="[[showingTreble]]">
-                        <accordion-treble buttons instrument-notes='62' name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
-                        <accordion-bass buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
-                    </template>
-                    <template is="dom-if" if="[[!showingTreble]]">
-                        <accordion-bass buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
-                    </template>
-                </template>
+                <accordion-treble id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons instrument-notes='62' name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
+                <accordion-bass id='bass' class$='{{_computeDisplayBass(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
             </div>
         </local-dom>
     </template>
@@ -229,9 +211,29 @@
             // ------------- general controls ---------------
             swap: function () {
                 this.showingTreble = !this.showingTreble;
+                if (this.showingTreble) {
+                    this.$.treble.onFinishedLoadingNotes() ;
+                }
+                else{
+                    this.$.bass.onFinishedLoadingNotes() ;
+                }
             },
-            _computeDisplay: function(finishedLoading){
-                if(finishedLoading)
+            _computeDisplay: function(flag){
+                if(flag)
+                    return 'withDisplay' ;
+                return 'noDisplay' ;
+            },
+            _computeDisplayTreble: function(mobile,flag){
+                if(!mobile)
+                    return 'withDisplay' ;
+                if(flag)
+                    return 'withDisplay' ;
+                return 'noDisplay' ;
+            },
+            _computeDisplayBass: function(mobile,flag){
+                if(!mobile)
+                    return 'withDisplay' ;
+                if(!flag)
                     return 'withDisplay' ;
                 return 'noDisplay' ;
             },
