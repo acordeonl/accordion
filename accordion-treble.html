@@ -139,10 +139,16 @@ For an overlayed drop menu:
                 }
             },
             _loadNotes: function () {
-                for (var  i = 0; i < 31; i++) {
-                    this._loadNote('trebleSynthesizer',this.buttonCloseNote[i]);
-                    this._loadNote('trebleSynthesizer', this.buttonOpenNote[i]);
-                }
+                this.async(function(){
+                    for (var  i = 0; i < 31; i++) {
+                        this._loadNote('trebleSynthesizer',this.buttonCloseNote[i]);
+                    }
+                } ,  0 )  ;
+                this.async(function(){
+                    for (var i = 0; i < 31; i++) {
+                        this._loadNote('trebleSynthesizer', this.buttonOpenNote[i]);
+                    }
+                } , 0 )  ;
             },
             _setPitch: function (diff) {
                 for (var i = 0; i < 31; i++) {
