@@ -31,7 +31,6 @@ For an overlayed drop menu:
             :host {}
             .bass_chord {
                 margin-top: -0.6vh;
-                user-select: none;
                 height: 5.4vh;
                 width: 5.4vh;
                 visibility: hidden;
@@ -48,13 +47,11 @@ For an overlayed drop menu:
             }
             .bass_note {
                 margin-top: -0.6vh;
-                user-select: none;
                 height: 5.4vh;
                 width: 5.4vh;
                 visibility: hidden;
             }
             .treble {
-                user-select: none;
                 margin-top: -0.6vh;
                 height: 6.8vh;
                 width: 6.8vh;
@@ -157,7 +154,7 @@ For an overlayed drop menu:
             _computeOpenNote: function(){
                 this.openNote= this._noteNumberToName(this.openNoteIndex);
             },
-            _noteNumberToName: function (note) { 
+            _noteNumberToName: function (note) {
                 if (this.buttonType === 'bass_chord')
                     return "";
                 return this._getNoteName(note);

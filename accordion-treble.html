@@ -1,6 +1,5 @@
 <imports >
     <link rel="import" href="../polymer/polymer.html">
-    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
     <link rel="import" href="../ac-instrument-behaviors/instrument-buttons-behavior.html">
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
@@ -76,7 +75,7 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer id="trebleSynthesizer" instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
+        <ac-synthesizer id="trebleSynthesizer" instrument-notes='62' instrument-url="/data/accordion_synth/treble"></ac-synthesizer>
         <local-dom class$="{{_computeRotation(rotation)}}" mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div class$="col1 {{_computeColRotation(rotation)}}">
                 <accordion-button button id21 close-note-index="[[buttonCloseNote.21]]" open-note-index="[[buttonOpenNote.21]]" button-type="treble"></accordion-button>
@@ -124,7 +123,7 @@ For an overlayed drop menu:
                ../ac-instrument-behaviors/instrument-buttons-behavior.html
             */
             behaviors: [
-                InstrumentButtonsBehavior, ScaleUpBehavior
+                InstrumentButtonsBehavior
             ],
             properties: {
                 // Mapping of button to instrument button closing note
@@ -139,16 +138,17 @@ For an overlayed drop menu:
                 }
             },
             _loadNotes: function () {
-                this.async(function(){
-                    for (var  i = 0; i < 31; i++) {
+                // this.async(function(){
+                var i ;
+                    for ( i = 0; i < 31; i++) {
                         this._loadNote('trebleSynthesizer',this.buttonCloseNote[i]);
                     }
-                } ,  0 )  ;
-                this.async(function(){
-                    for (var i = 0; i < 31; i++) {
+                // } ,  0 )  ;
+                // this.async(function(){
+                    for (i = 0; i < 31; i++) {
                         this._loadNote('trebleSynthesizer', this.buttonOpenNote[i]);
                     }
-                } , 0 )  ;
+                // } , 0 )  ;
             },
             _setPitch: function (diff) {
                 for (var i = 0; i < 31; i++) {
@@ -171,9 +171,6 @@ For an overlayed drop menu:
                 } else
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
                 this.$$("[id" + which + "]").addButtonAction(e);
-            },
-            onFinishedLoadingNotes: function(){
-                this.playAnimation('entry') ;
             },
             _updateNotesArray: function(){
                 var array = this.buttonCloseNote;
@@ -254,6 +251,7 @@ For an overlayed drop menu:
                     this.buttonOpenNote[9] = 88;
                     this._updateNotesArray();
                 }
+                this.addPitch(0) ;
             }
         });
     </script>

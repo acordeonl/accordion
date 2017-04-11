@@ -1,6 +1,5 @@
 <imports >
     <link rel="import" href="../polymer/polymer.html">
-    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
     <link rel="import" href="../ac-instrument-behaviors/instrument-buttons-behavior.html">
     <link rel="import" href="../local-dom/local-dom.html" async>
     <link rel="import" href="./accordion-button.html" async>
@@ -65,8 +64,8 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer id="bassNotesSynthesizer" instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
-        <ac-synthesizer id="bassChordsSynthesizer" instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
+        <ac-synthesizer id="bassNotesSynthesizer" instrument-notes='12' instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
+        <ac-synthesizer id="bassChordsSynthesizer" instrument-notes='12' instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button button idChord3 close-note-index="[[chordButtonCloseNote.3]]" open-note-index="[[chordButtonOpenNote.3]]" button-type="bass_chord"></accordion-button>
@@ -91,7 +90,7 @@ For an overlayed drop menu:
             is: "accordion-bass",
             observers: ['_swap(showingTreble)'],
             listeners: {},
-            behaviors: [InstrumentButtonsBehavior,ScaleUpBehavior],
+            behaviors: [InstrumentButtonsBehavior],
             /* ./accordion-buttons-behavior.html
                ../ac-instrument-behaviors/instrument-buttons-behavior.html
             */
@@ -212,9 +211,6 @@ For an overlayed drop menu:
                 this.chordButtonOpenNote = [];
                 this.chordButtonOpenNote = array;
             },
-            onFinishedLoadingNotes: function(){
-                this.playAnimation('entry') ;
-            },
             _swap: function (showingTreble) {
                 if (!showingTreble) {
                     this.playAnimation('entry');
@@ -248,6 +244,7 @@ For an overlayed drop menu:
                     this.chordButtonOpenNote[5] = 9;
                     this._updateNotesArray();
                 }
+                this.addPitch(0) ;
             }
         });
     </script>

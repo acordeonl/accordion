@@ -1,28 +1,27 @@
 <imports >
     <link rel="import" href="../polymer/polymer.html">
-    <link rel="import" href="/bower_components/paper-spinner/paper-spinner-lite.html" async>
+    <!-- <link rel="import" href="/bower_components/paper-spinner/paper-spinner-lite.html" async> -->
     <link rel="import" href="./accordion-treble.html">
     <link rel="import" href="./accordion-bass.html">
     <link rel="import" href="../local-dom/local-dom.html">
     <link rel="import" href="../midi-manager/midi-manager.html">
     <link rel="import" href="../ac-recorder/ac-recorder.html">
     <link rel="import" href="../ac-player/ac-player.html">
+    <link rel="import" href="../animation-behaviors/scale-up-behavior.html">
     <link rel="import" href="../ac-instrument-behaviors/instrument-behavior.html">
-    <script src="./audio_vars.js"></script>
     <script src="./accordion_synth_vars.js"></script>
 </imports>
 <dom-module id="ac-accordion">
     <template>
         <style>
             :host {
-                outline: none;
+                /*outline: none;*/
                 width: 60vw;
                 height: 100%;
             }
             [wrapper] {
                 height: 100%;
                 width: 100%;
-                transform: translateZ(0);
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
@@ -52,12 +51,12 @@
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
                 <template is="dom-if" if="[[!finishedLoading]]" >
-                    <div spinner>
+                    <!-- <div spinner>
                         <paper-spinner-lite active></paper-spinner-lite>
-                    </div>
+                    </div> -->
                 </template>
-                <accordion-treble id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons instrument-notes='62' name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
-                <accordion-bass id='bass' class$='{{_computeDisplayBass(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='bajos' instrument-notes='24' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
+                <accordion-treble id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons  name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
+                <accordion-bass id='bass' class$='{{_computeDisplayBass(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='bajos' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
             </div>
         </local-dom>
     </template>
@@ -65,13 +64,17 @@
         Polymer({
             is: "ac-accordion",
             observers: [],
-            behaviors: [InstrumentBehavior],
+            behaviors: [InstrumentBehavior,ScaleUpBehavior],
             listeners: {
                 'keypress': '_keyPress',
-                'keyup': '_keyUp',
-                'mousemove': '_updateOpening'
+                'keyup': '_keyUp'
+                // 'mousemove': '_updateOpening'
             },
             properties: {
+                synthesizers:{
+                    type:Number,
+                    value:3
+                },
                 opening: {
                     type: Boolean,
                     value: false
@@ -85,7 +88,10 @@
                     value: 0
                 }
             },
-            // -------- keyboard mouse activity -------------
+            _onFinishedLoadingNotes: function(){
+                // this.playAnimation('entry') ;
+            },
+            // ------   -- keyboard mouse activity -------------
             _updateOpening: function (e) {
                 if (e.movementX > 0)
                     this.opening = true;
@@ -211,12 +217,7 @@
             // ------------- general controls ---------------
             swap: function () {
                 this.showingTreble = !this.showingTreble;
-                if (this.showingTreble) {
-                    this.$.treble.onFinishedLoadingNotes() ;
-                }
-                else{
-                    this.$.bass.onFinishedLoadingNotes() ;
-                }
+                this.playAnimation('entry') ;
             },
             _computeDisplay: function(flag){
                 if(flag)
