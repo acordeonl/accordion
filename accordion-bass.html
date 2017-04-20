@@ -95,9 +95,9 @@ For an overlayed drop menu:
                ../ac-instrument-behaviors/instrument-buttons-behavior.html
             */
             properties: {
-                buttonCloseNote: {
-                    type: Array,
-                    value: []
+                buttonCloseNote:{
+                    type:Array,
+                    value:[]
                 },
                 buttonOpenNote: {
                     type: Array,
@@ -126,7 +126,7 @@ For an overlayed drop menu:
                 this._updateNotesArray();
             },
             addButtonAction: function (e) {
-                var note,which,button=e.detail.midiNote;
+                var note,which,button=e.detail.button ;
                 e.detail.buttonState = 0 ;
                 if (e.detail.channel === 3) {
                     which = Math.floor(button / 2);
@@ -135,12 +135,12 @@ For an overlayed drop menu:
                         note = (button % 2) ? this.chordButtonOpenNote[which]: this.chordButtonCloseNote[which];
                         this.$.bassChordsSynthesizer._startButtonAudio(note, button, e);
                     }
-                    else
+                    else{
                         this.$.bassChordsSynthesizer._stopButtonAudio(button, e);
-                    this.$$("[idChord" + which + "]").addButtonAction(e);
+                    }
+                    e.detail.which = 'idChord'+which ;
                 }
                 else {
-                // if(e.detail.channel !== 3) {
                     button -= 48;
                     which = Math.floor(button / 2);
                     if (e.detail.cmd === 'note-on') {
@@ -148,10 +148,12 @@ For an overlayed drop menu:
                         note = (button % 2) ? this.buttonOpenNote[which]: this.buttonCloseNote[which];
                         this.$.bassNotesSynthesizer._startButtonAudio(note, button, e);
                     }
-                    else
+                    else{
                         this.$.bassNotesSynthesizer._stopButtonAudio(button, e);
-                    this.$$("[id" + which + "]").addButtonAction(e);
+                    }
+                    e.detail.which = 'id'+which ;
                 }
+                this.addGUIAction(e) ;
             },
             _checkBassNotes: function (note) {
                 if (note > 59)

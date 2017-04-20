@@ -13,6 +13,58 @@
 </imports>
 <dom-module id="ac-accordion">
     <template>
+        <style loader>
+            .spinner {
+                width: 40px;
+                height: 40px;
+                position: relative;
+                margin: 200px auto;
+            }
+            .double-bounce1,
+            .double-bounce2 {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: #333;
+                opacity: 0.2;
+                position: absolute;
+                top: 0;
+                left: 0;
+                -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+                animation: sk-bounce 2.0s infinite ease-in-out;
+            }
+            .double-bounce2 {
+                -webkit-animation-delay: -1.0s;
+                animation-delay: -1.0s;
+            }
+            @-webkit-keyframes sk-bounce {
+                0%,
+                100% {
+                    -webkit-transform: scale(0.0);
+                }
+                50% {
+                    -webkit-transform: scale(1.0);
+                }
+            }
+            @keyframes sk-bounce {
+                0%,
+                100% {
+                    transform: scale(0.0);
+                    -webkit-transform: scale(0.0);
+                }
+                50% {
+                    transform: scale(1.0);
+                    -webkit-transform: scale(1.0);
+                }
+            }
+            [spinner] {
+                height: 80%;
+                width: 100%;
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+                @apply(--layout-center);
+            }
+        </style>
         <style>
             :host {
                 /*outline: none;*/
@@ -31,18 +83,11 @@
             .horizontal {
                 @apply(--layout-horizontal);
             }
-            [spinner] {
-                height:80%;
-                width: 100%;
-                @apply(--layout-horizontal);
-                @apply(--layout-center-justified);
-                @apply(--layout-center);
+            .withDisplay {
+                display: flex;
             }
-            .withDisplay{
-                display: flex ;
-            }
-            .noDisplay{
-                display: none ;
+            .noDisplay {
+                display: none;
             }
         </style>
         <ac-recorder ></ac-recorder>
@@ -50,12 +95,13 @@
         <midi-manager ></midi-manager>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}">
             <div wrapper>
-                <template is="dom-if" if="[[!finishedLoading]]" >
-                    <!-- <div spinner>
-                        <paper-spinner-lite active></paper-spinner-lite>
-                    </div> -->
-                </template>
-                <accordion-treble id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons  name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
+                <!-- <template is="dom-if" if="[[!finishedLoading]]">
+                    <div class="spinner">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                </template> -->
+                <accordion-treble id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
                 <accordion-bass id='bass' class$='{{_computeDisplayBass(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='bajos' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
             </div>
         </local-dom>
@@ -64,16 +110,18 @@
         Polymer({
             is: "ac-accordion",
             observers: [],
-            behaviors: [InstrumentBehavior,ScaleUpBehavior],
+            behaviors: [
+                InstrumentBehavior, ScaleUpBehavior
+            ],
             listeners: {
                 'keypress': '_keyPress',
                 'keyup': '_keyUp'
                 // 'mousemove': '_updateOpening'
             },
             properties: {
-                synthesizers:{
-                    type:Number,
-                    value:3
+                synthesizers: {
+                    type: Number,
+                    value: 3
                 },
                 opening: {
                     type: Boolean,
@@ -88,8 +136,8 @@
                     value: 0
                 }
             },
-            _onFinishedLoadingNotes: function(){
-                // this.playAnimation('entry') ;
+            _onFinishedLoadingNotes: function () {
+                this.playAnimation('entry') ;
             },
             // ------   -- keyboard mouse activity -------------
             _updateOpening: function (e) {
@@ -186,16 +234,20 @@
                 this.$$('ACCORDION-BASS').addButtonAction(e);
             },
             _instrumentAction: function (e) {
-                if (e.detail.channel === 0)
+                var channel, midiNote, cmd ;
+                channel = e.detail.channel ;
+                button = e.detail.button ;
+                cmd = e.detail.cmd ;
+                if (channel === 0)
                     this.$$('ACCORDION-TREBLE').addButtonAction(e);
-                else if (e.detail.channel === 1 || e.detail.channel === 3)
+                else if (channel === 1 || channel === 3)
                     this.$$('ACCORDION-BASS').addButtonAction(e);
-                else if (e.detail.channel === 2) {
+                else if (channel === 2) {
                     var cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0)
                         this._chordActivity('note-off');
-                    var bNote = e.detail.midiNote - 41;
-                    if (e.detail.cmd === 'note-on')
+                    var bNote = button - 41;
+                    if (cmd === 'note-on')
                         this.bassNotes = this.bassNotes | (1 << bNote);
                     else {
                         var tmp = 524287 ^ (1 << bNote);
@@ -217,26 +269,26 @@
             // ------------- general controls ---------------
             swap: function () {
                 this.showingTreble = !this.showingTreble;
-                this.playAnimation('entry') ;
+                this.playAnimation('entry');
             },
-            _computeDisplay: function(flag){
-                if(flag)
-                    return 'withDisplay' ;
-                return 'noDisplay' ;
+            _computeDisplay: function (flag) {
+                if (flag)
+                    return 'withDisplay';
+                return 'noDisplay';
             },
-            _computeDisplayTreble: function(mobile,flag){
-                if(!mobile)
-                    return 'withDisplay' ;
-                if(flag)
-                    return 'withDisplay' ;
-                return 'noDisplay' ;
+            _computeDisplayTreble: function (mobile, flag) {
+                if (!mobile)
+                    return 'withDisplay';
+                if (flag)
+                    return 'withDisplay';
+                return 'noDisplay';
             },
-            _computeDisplayBass: function(mobile,flag){
-                if(!mobile)
-                    return 'withDisplay' ;
-                if(!flag)
-                    return 'withDisplay' ;
-                return 'noDisplay' ;
+            _computeDisplayBass: function (mobile, flag) {
+                if (!mobile)
+                    return 'withDisplay';
+                if (!flag)
+                    return 'withDisplay';
+                return 'noDisplay';
             },
             _computeRotation: function (rotation) {
                 if (rotation)

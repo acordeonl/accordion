@@ -95,18 +95,21 @@ For an overlayed drop menu:
             .visible{
                 visibility: visible ;
             }
+            [actionCircle]{
+                will-change:transform ; 
+            }
         </style>
         <!-- local DOM -->
         <div shadow class$="[[buttonType]]">
             <div circle class$="[[buttonType]]" style="visibility:visible;"></div>
-            <div circle class$='[[buttonType]] [[_computeColor(instrumentState,0)]] [[_computeVisibility(instrumentState,0)]]' style$='opacity:[[instrumentOpacity]]'>
+            <div circle actionCircle class$='[[buttonType]] [[_computeColor(instrumentState,0)]] [[_computeVisibility(instrumentState,0)]]' style$='opacity:[[instrumentOpacity]]'>
                 <template is="dom-if" if="[[showingInstrumentNotes]]">
                     <div text>
                         [[instrumentNote]]
                     </div>
                 </template>
             </div>
-            <div circle class$="[[buttonType]] [[_computeColor(playbackState,1)]] [[_computeVisibility(playbackState,1)]]" style$='opacity:[[playbackOpacity]]'>
+            <div circle actionCircle class$="[[buttonType]] [[_computeColor(playbackState,1)]] [[_computeVisibility(playbackState,1)]]" style$='opacity:[[playbackOpacity]]'>
                 <template is="dom-if" if="[[showingPlaybackNotes]]">
                     <div text>
                         [[playBackNote]]

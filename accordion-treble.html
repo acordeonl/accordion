@@ -42,8 +42,8 @@ For an overlayed drop menu:
             }
             .col1 {
                 height: 82vh;
-                margin:0 ;
-                padding:0 ;
+                margin: 0;
+                padding: 0;
                 /*@apply(--layout-vertical);*/
                 @apply(--layout-justified);
             }
@@ -56,10 +56,10 @@ For an overlayed drop menu:
                 @apply(--layout-justified);
             }
             [mobile] .col2 {
-                padding: 0vw;
+                padding: 0;
             }
             [tablet] .col2 {
-                padding: 0vw;
+                padding: 0;
             }
             .vertical {
                 @apply(--layout-vertical);
@@ -122,9 +122,7 @@ For an overlayed drop menu:
             /* ./accordion-buttons-behavior.html
                ../ac-instrument-behaviors/instrument-buttons-behavior.html
             */
-            behaviors: [
-                InstrumentButtonsBehavior
-            ],
+            behaviors: [InstrumentButtonsBehavior],
             properties: {
                 // Mapping of button to instrument button closing note
                 buttonCloseNote: {
@@ -139,15 +137,14 @@ For an overlayed drop menu:
             },
             _loadNotes: function () {
                 // this.async(function(){
-                var i ;
-                    for ( i = 0; i < 31; i++) {
-                        this._loadNote('trebleSynthesizer',this.buttonCloseNote[i]);
-                    }
-                // } ,  0 )  ;
-                // this.async(function(){
-                    for (i = 0; i < 31; i++) {
-                        this._loadNote('trebleSynthesizer', this.buttonOpenNote[i]);
-                    }
+                var i;
+                for (i = 0; i < 31; i++) {
+                    this._loadNote('trebleSynthesizer', this.buttonCloseNote[i]);
+                }
+                // } ,  0 )  ; this.async(function(){
+                for (i = 0; i < 31; i++) {
+                    this._loadNote('trebleSynthesizer', this.buttonOpenNote[i]);
+                }
                 // } , 0 )  ;
             },
             _setPitch: function (diff) {
@@ -159,20 +156,21 @@ For an overlayed drop menu:
             },
             addButtonAction: function (e) {
                 var note,
-                    button = e.detail.midiNote - 24;
+                    button = e.detail.button - 24;
                 var which = Math.floor(button / 2);
                 e.detail.buttonState = 0;
                 if (e.detail.cmd === 'note-on') {
                     e.detail.buttonState = (button % 2) + 1;
-                    note = this.buttonCloseNote[which] ;
-                    if(button%2)
-                        note = this.buttonOpenNote[which] ;
+                    note = this.buttonCloseNote[which];
+                    if (button % 2)
+                        note = this.buttonOpenNote[which];
                     this.$$('AC-SYNTHESIZER')._startButtonAudio(note, button, e);
                 } else
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
-                this.$$("[id" + which + "]").addButtonAction(e);
+                e.detail.which = 'id' + which;
+                this.addGUIAction(e) ;
             },
-            _updateNotesArray: function(){
+            _updateNotesArray: function () {
                 var array = this.buttonCloseNote;
                 this.buttonCloseNote = [];
                 this.buttonCloseNote = array;
@@ -186,7 +184,7 @@ For an overlayed drop menu:
                 }
             },
             ready: function () {
-                if(true){
+                if (true) {
                     this.buttonCloseNote[21] = 61;
                     this.buttonCloseNote[22] = 55;
                     this.buttonCloseNote[23] = 59;
@@ -251,7 +249,7 @@ For an overlayed drop menu:
                     this.buttonOpenNote[9] = 88;
                     this._updateNotesArray();
                 }
-                this.addPitch(0) ;
+                this.addPitch(0);
             }
         });
     </script>
