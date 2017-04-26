@@ -64,8 +64,8 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer id="bassNotesSynthesizer" instrument-notes='12' instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
-        <ac-synthesizer id="bassChordsSynthesizer" instrument-notes='12' instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
+        <ac-synthesizer channel='1' id="bassNotesSynthesizer" instrument-notes='12' instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
+        <ac-synthesizer channel='3' id="bassChordsSynthesizer" instrument-notes='12' instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button button idChord3 close-note-index="[[chordButtonCloseNote.3]]" open-note-index="[[chordButtonOpenNote.3]]" button-type="bass_chord"></accordion-button>
@@ -128,19 +128,7 @@ For an overlayed drop menu:
             addButtonAction: function (e) {
                 var note,which,button=e.detail.button ;
                 e.detail.buttonState = 0 ;
-                if (e.detail.channel === 3) {
-                    which = Math.floor(button / 2);
-                    if (e.detail.cmd === 'note-on') {
-                        e.detail.buttonState = (button % 2) + 1 ;
-                        note = (button % 2) ? this.chordButtonOpenNote[which]: this.chordButtonCloseNote[which];
-                        this.$.bassChordsSynthesizer._startButtonAudio(note, button, e);
-                    }
-                    else{
-                        this.$.bassChordsSynthesizer._stopButtonAudio(button, e);
-                    }
-                    e.detail.which = 'idChord'+which ;
-                }
-                else {
+                if(e.detail.channel === 1) {
                     button -= 48;
                     which = Math.floor(button / 2);
                     if (e.detail.cmd === 'note-on') {
@@ -152,6 +140,18 @@ For an overlayed drop menu:
                         this.$.bassNotesSynthesizer._stopButtonAudio(button, e);
                     }
                     e.detail.which = 'id'+which ;
+                }
+                if (e.detail.channel === 3) {
+                    which = Math.floor(button / 2);
+                    if (e.detail.cmd === 'note-on') {
+                        e.detail.buttonState = (button % 2) + 1 ;
+                        note = (button % 2) ? this.chordButtonOpenNote[which]: this.chordButtonCloseNote[which];
+                        this.$.bassChordsSynthesizer._startButtonAudio(note, button, e);
+                    }
+                    else{
+                        this.$.bassChordsSynthesizer._stopButtonAudio(button, e);
+                    }
+                    e.detail.which = 'idChord'+which ;
                 }
                 this.addGUIAction(e) ;
             },
