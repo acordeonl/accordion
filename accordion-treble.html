@@ -156,18 +156,18 @@ For an overlayed drop menu:
             },
             addButtonAction: function (e) {
                 var note,
-                    button = e.detail.button - 24;
+                    button = e.button - 24;
                 var which = Math.floor(button / 2);
-                e.detail.buttonState = 0;
-                if (e.detail.cmd === 'note-on') {
-                    e.detail.buttonState = (button % 2) + 1;
+                e.buttonState = 0;
+                if (e.cmd === 'note-on') {
+                    e.buttonState = (button % 2) + 1;
                     note = this.buttonCloseNote[which];
                     if (button % 2)
                         note = this.buttonOpenNote[which];
                     this.$$('AC-SYNTHESIZER')._startButtonAudio(note, button, e);
                 } else
                     this.$$('AC-SYNTHESIZER')._stopButtonAudio(button, e);
-                e.detail.which = 'id' + which;
+                e.which = 'id' + which;
                 this.addGUIAction(e) ;
             },
             _updateNotesArray: function () {

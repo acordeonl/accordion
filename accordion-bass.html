@@ -126,32 +126,32 @@ For an overlayed drop menu:
                 this._updateNotesArray();
             },
             addButtonAction: function (e) {
-                var note,which,button=e.detail.button ;
-                e.detail.buttonState = 0 ;
-                if(e.detail.channel === 1) {
+                var note,which,button=e.button ;
+                e.buttonState = 0 ;
+                if(e.channel === 1) {
                     button -= 48;
                     which = Math.floor(button / 2);
-                    if (e.detail.cmd === 'note-on') {
-                        e.detail.buttonState = (button % 2) + 1 ;
+                    if (e.cmd === 'note-on') {
+                        e.buttonState = (button % 2) + 1 ;
                         note = (button % 2) ? this.buttonOpenNote[which]: this.buttonCloseNote[which];
                         this.$.bassNotesSynthesizer._startButtonAudio(note, button, e);
                     }
                     else{
                         this.$.bassNotesSynthesizer._stopButtonAudio(button, e);
                     }
-                    e.detail.which = 'id'+which ;
+                    e.which = 'id'+which ;
                 }
-                if (e.detail.channel === 3) {
+                if (e.channel === 3) {
                     which = Math.floor(button / 2);
-                    if (e.detail.cmd === 'note-on') {
-                        e.detail.buttonState = (button % 2) + 1 ;
+                    if (e.cmd === 'note-on') {
+                        e.buttonState = (button % 2) + 1 ;
                         note = (button % 2) ? this.chordButtonOpenNote[which]: this.chordButtonCloseNote[which];
                         this.$.bassChordsSynthesizer._startButtonAudio(note, button, e);
                     }
                     else{
                         this.$.bassChordsSynthesizer._stopButtonAudio(button, e);
                     }
-                    e.detail.which = 'idChord'+which ;
+                    e.which = 'idChord'+which ;
                 }
                 this.addGUIAction(e) ;
             },

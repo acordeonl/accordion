@@ -235,9 +235,9 @@
             },
             _instrumentAction: function (e) {
                 var channel, midiNote, cmd ;
-                channel = e.detail.channel ;
-                button = e.detail.button ;
-                cmd = e.detail.cmd ;
+                channel = e.channel ;
+                button = e.button ;
+                cmd = e.cmd ;
                 if (channel === 0)
                     this.$$('ACCORDION-TREBLE').addButtonAction(e);
                 else if (channel === 1 || channel === 3)
@@ -256,8 +256,8 @@
                     cnt = (this._bitCount(this.bassNotes) % 3);
                     if (cnt === 0)
                         this._chordActivity('note-on');
-                    }
-                },
+                }
+            },
             _bitCount: function (num) {
                 var cnt = 0;
                 for (var i = 0; i < 31; i++) {
@@ -267,6 +267,9 @@
                 return cnt;
             },
             // ------------- general controls ---------------
+            test: function(){
+                console.log('olis');
+            },
             swap: function () {
                 this.showingTreble = !this.showingTreble;
                 this.playAnimation('entry');
