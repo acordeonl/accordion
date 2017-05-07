@@ -64,17 +64,12 @@
                 @apply(--layout-center);
                 font-size: 25px ;
                 color:gray ;
+                margin-bottom: 120px ;
             }
         </style>
         <style>
-            :host {
-                /*outline: none;*/
-                width: 60vw;
-                height: 100%;
-            }
             [wrapper] {
-                height: 100%;
-                width: 100%;
+                width: 60vw;
                 @apply(--layout-horizontal);
                 @apply(--layout-around-justified);
             }
@@ -100,13 +95,13 @@
                         Cargando ...
                     </div>
                 </template>
-                <accordion-treble id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
-                <accordion-bass id='bass' class$='{{_computeDisplayBass(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}' buttons name='bajos' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
+                <accordion-treble buttons id='treble' class$='{{_computeDisplayTreble(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}'  name='diapasón' instrument-panning='0.4' playback-panning='0.2' instrument-volume='1' playback-volume='0.7'></accordion-treble>
+                <accordion-bass buttons id='bass' class$='{{_computeDisplayBass(mobile,showingTreble)}} {{_computeDisplay(finishedLoading)}}'  name='bajos' playback-panning='-0.2' instrument-panning='-0.4' instrument-volume='0.45' playback-volume='0.25'></accordion-bass>
             </div>
         </local-dom>
     </template>
     <script>
-        Polymer({
+        Accordion =  Polymer({
             is: "ac-accordion",
             observers: [],
             behaviors: [
