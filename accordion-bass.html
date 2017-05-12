@@ -64,8 +64,8 @@ For an overlayed drop menu:
             }
         </style>
         <!-- local DOM -->
-        <ac-synthesizer channel='1' id="bassNotesSynthesizer" total-notes='12' instrument-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
-        <ac-synthesizer channel='3' id="bassChordsSynthesizer" total-notes='12' instrument-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
+        <ac-synthesizer channel='1' id="bassNotesSynthesizer" total-notes='12' audio-url="/data/accordion_synth/bass_notes"></ac-synthesizer>
+        <ac-synthesizer channel='3' id="bassChordsSynthesizer" total-notes='12' audio-url="/data/accordion_synth/bass_chords"></ac-synthesizer>
         <local-dom mobile="{{mobile}}" tablet="{{tablet}}" laptop="{{laptop}}" class$="{{_computeRotation(rotation)}}">
             <div class$="col {{_computeColRotation(rotation)}}">
                 <accordion-button button idChord3 close-note-index="[[chordButtonCloseNote.3]]" open-note-index="[[chordButtonOpenNote.3]]" button-type="bass_chord"></accordion-button>
